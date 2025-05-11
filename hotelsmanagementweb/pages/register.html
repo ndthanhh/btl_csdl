@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <!-- dùng normalize để rest css -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <title>HaNoiBooking.</title>
+    <link rel="stylesheet" href="../css/register.css">
+    <style>
+        .hidden {
+            display: none;
+        }
+
+        .alert {
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        .alert-error {
+            background-color: #ffe6e6;
+            color: #ff0000;
+            border: 1px solid #ffcccc;
+        }
+
+        .alert-success {
+            background-color: #e6ffe6;
+            color: #008000;
+            border: 1px solid #ccffcc;
+        }
+
+        .login-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10px 0;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .remember-me input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        .forgot-password {
+            color: #3252DF;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="logo">
+        <div class="overlay">
+            <h1 class="brand">
+                <span class="logo-light">HaNoi</span><span class="logo-bold">Booking.</span>
+            </h1>
+        </div>
+    </div>
+    <div class="form-container">
+        <div class="form" id="registerForm">
+            <h1 class="title" style="text-align: center;">Create Account</h1>
+            <div id="messageBox"></div>
+            <form id="registrationForm" onsubmit="handleRegister(event)">
+                <label for="name">Full Name:</label>
+                <input type="text" id="name" name="full_name" class="input" placeholder="Enter your name" required>
+
+                <label for="phone">Phone Number:</label>
+                <input type="text" id="phone" name="phone" class="input" placeholder="Enter your number phone" required>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" class="input" placeholder="Enter my email" required>
+
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" class="input" placeholder="Enter my username" required>
+
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" class="input" placeholder="Enter my password"
+                    required>
+
+                <div class="btn-res" style="text-align: center;">
+                    <button type="submit" class="btn__res">Register</button>
+                </div>
+            </form>
+
+            <a class="login" href="#" onclick="toggleForms(event)" style="text-align: center;">Login</a>
+        </div>
+
+        <div class="form slide-right" id="loginForm">
+            <h1 class="title" style="text-align: center;">Login</h1>
+            <div id="loginMessageBox"></div>
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <label for="loginUsername">Username:</label>
+                <input type="text" id="loginUsername" name="username" class="input" placeholder="Enter your username"
+                    required>
+
+                <label for="loginPassword">Password:</label>
+                <input type="password" id="loginPassword" name="password" class="input"
+                    placeholder="Enter your password" required>
+
+                <div class="login-options">
+                    <label class="remember-me">
+                        <input type="checkbox" id="login-remember" name="remember" value="true">
+                        <span>Remember me</span>
+                    </label>
+                    <a href="/forgot-password" class="forgot-password">Forgot password?</a>
+                </div>
+
+                <div class="btn-res" style="text-align: center;">
+                    <button type="submit" class="btn__res">Login</button>
+                </div>
+            </form>
+
+            <a class="login" href="#" onclick="toggleForms(event)" style="text-align: center;">Register</a>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('showLogin') === 'true') {
+                const registerForm = document.getElementById('registerForm');
+                const loginForm = document.getElementById('loginForm');
+                registerForm.classList.add('slide-left');
+                loginForm.classList.remove('slide-right');
+            }
+        };
+
+        function toggleForms(event) {
+            event.preventDefault();
+            const registerForm = document.getElementById('registerForm');
+            const loginForm = document.getElementById('loginForm');
+
+            if (loginForm.classList.contains('slide-right')) {
+                registerForm.classList.add('slide-left');
+                loginForm.classList.remove('slide-right');
+            } else {
+                loginForm.classList.add('slide-right');
+                registerForm.classList.remove('slide-left');
+            }
+        }
+
+        function showMessage(message, type, formType = 'register') {
+            const messageBox = formType === 'login' ?
+                document.getElementById('loginMessageBox') :
+                document.getElementById('messageBox');
+
+            messageBox.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
+
+            setTimeout(() => {
+                messageBox.innerHTML = '';
+            }, 3000);
+        }
+
+        async function handleRegister(event) {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+
+            try {
+                const response = await fetch('/register', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showMessage('Đăng ký thành công! Vui lòng đăng nhập.', 'success');
+                    setTimeout(() => {
+                        window.location.href = '/login?showLogin=true';
+                    }, 1500);
+                } else {
+                    showMessage(data.message || 'Đăng ký thất bại!', 'error');
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                showMessage('Có lỗi xảy ra. Vui lòng thử lại!', 'error');
+            }
+        }
+
+        async function handleLogin(event) {
+            event.preventDefault();
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+            const remember = document.getElementById('login-remember').checked;
+
+            try {
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify({ username, password, remember })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showMessage('Đăng nhập thành công!', 'success', 'login');
+                    setTimeout(() => {
+                        window.location.href = '/';
+                    }, 1000);
+                } else {
+                    showMessage(data.message || 'Đăng nhập thất bại!', 'error', 'login');
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                showMessage('Có lỗi xảy ra. Vui lòng thử lại!', 'error', 'login');
+            }
+        }
+    </script>
+</body>
+
+</html>

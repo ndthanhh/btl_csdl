@@ -1,0 +1,183 @@
+{% macro render_header(current_user=None) %}
+<style>
+    .header,
+    .nav,
+    .brand-logo,
+    .profile-button,
+    .btn-login {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+    .header {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 12px 200px 18px 200px;
+        background-color: white;
+        width: 100vw;
+        box-sizing: border-box;
+        border-bottom: 1px solid #E5E5E5;
+    }
+
+    .brand-logo {
+        font-size: 28px;
+        font-weight: bold;
+        text-decoration: none;
+        display: inline-block;
+        margin-right: 40px;
+        margin-left: 0;
+    }
+
+    .brand-logo span:first-child {
+        color: #3252DF;
+    }
+
+    .brand-logo span:last-child {
+        color: #152C5B;
+    }
+
+    .nav {
+        display: flex;
+        align-items: center;
+        gap: 32px;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        margin-left: auto;
+    }
+
+    .nav li {
+        color: #152C5B;
+        font-weight: 500;
+        cursor: pointer;
+    }
+
+    .profile-button {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+    }
+
+    .profile-button img {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+    }
+
+    .profile-button span {
+        color: #152C5B;
+        font-weight: 500;
+    }
+
+    .profile-button i {
+        color: #152C5B;
+        font-size: 12px;
+        margin-left: 4px;
+    }
+
+    .btn-login {
+        background-color: #3252DF;
+        color: white;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 4px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-login:hover {
+        background-color: #2a43b9;
+    }
+
+    .dropdown-content {
+        position: absolute;
+        right: 0;
+        top: 100%;
+        background: white;
+        min-width: 180px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        padding: 8px 0;
+        display: none;
+        margin-top: 8px;
+    }
+
+    .dropdown-content.show {
+        display: block;
+    }
+
+    .dropdown-content a {
+        color: #152C5B;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        transition: background-color 0.3s ease;
+    }
+
+    .dropdown-content a:hover {
+        background-color: #f5f5f5;
+    }
+
+    .dropdown-content i {
+        width: 16px;
+        color: #3252DF;
+    }
+
+    .user-profile-dropdown {
+        position: relative;
+    }
+
+    .header__line {
+        border-bottom: 1px solid #E5E5E5;
+        width: 100vw;
+    }
+</style>
+<div class="header">
+    <a href="{{ url_for('home') }}" class="brand-logo">
+        <span>HaNoi</span><span>Booking.</span>
+    </a>
+    <ul class="nav">
+        <li>About Us</li>
+        <li>Contact Us</li>
+        <li><a href="{{ url_for('my_bookings') }}" style="text-decoration:none;color:inherit;">My booking</a></li>
+        {% if current_user and current_user.is_authenticated %}
+        <div class="user-profile-dropdown">
+            <button onclick="toggleDropdown()" class="profile-button">
+                <img src="https://ui-avatars.com/api/?name={{ current_user.full_name or current_user.username }}&background=random"
+                    alt="Avatar">
+                <span>{{ current_user.full_name or current_user.username }}</span>
+                <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div id="profileDropdown" class="dropdown-content">
+                <a href="{{ url_for('user_profile') }}"><i class="fas fa-user"></i> Profile</a>
+                <a href="{{ url_for('logout') }}" class="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </div>
+        {% else %}
+        <a href="{{ url_for('login') }}" style="text-decoration: none;">
+            <button class="btn-login">Login</button>
+        </a>
+        {% endif %}
+    </ul>
+</div>
+<script>
+    function toggleDropdown() {
+        var dropdown = document.getElementById('profileDropdown');
+        dropdown.classList.toggle('show');
+        document.addEventListener('click', function handler(event) {
+            if (!event.target.closest('.user-profile-dropdown')) {
+                dropdown.classList.remove('show');
+                document.removeEventListener('click', handler);
+            }
+        });
+    }
+</script>
+{% endmacro %}

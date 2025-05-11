@@ -1,0 +1,688 @@
+{% import 'header.html' as header %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HaNoiBooking</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <!-- dùng normalize để rest css -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/base.css">
+    <link rel="stylesheet" type="text/css" href="/css/home.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        footer {
+            background-color: white;
+            margin-top: 48px;
+            padding: 40px 0;
+            border-top: 1px solid #E5E5E5;
+            margin-bottom: 5px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .social-links a {
+            color: #152C5B;
+            font-size: 20px;
+            transition: color 0.3s ease;
+            text-decoration: none;
+        }
+
+        .social-links a:hover {
+            color: #3252DF;
+            text-decoration: none;
+        }
+
+        /* Additional footer styles */
+        footer h5 {
+            color: #152C5B;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        footer p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        footer i {
+            color: #3252DF;
+            margin-right: 8px;
+        }
+
+        footer hr {
+            margin: 20px 0;
+            border: none;
+            border-top: 1px solid #E5E5E5;
+        }
+
+        footer .text-center {
+            text-align: center;
+        }
+
+        footer .mb-0 {
+            margin-bottom: 0;
+        }
+
+        footer .me-3 {
+            margin-right: 1rem;
+        }
+
+        footer .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        footer .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -15px;
+        }
+
+        footer .col-md-4 {
+            flex: 0 0 33.333333%;
+            max-width: 33.333333%;
+            padding: 0 15px;
+        }
+
+        @media (max-width: 768px) {
+            footer .col-md-4 {
+                flex: 0 0 100%;
+                max-width: 100%;
+                margin-bottom: 30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    {{ header.render_header(current_user) }}
+
+    <div class="main">
+        <div class="main__intro">
+            <div class="slogan" style="text-align: left;">Luxury redefined, simply booked</div>
+
+            <div class="intro__content" style="text-align: left">We provide what you need to enjoy your holiday with
+                family. Time to make another memorable moments.</div>
+
+            <button class="btn-book" href="#mostpicked">BookNow!</button>
+
+            <div class="item">
+                <div class="item1">
+                    <img src="/assets/image/home/ic_cities 1.png">
+                    <span class="num">100</span><span class="title"> cities</span>
+                </div>
+
+                <div class="item2">
+                    <img src="/assets/image/home/ic_treasure 1.png">
+                    <span class="num">200</span>
+                    <spa class="title"> treasure</spa>
+                </div>
+
+                <div class="item3">
+                    <img src="/assets/image/home/ic_traveler (1) 1.png">
+                    <span class="num">5000</span><span class="title"> user</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="main__image"></div>
+    </div>
+
+    <div class="search">
+        <div class="search-row">
+            <div class="search-item">
+                <label>Location</label>
+                <select class="search-input scrollable-select" id="location">
+                    <option value="">Select location</option>
+                    <option value="hanoi">Hà Nội</option>
+                    <option value="hochiminh">TP. Hồ Chí Minh</option>
+                    <option value="danang">Đà Nẵng</option>
+                    <option value="dalat">Đà Lạt</option>
+                    <option value="nhatrang">Nha Trang</option>
+                    <option value="phuquoc">Phú Quốc</option>
+                    <option value="halong">Hạ Long</option>
+                    <option value="sapa">Sa Pa</option>
+                    <option value="hue">Huế</option>
+                    <option value="quynhon">Quy Nhơn</option>
+                    <option value="vungtau">Vũng Tàu</option>
+                    <option value="muine">Mũi Né</option>
+                    <option value="cantho">Cần Thơ</option>
+                    <option value="haiphong">Hải Phòng</option>
+                    <option value="hoian">Hội An</option>
+                </select>
+            </div>
+
+            <div class="search-item">
+                <label>Check-in</label>
+                <input type="date" class="search-input" id="checkin">
+            </div>
+
+            <div class="search-item">
+                <label>Check-out</label>
+                <input type="date" class="search-input" id="checkout">
+            </div>
+
+            <div class="search-item">
+                <label>Number of Rooms</label>
+                <select class="search-input" id="rooms">
+                    <option value="1">1 Room</option>
+                    <option value="2">2 Rooms</option>
+                    <option value="3">3 Rooms</option>
+                    <option value="4">4 Rooms</option>
+                    <option value="5">5 Rooms</option>
+                </select>
+            </div>
+
+            <button class="search-btn" onclick="searchRooms()">Search</button>
+        </div>
+
+        <div class="search-item hotel-name-search">
+            <label>Hotel Name</label>
+            <input type="text" class="search-input" id="hotelName" placeholder="Search by hotel name..."
+                oninput="searchByHotelName(this.value)">
+        </div>
+    </div>
+
+    <!-- Search Results Section -->
+    <div id="searchResults" class="search-results" style="display: none;">
+        <h2 class="search-results-title">Available Hotels</h2>
+        <div id="resultsContainer" class="results-container">
+            <!-- Results will be dynamically inserted here -->
+        </div>
+    </div>
+
+    <div class="card" id="mostpicked">
+        <div class="title__card">
+            <h2 class="title__card-content">Most Picked</h2>
+        </div>
+
+        <div class="card__img">
+            {% if most_picked_hotels|length >= 1 %}
+            <div onclick="window.location.href='/hotel/{{ most_picked_hotels[0].hotel_id }}'" class="card__img1"
+                style="background-image: url('{{ most_picked_hotels[0].image_url }}')">
+                <div class="price__tag">
+                    <span class="price__tag-bold">{{ '%d'|format(most_picked_hotels[0].min_price|int) }} VND</span>
+                    <span class="price__tag-light">per night</span>
+                </div>
+                <div class="card-info">
+                    <h3>{{ most_picked_hotels[0].name }}</h3>
+                    <p>{{ most_picked_hotels[0].location }}</p>
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="card__img2">
+                {% if most_picked_hotels|length >= 2 %}
+                <div onclick="window.location.href='/hotel/{{ most_picked_hotels[1].hotel_id }}'" class="card__img2-top"
+                    style="background-image: url('{{ most_picked_hotels[1].image_url }}')">
+                    <div class="price__tag">
+                        <span class="price__tag-bold">{{ '%d'|format(most_picked_hotels[1].min_price|int) }} VND</span>
+                        <span class="price__tag-light">per night</span>
+                    </div>
+                    <div class="card-info">
+                        <h3>{{ most_picked_hotels[1].name }}</h3>
+                        <p>{{ most_picked_hotels[1].location }}</p>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if most_picked_hotels|length >= 3 %}
+                <div onclick="window.location.href='/hotel/{{ most_picked_hotels[2].hotel_id }}'"
+                    class="card__img2-bottom" style="background-image: url('{{ most_picked_hotels[2].image_url }}')">
+                    <div class="price__tag">
+                        <span class="price__tag-bold">{{ '%d'|format(most_picked_hotels[2].min_price|int) }} VND</span>
+                        <span class="price__tag-light">per night</span>
+                    </div>
+                    <div class="card-info">
+                        <h3>{{ most_picked_hotels[2].name }}</h3>
+                        <p>{{ most_picked_hotels[2].location }}</p>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="card__img3">
+                {% if most_picked_hotels|length >= 4 %}
+                <div onclick="window.location.href='/hotel/{{ most_picked_hotels[3].hotel_id }}'" class="card__img3-top"
+                    style="background-image: url('{{ most_picked_hotels[3].image_url }}')">
+                    <div class="price__tag">
+                        <span class="price__tag-bold">{{ '%d'|format(most_picked_hotels[3].min_price|int) }} VND</span>
+                        <span class="price__tag-light">per night</span>
+                    </div>
+                    <div class="card-info">
+                        <h3>{{ most_picked_hotels[3].name }}</h3>
+                        <p>{{ most_picked_hotels[3].location }}</p>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if most_picked_hotels|length >= 5 %}
+                <div onclick="window.location.href='/hotel/{{ most_picked_hotels[4].hotel_id }}'"
+                    class="card__img3-bottom" style="background-image: url('{{ most_picked_hotels[4].image_url }}')">
+                    <div class="price__tag">
+                        <span class="price__tag-bold">{{ '%d'|format(most_picked_hotels[4].min_price|int) }} VND</span>
+                        <span class="price__tag-light">per night</span>
+                    </div>
+                    <div class="card-info">
+                        <h3>{{ most_picked_hotels[4].name }}</h3>
+                        <p>{{ most_picked_hotels[4].location }}</p>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="listroom">
+        <div class="listroom1">
+            {% for hotel in list_room_hotels[:4] %}
+            <div class="listroom__card{{ loop.index }}" onclick="window.location.href='/hotel/{{ hotel.hotel_id }}'">
+                <div class="listroom__card-img{{ loop.index }}" style="background-image: url('{{ hotel.image_url }}')">
+                </div>
+                <h3 class="name_location">{{ hotel.name }}</h3>
+                <p class="location">{{ hotel.location }}</p>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="listroom2">
+            {% for hotel in list_room_hotels[4:8] %}
+            <div class="listroom__card{{ loop.index + 4 }}"
+                onclick="window.location.href='/hotel/{{ hotel.hotel_id }}'">
+                <div class="listroom__card-img{{ loop.index + 4 }}"
+                    style="background-image: url('{{ hotel.image_url }}')">
+                </div>
+                <h3 class="name_location">{{ hotel.name }}</h3>
+                <p class="location">{{ hotel.location }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+    <footer class="bg-light py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>About Us</h5>
+                    <p>HaNoiBooking. - Vietnam's leading online hotel booking system</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Contact</h5>
+                    <p>
+                        <i class="fas fa-phone"></i> 0388678705<br>
+                        <i class="fas fa-envelope"></i> hanoibooking@hotelsmanagement.com<br>
+                        <i class="fas fa-map-marker-alt"></i> Hanoi, Vietnam
+                    </p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Follow Us</h5>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/ucthanh.367755" target="_blank" class="me-3">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="https://www.instagram.com/dthanh.71_/" target="_blank" class="me-3">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/nguy%E1%BB%85n-th%C3%A0nh-9404612a0/" target="_blank">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+            <hr>
+            <div class="text-center">
+                <p class="mb-0">&copy; 2024 Hotels Management. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <style>
+        .search-results {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .search-results-title {
+            color: #152C5B;
+            font-size: 24px;
+            margin-bottom: 24px;
+        }
+
+        .results-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .hotel-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: transform 0.2s ease;
+            cursor: pointer;
+        }
+
+        .hotel-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .hotel-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .hotel-info {
+            padding: 16px;
+        }
+
+        .hotel-name {
+            color: #152C5B;
+            font-size: 18px;
+            font-weight: 500;
+            margin: 0 0 8px 0;
+        }
+
+        .hotel-location {
+            color: #666;
+            font-size: 14px;
+            margin: 0 0 12px 0;
+        }
+
+        .hotel-price {
+            color: #3252DF;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .hotel-availability {
+            color: #28a745;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+        .no-results {
+            text-align: center;
+            color: #666;
+            padding: 40px;
+            grid-column: 1 / -1;
+        }
+
+        .search {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .search-row {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 16px;
+            align-items: end;
+        }
+
+        .hotel-name-search {
+            width: 50%;
+            margin: 0 auto;
+        }
+
+        .search-btn {
+            height: 45px;
+            margin-top: 24px;
+        }
+
+        .search-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .search-item label {
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .search-input {
+            width: 100%;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .search-row {
+                grid-template-columns: 1fr;
+            }
+
+            .search-btn {
+                margin-top: 0;
+            }
+
+            .hotel-name-search {
+                width: 100%;
+            }
+        }
+
+        .scrollable-select {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .scrollable-select::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .scrollable-select::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+
+        .scrollable-select::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+
+        .scrollable-select::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        .price__tag {
+            background: rgba(0, 0, 0, 0.35);
+            border-radius: 0 8px;
+            padding: 8px 12px;
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+
+        .price__tag-bold {
+            color: white;
+            font-weight: 500;
+            font-size: 16px;
+        }
+
+        .price__tag-light {
+            color: #B0B0B0;
+            font-size: 14px;
+            margin-left: 4px;
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Set min date for check-in to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('checkin').min = today;
+
+            // Update check-out min date when check-in changes
+            document.getElementById('checkin').addEventListener('change', function () {
+                const checkinDate = new Date(this.value);
+                const nextDay = new Date(checkinDate);
+                nextDay.setDate(checkinDate.getDate() + 1);
+
+                const checkout = document.getElementById('checkout');
+                checkout.min = nextDay.toISOString().split('T')[0];
+
+                // If current checkout date is before new minimum, update it
+                if (checkout.value && new Date(checkout.value) < nextDay) {
+                    checkout.value = nextDay.toISOString().split('T')[0];
+                }
+            });
+        });
+
+        function searchRooms() {
+            const location = document.getElementById('location').value;
+            const checkin = document.getElementById('checkin').value;
+            const checkout = document.getElementById('checkout').value;
+            const rooms = document.getElementById('rooms').value;
+            const hotelName = document.getElementById('hotelName').value;
+
+            // Validate inputs
+            if (!location || !checkin || !checkout || !rooms) {
+                alert('Vui lòng điền đầy đủ thông tin tìm kiếm');
+                return;
+            }
+
+            // Validate dates
+            const checkinDate = new Date(checkin);
+            const checkoutDate = new Date(checkout);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            if (checkinDate < today) {
+                alert('Ngày check-in không thể là ngày trong quá khứ');
+                return;
+            }
+
+            if (checkoutDate <= checkinDate) {
+                alert('Ngày check-out phải sau ngày check-in');
+                return;
+            }
+
+            // Show loading state
+            const searchResults = document.getElementById('searchResults');
+            const resultsContainer = document.getElementById('resultsContainer');
+            searchResults.style.display = 'block';
+            resultsContainer.innerHTML = '<div class="no-results">Đang tìm kiếm...</div>';
+
+            // Prepare search data
+            const searchData = {
+                location: location,
+                check_in_date: checkin,
+                check_out_date: checkout,
+                required_rooms: parseInt(rooms),
+                hotel_name: hotelName
+            };
+
+            // Make API call to search endpoint
+            fetch('/search', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(searchData)
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (!data || !data.hotels || data.hotels.length === 0) {
+                        resultsContainer.innerHTML = '<div class="no-results">Không tìm thấy khách sạn phù hợp với tiêu chí của bạn</div>';
+                        return;
+                    }
+
+                    resultsContainer.innerHTML = displaySearchResults(data.hotels);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    resultsContainer.innerHTML = '<div class="no-results">Đã xảy ra lỗi khi tìm kiếm. Vui lòng thử lại.</div>';
+                });
+        }
+
+        function toggleDropdown() {
+            const dropdown = document.getElementById("profileDropdown");
+            dropdown.classList.toggle("show");
+        }
+
+        // Close the dropdown if the user clicks outside of it
+        window.onclick = function (event) {
+            if (!event.target.matches('.profile-button') && !event.target.matches('.profile-button *')) {
+                const dropdowns = document.getElementsByClassName("dropdown-content");
+                for (let dropdown of dropdowns) {
+                    if (dropdown.classList.contains('show')) {
+                        dropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
+
+        function searchByHotelName(hotelName) {
+            const searchResults = document.getElementById('searchResults');
+            const resultsContainer = document.getElementById('resultsContainer');
+
+            if (!hotelName.trim()) {
+                searchResults.style.display = 'none';
+                return;
+            }
+
+            searchResults.style.display = 'block';
+            resultsContainer.innerHTML = '<div class="no-results">Đang tìm kiếm...</div>';
+
+            fetch(`/search-by-name?q=${encodeURIComponent(hotelName)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (!data || !data.hotels || data.hotels.length === 0) {
+                        resultsContainer.innerHTML = '<div class="no-results">Không tìm thấy khách sạn</div>';
+                        return;
+                    }
+
+                    resultsContainer.innerHTML = displaySearchResults(data.hotels);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    resultsContainer.innerHTML = '<div class="no-results">Đã xảy ra lỗi khi tìm kiếm. Vui lòng thử lại.</div>';
+                });
+        }
+
+        function formatPrice(price) {
+            // Ensure price is treated as a number and format without rounding
+            return Math.floor(Number(price)).toLocaleString('vi-VN');
+        }
+
+        // Update search results display
+        function displaySearchResults(hotels) {
+            return hotels.map(hotel => `
+                <div class="hotel-card" onclick="window.location.href='/hotel/${hotel.hotel_id}'">
+                    <img src="${hotel.image_path || '/assets/image/default-room.jpg'}" alt="${hotel.hotel_name}" class="hotel-image">
+                    <div class="hotel-info">
+                        <h3 class="hotel-name">${hotel.hotel_name}</h3>
+                        <p class="hotel-location">${hotel.location}</p>
+                        <div class="hotel-price">${Math.floor(Number(hotel.min_price)).toLocaleString('vi-VN')} VND / đêm</div>
+                        <div class="hotel-availability">${hotel.available_rooms} phòng trống</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+    </script>
+</body>
+
+</html>

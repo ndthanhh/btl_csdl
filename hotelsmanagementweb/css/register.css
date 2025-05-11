@@ -1,0 +1,129 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+}
+
+.logo {
+    background-image: url(../assets/image/register/photo-1551918120-9739cb430c6d.avif);
+    height: 100vh;
+    width: 35vw;
+    object-fit: cover;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.overlay {
+    width: 80%;
+    height: 90%;
+    background-color: rgba(255, 255, 255, 0.5);
+    /* Màu trắng mờ */
+    border-radius: 20px;
+    /* Bo góc */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 20px;
+}
+
+.logo-light {
+    color: #3366ff;
+    font-weight: 500;
+    font-size: 36px;
+}
+
+.logo-bold {
+    color: #1a2b50;
+    font-size: 36px;
+}
+
+.form {
+    width: 40%;
+    text-align: left;
+    padding: 20px;
+    border-radius: 10px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    right: 35%;
+    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+    background-color: white;
+}
+
+.input {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.title {
+    text-align: center;
+    color: #3366ff;
+    font-weight: 400;
+}
+
+.btn__res {
+    width: 100%;
+    border: none;
+    background-color: #003DFC;
+    height: 50px;
+    color: #FAFAFA;
+    border-radius: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.btn__res:hover {
+    transform: scale(1.05);
+    background-color: green;
+}
+
+.login {
+    font-size: 20px;
+    text-decoration: underline;
+    cursor: pointer;
+    color: #3366ff;
+}
+
+.login:hover {
+    color: green;
+}
+
+input:hover {
+    border-color: #3366ff;
+}
+
+/* Add these new styles at the end of the file */
+.slide-left {
+    transform: translateX(-200%);
+    opacity: 0;
+}
+
+.slide-right {
+    transform: translateX(200%);
+    opacity: 0;
+}
+
+.form-container {
+    width: 70%;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}

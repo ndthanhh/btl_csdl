@@ -1,0 +1,97 @@
+/* css cho cấu hình chung */
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+.user-profile-dropdown {
+    position: relative;
+}
+
+.profile-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 4px 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.profile-button img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.profile-button span {
+    color: #333;
+    font-size: 14px;
+}
+
+.profile-button i {
+    color: #666;
+    font-size: 12px;
+    margin-left: 4px;
+}
+
+.profile-button:hover {
+    background: #f5f5f5;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: white;
+    min-width: 160px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    z-index: 1;
+    margin-top: 8px;
+}
+
+.dropdown-content a {
+    color: #333;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.3s;
+}
+
+.dropdown-content a:hover {
+    background-color: #f5f5f5;
+}
+
+.dropdown-content a i {
+    width: 16px;
+    color: #666;
+}
+
+.dropdown-content a.logout {
+    color: #dc3545;
+}
+
+.dropdown-content a.logout i {
+    color: #dc3545;
+}
+
+.show {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

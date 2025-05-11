@@ -1,0 +1,1043 @@
+{% import 'header.html' as header %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HaNoiBooking.</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <!-- dùng normalize để rest css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../css/base.css">
+    <link rel="stylesheet" type="text/css" href="../css/main.css">
+    <link rel="stylesheet" type="text/css" href="../css/detailroom.css">
+</head>
+
+<body>
+    {{ header.render_header(current_user) }}
+
+    <div class="title">
+        <div class="title1">
+            <span class="title__home">Home</span><span class="sign">/</span><span class="title__detail">Hotel
+                Details</span>
+        </div>
+        <div class="title2">
+            <h1 class="name__hotel">{{ hotel.hotel_name }}</h1>
+            <p class="location">{{ hotel.location }}</p>
+        </div>
+    </div>
+
+    <div class="image">
+        <div class="image__main"
+            style="background-image: url('{{ images[0] if images else '/assets/image/default-hotel.webp' }}')"></div>
+        <div class="image__sub">
+            <div class="image__sub-top"
+                style="background-image: url('{{ images[1] if images|length > 1 else '/assets/image/default-hotel.webp' }}')">
+                <button class="view-all-btn" onclick="openHotelGallery()">
+                    <i class="fas fa-expand-arrows-alt"></i> View All Photos
+                </button>
+            </div>
+            <div class="image__sub-bottom"
+                style="background-image: url('{{ images[2] if images|length > 2 else '/assets/image/default-hotel.webp' }}')">
+            </div>
+        </div>
+    </div>
+
+    <div class="about">
+        <div class="about__place">
+            <div class="intro">
+                <h2 class="about__title">About the place</h2>
+                <p class="p1">{{ hotel.descriptions }}</p>
+            </div>
+            <div class="booknow">
+                <h2 class="booknow__content">Start Booking</h2>
+                <h1 class="booknow__price">
+                    <span class="price-bold">₫{{ "{:,.0f}".format(room.price) }}</span>
+                    <span class="content-light">per Day</span>
+                </h1>
+                <a href="/book/{{ room.room_id }}">
+                    <button class="booknow-btn">Book Now!</button>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="rooms-section">
+        <h2 class="section-title">Available Rooms</h2>
+        <div class="rooms-container">
+            {% for room in rooms %}
+            <div class="room-card">
+                <div class="room-header">
+                    <h3 class="room-type">{{ room.room_type }}</h3>
+                    <div class="room-rating">
+                        <span class="rating-text">Exceptional</span>
+                        <div class="rating-score">9.5</div>
+                    </div>
+                </div>
+
+                <div class="room-content">
+                    <div class="room-gallery">
+                        <div class="main-image"
+                            style="background-image: url('{{ room.image_url if room.image_url else '/assets/image/default-room.webp' }}')">
+                            <button class="view-all-btn" onclick="openRoomDetails({{ room.room_id }})">
+                                <i class="fas fa-expand-arrows-alt"></i> View All
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="room-details">
+                        <div class="room-amenities">
+                            <div class="amenity-item">
+                                <i class="fas fa-ruler-combined"></i>
+                                <span>Size: {{ room.room_size }} m²</span>
+                            </div>
+                            <div class="amenity-item">
+                                <i class="fas fa-eye"></i>
+                                <span>{{ room.view_type }}</span>
+                            </div>
+                            <div class="amenity-item">
+                                <i class="fas fa-bed"></i>
+                                <span>{{ room.bed_type }}</span>
+                            </div>
+                        </div>
+
+                        <div class="room-features">
+                            <div class="feature-group">
+                                {% for service in room.services[:10] %}
+                                <div class="feature-item">
+                                    <i
+                                        class="{{ service.icon }} {% if service.is_included %}text-success{% endif %}"></i>
+                                    <span>{{ service.serviceName }}</span>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="room-booking">
+                        <div class="guest-info">
+                            <div class="occupancy">
+                                <i class="fas fa-user-friends"></i>
+                                <span>{{ room.max_guests }} guests</span>
+                            </div>
+                            <div class="child-policy">
+                                <span>Children under 12</span>
+                                <span class="highlight">STAY FREE!</span>
+                            </div>
+                        </div>
+
+                        <div class="price-info">
+                            <div class="original-price">
+                                <span class="price-label">Original price:</span>
+                                <span class="price-value">{{ "{:,.0f}".format(room.original_price) }}₫</span>
+                            </div>
+                            <div class="current-price">
+                                <span class="discount-tag">-{{ room.discount_percent }}%</span>
+                                <span class="price-amount">{{ "{:,.0f}".format(room.price) }}₫</span>
+                                <span class="price-period">/ night</span>
+                            </div>
+                            <div class="price-note">Price includes taxes and fees</div>
+                        </div>
+
+                        <div class="booking-actions">
+                            {% if current_user.is_authenticated %}
+                            <a href="/booking/{{ hotel.hotel_id }}/{{ room.room_id }}" class="book-now-btn">
+                                <i class="fas fa-calendar-check"></i> Book Now
+                            </a>
+                            <button class="add-to-cart-btn">
+                                <i class="fas fa-shopping-cart"></i> Add to Cart
+                            </button>
+                            {% else %}
+                            <a href="/register?showLogin=true" class="book-now-btn">
+                                <i class="fas fa-sign-in-alt"></i> Login to Book
+                            </a>
+                            {% endif %}
+                        </div>
+
+                        <div class="room-status">
+                            {% if room.availableRooms <= 2 %} <div class="status-warning">
+                                <i class="fas fa-exclamation-circle"></i>
+                                <span>Only {{ room.availableRooms }} rooms left!</span>
+                        </div>
+                        {% endif %}
+                        <div class="cancellation-policy">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>NO RISK - Free cancellation</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    </div>
+
+    <div class="amenities">
+        <h2 class="section-title">Amenities & Facilities</h2>
+        <div class="amenities-grid">
+            <div class="amenity-category">
+                <h3><i class="fas fa-bed"></i> In-Room Services</h3>
+                <ul class="amenity-list">
+                    <li><i class="fas fa-wifi"></i> Free Wi-Fi</li>
+                    <li><i class="fas fa-snowflake"></i> Air conditioning</li>
+                    <li><i class="fas fa-tv"></i> Flat-screen TV</li>
+                    <li><i class="fas fa-broadcast-tower"></i> Cable channels</li>
+                    <li><i class="fas fa-glass-martini-alt"></i> Minibar</li>
+                    <li><i class="fas fa-coffee"></i> Coffee/tea maker</li>
+                    <li><i class="fas fa-tint"></i> Complimentary bottled water</li>
+                    <li><i class="fas fa-vault"></i> In-room safe</li>
+                </ul>
+            </div>
+            <div class="amenity-category">
+                <h3><i class="fas fa-spa"></i> Relaxation & Recreation</h3>
+                <ul class="amenity-list">
+                    <li><i class="fas fa-swimming-pool"></i> Swimming pool</li>
+                    <li><i class="fas fa-spa"></i> Spa & wellness center</li>
+                    <li><i class="fas fa-dumbbell"></i> Fitness center / Gym</li>
+                    <li><i class="fas fa-hot-tub"></i> Sauna</li>
+                    <li><i class="fas fa-leaf"></i> Garden or terrace</li>
+                    <li><i class="fas fa-pray"></i> Yoga classes</li>
+                    <li><i class="fas fa-gamepad"></i> Game room</li>
+                    <li><i class="fas fa-table-tennis"></i> Billiards / Table tennis</li>
+                </ul>
+            </div>
+            <div class="amenity-category">
+                <h3><i class="fas fa-utensils"></i> Dining & Entertainment</h3>
+                <ul class="amenity-list">
+                    <li><i class="fas fa-utensils"></i> On-site restaurant</li>
+                    <li><i class="fas fa-glass-cheers"></i> Bar / Lounge</li>
+                    <li><i class="fas fa-bacon"></i> Breakfast buffet</li>
+                    <li><i class="fas fa-concierge-bell"></i> Room service</li>
+                    <li><i class="fas fa-coffee"></i> Café / Coffee shop</li>
+                    <li><i class="fas fa-moon"></i> Themed dinner nights</li>
+                    <li><i class="fas fa-music"></i> Live music or performances</li>
+                    <li><i class="fas fa-store"></i> Mini market or snack bar</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="policies">
+        <h2 class="section-title">Policies</h2>
+        <div class="policies-grid">
+            <div class="policy-item">
+                <h3><i class="fas fa-clock"></i> Check-in/Check-out</h3>
+                <ul>
+                    <li>Check-in: 14:00 - 00:00</li>
+                    <li>Check-out: 00:00 - 12:00</li>
+                    <li>Please inform arrival time</li>
+                </ul>
+            </div>
+            <div class="policy-item">
+                <h3><i class="fas fa-credit-card"></i> Payment</h3>
+                <ul>
+                    <li>Credit cards accepted</li>
+                    <li>Cash accepted</li>
+                    <li>100% room rate deposit required</li>
+                </ul>
+            </div>
+            <div class="policy-item">
+                <h3><i class="fas fa-info-circle"></i> Other Policies</h3>
+                <ul>
+                    <li>No smoking in rooms</li>
+                    <li>No pets allowed</li>
+                    <li>ID required at check-in</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-light py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>About Us</h5>
+                    <p>HaNoiBooking. - Vietnam's leading online hotel booking system</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Contact</h5>
+                    <p>
+                        <i class="fas fa-phone"></i> 0388678705<br>
+                        <i class="fas fa-envelope"></i> hanoibooking@hotelsmanagement.com<br>
+                        <i class="fas fa-map-marker-alt"></i> Hanoi, Vietnam
+                    </p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Follow Us</h5>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/ucthanh.367755" target="_blank" class="me-3">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="https://www.instagram.com/dthanh.71_/" target="_blank" class="me-3">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/nguy%E1%BB%85n-th%C3%A0nh-9404612a0/" target="_blank">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+            <hr>
+            <div class="text-center">
+                <p class="mb-0">&copy; 2024 Hotels Management. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Room Details Modal -->
+    <div id="roomDetailsModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-header">
+                <h2 id="modalRoomType"></h2>
+            </div>
+            <div class="modal-body">
+                <div class="room-gallery-modal">
+                    <div class="image-slider">
+                        <button class="slider-btn prev" onclick="changeSlide(-1)">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <div class="slider-container" id="modalGallery">
+                            <!-- Images will be inserted here dynamically -->
+                        </div>
+                        <button class="slider-btn next" onclick="changeSlide(1)">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    <div class="slider-dots" id="sliderDots">
+                        <!-- Dots will be inserted here dynamically -->
+                    </div>
+                </div>
+                <div class="services-list">
+                    <h3><i class="fas fa-concierge-bell"></i> Room Services</h3>
+                    <div class="all-services" id="modalServices">
+                        <!-- Services will be inserted here dynamically -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hotel Gallery Modal -->
+    <div id="hotelGalleryModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeHotelGallery()">&times;</span>
+            <div class="modal-header">
+                <h2>{{ hotel.hotel_name }} - Photo Gallery</h2>
+            </div>
+            <div class="modal-body">
+                <div class="hotel-gallery-modal">
+                    <div class="image-slider">
+                        <button class="slider-btn prev" onclick="changeHotelSlide(-1)">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <div class="slider-container" id="hotelGallery">
+                            {% for image in images %}
+                            <img src="{{ image }}" class="{% if loop.index0 == 0 %}active{% endif %}"
+                                alt="Hotel Image {{ loop.index }}">
+                            {% endfor %}
+                        </div>
+                        <button class="slider-btn next" onclick="changeHotelSlide(1)">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    <div class="thumbnail-gallery">
+                        {% for image in images %}
+                        <div class="thumbnail {% if loop.index0 == 0 %}active{% endif %}"
+                            onclick="goToHotelSlide({{ loop.index0 }})">
+                            <img src="{{ image }}" alt="Thumbnail {{ loop.index }}">
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .view-all-btn {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 123, 255, 0.9);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .view-all-btn:hover {
+            background: rgba(0, 98, 204, 1);
+            transform: translateY(-2px);
+        }
+
+        .main-image {
+            position: relative;
+            height: 300px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(8px);
+            overflow: hidden;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 3% auto;
+            padding: 30px;
+            width: 90%;
+            max-width: 1200px;
+            border-radius: 12px;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .close-modal {
+            position: absolute;
+            right: 25px;
+            top: 15px;
+            font-size: 28px;
+            cursor: pointer;
+            color: #666;
+            transition: color 0.3s;
+        }
+
+        .close-modal:hover {
+            color: #000;
+        }
+
+        .modal-header {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .modal-header h2 {
+            color: #333;
+            font-size: 24px;
+            margin: 0;
+        }
+
+        .image-slider {
+            position: relative;
+            margin-bottom: 30px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .slider-container {
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slider-container img {
+            max-height: 100%;
+            max-width: 100%;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        .slider-container img.active {
+            display: block;
+        }
+
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .slider-btn:hover {
+            background: #fff;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .slider-btn.prev {
+            left: 20px;
+        }
+
+        .slider-btn.next {
+            right: 20px;
+        }
+
+        .slider-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ccc;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background: #007bff;
+            transform: scale(1.2);
+        }
+
+        .services-list {
+            margin-top: 30px;
+        }
+
+        .services-list h3 {
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .all-services {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .service-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .service-item:hover {
+            transform: translateY(-2px);
+            background-color: #e9ecef;
+        }
+
+        .service-item i {
+            color: #007bff;
+            font-size: 20px;
+            width: 24px;
+            text-align: center;
+        }
+
+        .service-item span {
+            color: #333;
+            font-size: 15px;
+        }
+
+        body.modal-open {
+            overflow: hidden;
+        }
+
+        .image__sub-top {
+            position: relative;
+        }
+
+        .image__sub-top .view-all-btn {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 123, 255, 0.9);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .image__sub-top .view-all-btn:hover {
+            background: rgba(0, 98, 204, 1);
+            transform: translateY(-2px);
+        }
+
+        .hotel-gallery-modal .slider-container {
+            height: 500px;
+        }
+
+        .hotel-gallery-modal .slider-container img {
+            max-height: 100%;
+            width: 100%;
+            object-fit: contain;
+        }
+
+        .thumbnail-gallery {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 20px 0;
+            margin-top: 20px;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(0, 123, 255, 0.5) transparent;
+        }
+
+        .thumbnail-gallery::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .thumbnail-gallery::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .thumbnail-gallery::-webkit-scrollbar-thumb {
+            background-color: rgba(0, 123, 255, 0.5);
+            border-radius: 3px;
+        }
+
+        .thumbnail {
+            flex: 0 0 120px;
+            height: 80px;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .thumbnail:hover {
+            opacity: 0.8;
+        }
+
+        .thumbnail.active {
+            opacity: 1;
+            border-color: #007bff;
+        }
+
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Cập nhật style cho modal */
+        .hotel-gallery-modal .modal-content {
+            max-width: 1200px;
+            width: 90%;
+            margin: 2% auto;
+        }
+
+        .hotel-gallery-modal .slider-container {
+            height: 600px;
+            background: #f8f9fa;
+            margin-bottom: 0;
+        }
+
+        .hotel-gallery-modal .slider-container img.active {
+            display: block;
+            max-height: 100%;
+            width: 100%;
+            object-fit: contain;
+        }
+
+        .loading,
+        .error {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 300px;
+            font-size: 18px;
+            color: #666;
+        }
+
+        .error {
+            color: #dc3545;
+        }
+
+        .modal img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .booking-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .book-now-btn,
+        .add-to-cart-btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .book-now-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            flex: 2;
+        }
+
+        .book-now-btn:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        .add-to-cart-btn {
+            background-color: #f8f9fa;
+            color: #333;
+            border: 1px solid #ddd;
+            flex: 1;
+        }
+
+        .add-to-cart-btn:hover {
+            background-color: #e9ecef;
+            transform: translateY(-2px);
+        }
+
+        .book-now-btn i,
+        .add-to-cart-btn i {
+            font-size: 16px;
+        }
+
+        /* Thêm hiệu ứng khi hover */
+        .book-now-btn:hover,
+        .add-to-cart-btn:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Style cho trạng thái disabled */
+        .book-now-btn:disabled,
+        .add-to-cart-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .booking-actions {
+                flex-direction: column;
+            }
+
+            .book-now-btn,
+            .add-to-cart-btn {
+                width: 100%;
+            }
+        }
+
+        /* Footer styles */
+        footer {
+            background-color: white;
+            margin-top: 48px;
+            padding: 40px 0;
+            border-top: 1px solid #E5E5E5;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .social-links a {
+            color: #152C5B;
+            font-size: 20px;
+            transition: color 0.3s ease;
+            text-decoration: none;
+        }
+
+        .social-links a:hover {
+            color: #3252DF;
+            text-decoration: none;
+        }
+
+        footer h5 {
+            color: #152C5B;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        footer p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        footer i {
+            color: #3252DF;
+            margin-right: 8px;
+        }
+
+        footer hr {
+            margin: 20px 0;
+            border: none;
+            border-top: 1px solid #E5E5E5;
+        }
+
+        footer .text-center {
+            text-align: center;
+        }
+
+        footer .mb-0 {
+            margin-bottom: 0;
+        }
+
+        footer .me-3 {
+            margin-right: 1rem;
+        }
+
+        footer .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        footer .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -15px;
+        }
+
+        footer .col-md-4 {
+            flex: 0 0 33.333333%;
+            max-width: 33.333333%;
+            padding: 0 15px;
+        }
+
+        @media (max-width: 768px) {
+            footer .col-md-4 {
+                flex: 0 0 100%;
+                max-width: 100%;
+                margin-bottom: 30px;
+            }
+        }
+    </style>
+
+    <script>
+        let currentSlide = 0;
+        let currentHotelSlide = 0;
+        const modal = document.getElementById('roomDetailsModal');
+        const hotelModal = document.getElementById('hotelGalleryModal');
+        const modalGallery = document.getElementById('modalGallery');
+        const sliderDots = document.getElementById('sliderDots');
+        const modalServices = document.getElementById('modalServices');
+
+        async function openRoomDetails(roomId) {
+            try {
+                console.log('Opening room details for room:', roomId);
+
+                // Hiển thị loading state
+                modal.style.display = 'block';
+                document.body.classList.add('modal-open');
+                modalGallery.innerHTML = '<div class="loading">Loading...</div>';
+
+                // Fetch room images
+                const imagesResponse = await fetch(`/api/room-images/${roomId}`);
+                if (!imagesResponse.ok) {
+                    throw new Error('Failed to fetch room images');
+                }
+                const images = await imagesResponse.json();
+                console.log('Received images:', images);
+
+                // Clear existing content
+                modalGallery.innerHTML = '';
+                sliderDots.innerHTML = '';
+
+                // Add images to gallery
+                images.forEach((image, index) => {
+                    console.log('Adding image:', image);
+                    const img = document.createElement('img');
+                    img.src = image;
+                    img.alt = `Room Image ${index + 1}`;
+                    img.className = index === 0 ? 'active' : '';
+
+                    // Xử lý lỗi tải ảnh
+                    img.onerror = () => {
+                        console.error('Failed to load image:', image);
+                        img.src = '/assets/image/default-room.webp';
+                    };
+
+                    modalGallery.appendChild(img);
+
+                    // Add dot
+                    const dot = document.createElement('span');
+                    dot.className = `dot ${index === 0 ? 'active' : ''}`;
+                    dot.onclick = () => goToSlide(index);
+                    sliderDots.appendChild(dot);
+                });
+
+                // Fetch and display services
+                const servicesResponse = await fetch(`/api/room-services/${roomId}`);
+                if (!servicesResponse.ok) {
+                    throw new Error('Failed to fetch room services');
+                }
+                const services = await servicesResponse.json();
+
+                modalServices.innerHTML = services.map(service => `
+                    <div class="service-item">
+                        <i class="${service.icon}"></i>
+                        <span>${service.name}</span>
+                    </div>
+                `).join('');
+
+            } catch (error) {
+                console.error('Error fetching room details:', error);
+                modalGallery.innerHTML = '<div class="error">Failed to load room details</div>';
+            }
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+            document.body.classList.remove('modal-open');
+        }
+
+        function changeSlide(direction) {
+            const images = modalGallery.getElementsByTagName('img');
+            const dots = sliderDots.getElementsByClassName('dot');
+
+            if (!images.length) return;
+
+            images[currentSlide].classList.remove('active');
+            dots[currentSlide].classList.remove('active');
+
+            currentSlide = (currentSlide + direction + images.length) % images.length;
+
+            images[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active');
+        }
+
+        function goToSlide(index) {
+            const images = modalGallery.getElementsByTagName('img');
+            const dots = sliderDots.getElementsByClassName('dot');
+
+            if (!images.length || index < 0 || index >= images.length) return;
+
+            images[currentSlide].classList.remove('active');
+            dots[currentSlide].classList.remove('active');
+
+            currentSlide = index;
+
+            images[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active');
+        }
+
+        // Close modal when clicking on X button
+        document.querySelector('.close-modal').onclick = closeModal;
+
+        // Close modal when clicking outside
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                closeModal();
+            } else if (event.target == hotelModal) {
+                closeHotelGallery();
+            }
+        }
+
+        function openHotelGallery() {
+            hotelModal.style.display = 'block';
+            document.body.classList.add('modal-open');
+        }
+
+        function closeHotelGallery() {
+            hotelModal.style.display = 'none';
+            document.body.classList.remove('modal-open');
+        }
+
+        function changeHotelSlide(direction) {
+            const images = document.querySelectorAll('#hotelGallery img');
+            const thumbnails = document.querySelectorAll('.thumbnail');
+
+            if (!images.length) return;
+
+            // Remove active class from current slide and thumbnail
+            images[currentHotelSlide].classList.remove('active');
+            thumbnails[currentHotelSlide].classList.remove('active');
+
+            currentHotelSlide = (currentHotelSlide + direction + images.length) % images.length;
+
+            // Add active class to new slide and thumbnail
+            images[currentHotelSlide].classList.add('active');
+            thumbnails[currentHotelSlide].classList.add('active');
+
+            // Scroll thumbnail into view
+            thumbnails[currentHotelSlide].scrollIntoView({
+                behavior: 'smooth',
+                block: 'nearest',
+                inline: 'center'
+            });
+        }
+
+        function goToHotelSlide(index) {
+            const images = document.querySelectorAll('#hotelGallery img');
+            const thumbnails = document.querySelectorAll('.thumbnail');
+
+            if (!images.length) return;
+
+            // Remove active class from current slide and thumbnail
+            images[currentHotelSlide].classList.remove('active');
+            thumbnails[currentHotelSlide].classList.remove('active');
+
+            currentHotelSlide = index;
+
+            // Add active class to new slide and thumbnail
+            images[currentHotelSlide].classList.add('active');
+            thumbnails[currentHotelSlide].classList.add('active');
+
+            // Scroll thumbnail into view
+            thumbnails[currentHotelSlide].scrollIntoView({
+                behavior: 'smooth',
+                block: 'nearest',
+                inline: 'center'
+            });
+        }
+    </script>
+</body>
+
+</html>

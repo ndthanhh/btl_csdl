@@ -1,0 +1,26 @@
+# Mục tiêu:
+Tạo một website hoàn chỉnh có đầy đủ chức năng backend từ HTML/CSS có sẵn. Website có hỗ trợ ảnh, icon, và kết nối cơ sở dữ liệu.
+
+# Công nghệ:
+- Backend: Flask
+- CSDL: dùng file database.sql (MySQL hoặc SQLite)
+- Frontend: HTML/CSS có sẵn trong templates/ và static/
+- Ảnh và icon nằm trong static/images/ và static/icons/
+
+# Chức năng yêu cầu:
+1. Trang chủ hiển thị danh sách sản phẩm (có ảnh, tên, giá)
+2. Đăng ký / Đăng nhập người dùng
+3. Quản lý giỏ hàng (thêm, xoá sản phẩm)
+4. Trang chi tiết sản phẩm
+5. Tìm kiếm, lọc sản phẩm theo loại
+6. Trang admin (tuỳ chọn) để thêm/sửa/xoá sản phẩm
+
+# Ghi chú:
+- Giao diện HTML có sẵn, chỉ cần nối backend và xử lý logic.
+- Hãy tạo file `app.py` là file chính.
+- Có thể tạo thêm file `models.py`, `forms.py` nếu cần.
+- Các route Flask tương ứng từng trang HTML.
+- Kết nối đến CSDL bằng SQLAlchemy hoặc thuần MySQL cũng được.
+- Tên ảnh phải đúng với file trong static/images/.
+
+Hãy bắt đầu từ `app.py` và tạo toàn bộ backend cần thiết.

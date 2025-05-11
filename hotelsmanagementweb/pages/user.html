@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <title>HaNoiBooking.</title>
+    <link rel="stylesheet" type="text/css" href="../css/user.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="menu">
+            <div class="logo">
+                <span class="logo-light">HaNoi</span><span class="logo-bold">Booking.</span>
+            </div>
+            <div class="menu__func">
+                <div class="func1 active" onclick="switchSection('bookings')">
+                    <i class="fa-solid fa-file-invoice"></i>
+                    <p class="func-title">Bookings</p>
+                </div>
+                <div class="func2" onclick="switchSection('transactions')">
+                    <i class="fa-solid fa-credit-card"></i>
+                    <p class="func-title">Transactions</p>
+                </div>
+                <div class="func3" onclick="switchSection('account')">
+                    <i class="fa-solid fa-id-badge"></i>
+                    <p class="func-title">Your Account</p>
+                </div>
+                <div class="func4">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <p class="func-title">Help</p>
+                </div>
+                <div class="func5">
+                    <i class="fa-solid fa-message"></i>
+                    <p class="func-title">Message</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="main">
+            <div class="header">
+                <div class="hello__user">
+                    <h1 class="hello-user">Hello, User</h1>
+                    <p class="hello-title">Have a nice day</p>
+                </div>
+
+                <div class="login">
+                    <div class="noti-wrapper" onclick="toggleNoti()">
+                        <div class="icon">
+                            <i class="fa-solid fa-bell"></i>
+                            <span class="dot has-noti"></span>
+                        </div>
+                        <div class="noti-tab" id="notiTab">
+                            <div class="noti-header">
+                                <h3>Notifications</h3>
+                                <span class="noti-count">1</span>
+                            </div>
+                            <div class="noti-list">
+                                <div class="noti-item unread">
+                                    <div class="noti-icon">
+                                        <i class="fa-solid fa-circle-check"></i>
+                                    </div>
+                                    <div class="noti-content">
+                                        <p class="noti-text">Your booking has been confirmed!</p>
+                                        <span class="noti-time">2 minutes ago</span>
+                                    </div>
+                                </div>
+                                <div class="noti-item">
+                                    <div class="noti-icon">
+                                        <i class="fa-solid fa-tag"></i>
+                                    </div>
+                                    <div class="noti-content">
+                                        <p class="noti-text">Special offer: Get 20% off on your next booking</p>
+                                        <span class="noti-time">2 hours ago</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="noti-footer">
+                                <a href="#">View all notifications</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="vector"></div>
+
+                    <div class="user-box" onclick="toggleDropdown()">
+                        <div class="avatar"></div>
+                        <div class="user-info">
+                            <div class="user-name"></div>
+                            <div class="user-role"></div>
+                        </div>
+                        <i class="fa-solid fa-chevron-down"></i>
+
+                        <div class="dropdown" id="userDropdown">
+                            <a href="#"><i class="fa-regular fa-calendar-check"></i>My Booking</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="logout"><i class="fa-solid fa-right-from-bracket"></i>Log out</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bookings Section -->
+            <div id="bookings" class="content-section active">
+                <h2 class="list-title">Booking List</h2>
+                <div class="booking-list">
+                    <div class="card">
+                        <div class="card__img">
+                            <h3 class="card__name">Blue Origin Fams</h3>
+                            <p class="card__location">Galle, Sri Lanka</p>
+                        </div>
+                        <div class="date">20 Jan - 22 Jan</div>
+                        <div class="day">02 Days</div>
+                        <div class="location">Galle to Colombo Road 245, Main Street, Galle.</div>
+                        <div class="ini-price">Initial Payment: $200</div>
+                        <div class="total-price">Total Payment: $400</div>
+                        <div class="card__actions">
+                            <button class="edit-btn" onclick="editBooking(1)">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="delete-btn" onclick="deleteBooking(1)">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- More cards can be added here -->
+                </div>
+            </div>
+
+            <!-- Transactions Section -->
+            <div id="transactions" class="content-section">
+                <h2 class="list-title">Transaction History</h2>
+                <div class="transactions-list">
+                    <div class="transaction-card" onclick="toggleTransactionDetails(this)">
+                        <div class="transaction-header">
+                            <div class="transaction-date">Jan 20, 2024</div>
+                            <div class="transaction-id">#TRX-2401201</div>
+                        </div>
+                        <div class="transaction-amount">$200.00</div>
+                        <div class="transaction-info">
+                            <div class="transaction-hotel">Blue Origin Fams</div>
+                            <div class="transaction-nights">2 nights</div>
+                        </div>
+                        <span class="transaction-status status-success">
+                            <i class="fas fa-check-circle"></i>
+                            Completed
+                        </span>
+                        <div class="transaction-details">
+                            <div class="details-section">
+                                <div class="details-title">Payment Details</div>
+                                <div class="details-row">
+                                    <span class="details-label">Room Rate</span>
+                                    <span class="details-value">$90.00 x 2 nights</span>
+                                </div>
+                                <div class="details-row">
+                                    <span class="details-label">Taxes & Fees</span>
+                                    <span class="details-value">$20.00</span>
+                                </div>
+                                <div class="details-row">
+                                    <span class="details-label">Total Amount</span>
+                                    <span class="details-value">$200.00</span>
+                                </div>
+                            </div>
+                            <div class="details-section">
+                                <div class="details-title">Payment Method</div>
+                                <div class="payment-method">
+                                    <div class="payment-icon">
+                                        <i class="fab fa-cc-visa"></i>
+                                    </div>
+                                    <div class="payment-info">
+                                        <div class="payment-type">Visa Card</div>
+                                        <div class="payment-number">**** **** **** 4242</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="transaction-card" onclick="toggleTransactionDetails(this)">
+                        <div class="transaction-header">
+                            <div class="transaction-date">Jan 18, 2024</div>
+                            <div class="transaction-id">#TRX-2401181</div>
+                        </div>
+                        <div class="transaction-amount">$150.00</div>
+                        <div class="transaction-info">
+                            <div class="transaction-hotel">Ocean Land</div>
+                            <div class="transaction-nights">1 night</div>
+                        </div>
+                        <span class="transaction-status status-pending">
+                            <i class="fas fa-clock"></i>
+                            Pending
+                        </span>
+                        <div class="transaction-details">
+                            <div class="details-section">
+                                <div class="details-title">Payment Details</div>
+                                <div class="details-row">
+                                    <span class="details-label">Room Rate</span>
+                                    <span class="details-value">$130.00 x 1 night</span>
+                                </div>
+                                <div class="details-row">
+                                    <span class="details-label">Taxes & Fees</span>
+                                    <span class="details-value">$20.00</span>
+                                </div>
+                                <div class="details-row">
+                                    <span class="details-label">Total Amount</span>
+                                    <span class="details-value">$150.00</span>
+                                </div>
+                            </div>
+                            <div class="details-section">
+                                <div class="details-title">Payment Method</div>
+                                <div class="payment-method">
+                                    <div class="payment-icon">
+                                        <i class="fab fa-cc-mastercard"></i>
+                                    </div>
+                                    <div class="payment-info">
+                                        <div class="payment-type">Mastercard</div>
+                                        <div class="payment-number">**** **** **** 5678</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Account Section -->
+            <div id="account" class="content-section">
+                <h2 class="list-title">Account Settings</h2>
+                <div class="account-section">
+                    <form class="account-form">
+                        <div class="form-group">
+                            <label>First Name</label>
+                            <input type="text" value="Duc" />
+                        </div>
+                        <div class="form-group">
+                            <label>Last Name</label>
+                            <input type="text" value="Thanh" />
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" value="example@email.com" />
+                        </div>
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <input type="tel" value="+84 123 456 789" />
+                        </div>
+                        <button type="button" class="save-btn">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Hàm chuyển đổi tab
+        function switchSection(sectionId) {
+            // Ẩn tất cả các section
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.style.display = 'none';
+            });
+
+            // Bỏ active class từ tất cả các menu item
+            document.querySelectorAll('.menu__func > div').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            // Hiển thị section được chọn
+            document.getElementById(sectionId).style.display = 'block';
+
+            // Thêm active class cho menu item được chọn
+            let activeClass = '';
+            switch (sectionId) {
+                case 'bookings':
+                    activeClass = 'func1';
+                    break;
+                case 'transactions':
+                    activeClass = 'func2';
+                    break;
+                case 'account':
+                    activeClass = 'func3';
+                    break;
+            }
+            document.querySelector('.' + activeClass).classList.add('active');
+        }
+
+        // Hàm xử lý thông báo
+        function toggleNoti() {
+            const notiTab = document.getElementById('notiTab');
+            const userDropdown = document.getElementById('userDropdown');
+
+            // Ẩn dropdown user nếu đang mở
+            if (userDropdown.classList.contains('active')) {
+                userDropdown.classList.remove('active');
+            }
+
+            // Toggle hiển thị thông báo
+            if (notiTab.style.display === 'block') {
+                notiTab.style.display = 'none';
+            } else {
+                notiTab.style.display = 'block';
+            }
+        }
+
+        // Hàm xử lý dropdown user
+        function toggleDropdown() {
+            const dropdown = document.getElementById('userDropdown');
+            const notiTab = document.getElementById('notiTab');
+
+            // Ẩn thông báo nếu đang mở
+            if (notiTab.style.display === 'block') {
+                notiTab.style.display = 'none';
+            }
+
+            // Toggle hiển thị dropdown
+            dropdown.classList.toggle('active');
+        }
+
+        // Đóng dropdown khi click ra ngoài
+        window.onclick = function (event) {
+            const userBox = document.querySelector('.user-box');
+            const notiWrapper = document.querySelector('.noti-wrapper');
+            const dropdown = document.getElementById('userDropdown');
+            const notiTab = document.getElementById('notiTab');
+
+            if (!userBox.contains(event.target) && !notiWrapper.contains(event.target)) {
+                dropdown.classList.remove('active');
+                notiTab.style.display = 'none';
+            }
+        }
+
+        // Hàm xử lý chỉnh sửa booking
+        function editBooking(id) {
+            // Chuyển hướng đến trang chỉnh sửa booking
+            window.location.href = `/booking/${id}/edit`;
+        }
+
+        // Hàm xử lý xóa booking
+        function deleteBooking(id) {
+            if (confirm('Bạn có chắc chắn muốn hủy đặt phòng này?')) {
+                // Gọi API để xóa booking
+                fetch(`/booking/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Xóa card booking khỏi giao diện
+                            const bookingCard = document.querySelector(`[data-booking-id="${id}"]`);
+                            if (bookingCard) {
+                                bookingCard.remove();
+                            }
+                            alert('Hủy đặt phòng thành công!');
+                        } else {
+                            alert('Có lỗi xảy ra khi hủy đặt phòng!');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Có lỗi xảy ra khi hủy đặt phòng!');
+                    });
+            }
+        }
+
+        // Hàm xử lý hiển thị chi tiết giao dịch
+        function toggleTransactionDetails(card) {
+            const details = card.querySelector('.transaction-details');
+            if (details.style.display === 'block') {
+                details.style.display = 'none';
+            } else {
+                details.style.display = 'block';
+            }
+        }
+
+        // Hàm lấy thông tin user từ session
+        function loadUserInfo() {
+            fetch('/api/user/info')
+                .then(response => response.json())
+                .then(data => {
+                    console.log('User info:', data); // Log để debug
+                    // Cập nhật thông tin user trong header
+                    const helloUser = document.querySelector('.hello-user');
+                    if (helloUser) helloUser.textContent = `Hello, ${data.full_name || data.username}`;
+
+                    const userName = document.querySelector('.user-name');
+                    const userRole = document.querySelector('.user-role');
+                    if (userName) {
+                        userName.textContent = data.full_name || data.username;
+                    } else {
+                        console.error('Không tìm thấy thẻ .user-name trên trang!');
+                    }
+                    if (userRole) {
+                        userRole.textContent = data.role || 'User';
+                    } else {
+                        console.error('Không tìm thấy thẻ .user-role trên trang!');
+                    }
+
+                    // Cập nhật thông tin trong form account
+                    if (document.querySelector('.account-form')) {
+                        document.querySelector('.account-form input[type="text"]').value = data.first_name || '';
+                        document.querySelector('.account-form input[type="text"]:nth-of-type(2)').value = data.last_name || '';
+                        document.querySelector('.account-form input[type="email"]').value = data.email || '';
+                        document.querySelector('.account-form input[type="tel"]').value = data.phone || '';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading user info:', error);
+                    alert('Không thể lấy thông tin người dùng!');
+                });
+        }
+
+        // Hàm lấy danh sách booking
+        function loadBookings() {
+            fetch('/api/user/bookings')
+                .then(response => response.json())
+                .then(data => {
+                    const bookingList = document.querySelector('.booking-list');
+                    bookingList.innerHTML = ''; // Xóa danh sách cũ
+
+                    if (data.bookings && data.bookings.length > 0) {
+                        data.bookings.forEach(booking => {
+                            const bookingCard = createBookingCard(booking);
+                            bookingList.appendChild(bookingCard);
+                        });
+                    } else {
+                        bookingList.innerHTML = '<div class="no-bookings">Bạn chưa có đặt phòng nào</div>';
+                    }
+                })
+                .catch(error => console.error('Error loading bookings:', error));
+        }
+
+        // Hàm tạo card booking
+        function createBookingCard(booking) {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.setAttribute('data-booking-id', booking.id);
+
+            const statusClass = getStatusClass(booking.status);
+            const statusText = getStatusText(booking.status);
+
+            card.innerHTML = `
+                <div class="card__img">
+                    <h3 class="card__name">${booking.hotel_name}</h3>
+                    <p class="card__location">${booking.hotel_location}</p>
+                </div>
+                <div class="date">${formatDate(booking.check_in)} - ${formatDate(booking.check_out)}</div>
+                <div class="day">${calculateDays(booking.check_in, booking.check_out)} Days</div>
+                <div class="location">${booking.hotel_address}</div>
+                <div class="ini-price">Initial Payment: ${formatPrice(booking.initial_payment)}</div>
+                <div class="total-price">Total Payment: ${formatPrice(booking.total_payment)}</div>
+                <div class="booking-status ${statusClass}">${statusText}</div>
+                <div class="card__actions">
+                    ${booking.status === 'confirmed' ? `
+                        <button class="edit-btn" onclick="editBooking(${booking.id})">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="delete-btn" onclick="deleteBooking(${booking.id})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    ` : ''}
+                </div>
+            `;
+
+            return card;
+        }
+
+        // Hàm format ngày tháng
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', {
+                day: 'numeric',
+                month: 'short'
+            });
+        }
+
+        // Hàm tính số ngày
+        function calculateDays(checkIn, checkOut) {
+            const start = new Date(checkIn);
+            const end = new Date(checkOut);
+            const diffTime = Math.abs(end - start);
+            return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        }
+
+        // Hàm format giá tiền
+        function formatPrice(price) {
+            return new Intl.NumberFormat('vi-VN', {
+                style: 'currency',
+                currency: 'VND'
+            }).format(price);
+        }
+
+        // Hàm lấy class CSS cho trạng thái booking
+        function getStatusClass(status) {
+            switch (status) {
+                case 'confirmed': return 'status-confirmed';
+                case 'pending': return 'status-pending';
+                case 'cancelled': return 'status-cancelled';
+                case 'completed': return 'status-completed';
+                default: return '';
+            }
+        }
+
+        // Hàm lấy text hiển thị cho trạng thái booking
+        function getStatusText(status) {
+            switch (status) {
+                case 'confirmed': return 'Đã xác nhận';
+                case 'pending': return 'Đang chờ xác nhận';
+                case 'cancelled': return 'Đã hủy';
+                case 'completed': return 'Đã hoàn thành';
+                default: return status;
+            }
+        }
+
+        // Hàm cập nhật thông tin tài khoản
+        function updateAccountInfo() {
+            const form = document.querySelector('.account-form');
+            const formData = {
+                first_name: form.querySelector('input[type="text"]').value,
+                last_name: form.querySelector('input[type="text"]:nth-of-type(2)').value,
+                email: form.querySelector('input[type="email"]').value,
+                phone: form.querySelector('input[type="tel"]').value
+            };
+
+            fetch('/api/user/update', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showNotification('Cập nhật thông tin thành công!', 'success');
+                        loadUserInfo(); // Reload thông tin user
+                    } else {
+                        showNotification('Có lỗi xảy ra khi cập nhật thông tin!', 'error');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showNotification('Có lỗi xảy ra khi cập nhật thông tin!', 'error');
+                });
+        }
+
+        // Hàm load thông báo
+        function loadNotifications() {
+            fetch('/api/user/notifications')
+                .then(response => response.json())
+                .then(data => {
+                    const notiList = document.querySelector('.noti-list');
+                    const notiCount = document.querySelector('.noti-count');
+
+                    if (data.notifications && data.notifications.length > 0) {
+                        notiList.innerHTML = data.notifications.map(noti => `
+                            <div class="noti-item ${noti.read ? '' : 'unread'}">
+                                <div class="noti-icon">
+                                    <i class="${getNotiIcon(noti.type)}"></i>
+                                </div>
+                                <div class="noti-content">
+                                    <p class="noti-text">${noti.message}</p>
+                                    <span class="noti-time">${formatTimeAgo(noti.created_at)}</span>
+                                </div>
+                            </div>
+                        `).join('');
+
+                        const unreadCount = data.notifications.filter(n => !n.read).length;
+                        notiCount.textContent = unreadCount;
+                        document.querySelector('.dot').classList.toggle('has-noti', unreadCount > 0);
+                    } else {
+                        notiList.innerHTML = '<div class="no-notifications">Không có thông báo mới</div>';
+                        notiCount.textContent = '0';
+                        document.querySelector('.dot').classList.remove('has-noti');
+                    }
+                })
+                .catch(error => console.error('Error loading notifications:', error));
+        }
+
+        // Hàm load giao dịch
+        function loadTransactions() {
+            fetch('/api/user/transactions')
+                .then(response => response.json())
+                .then(data => {
+                    const transactionsList = document.querySelector('.transactions-list');
+
+                    if (data.transactions && data.transactions.length > 0) {
+                        transactionsList.innerHTML = data.transactions.map(transaction => `
+                            <div class="transaction-card" onclick="toggleTransactionDetails(this)">
+                                <div class="transaction-header">
+                                    <div class="transaction-date">${formatDate(transaction.date)}</div>
+                                    <div class="transaction-id">#${transaction.id}</div>
+                                </div>
+                                <div class="transaction-amount">${formatPrice(transaction.amount)}</div>
+                                <div class="transaction-info">
+                                    <div class="transaction-hotel">${transaction.hotel_name}</div>
+                                    <div class="transaction-nights">${transaction.nights} nights</div>
+                                </div>
+                                <span class="transaction-status status-${transaction.status.toLowerCase()}">
+                                    <i class="${getTransactionIcon(transaction.status)}"></i>
+                                    ${getTransactionStatus(transaction.status)}
+                                </span>
+                                <div class="transaction-details">
+                                    <div class="details-section">
+                                        <div class="details-title">Payment Details</div>
+                                        <div class="details-row">
+                                            <span class="details-label">Room Rate</span>
+                                            <span class="details-value">${formatPrice(transaction.room_rate)} x ${transaction.nights} nights</span>
+                                        </div>
+                                        <div class="details-row">
+                                            <span class="details-label">Taxes & Fees</span>
+                                            <span class="details-value">${formatPrice(transaction.taxes)}</span>
+                                        </div>
+                                        <div class="details-row">
+                                            <span class="details-label">Total Amount</span>
+                                            <span class="details-value">${formatPrice(transaction.amount)}</span>
+                                        </div>
+                                    </div>
+                                    <div class="details-section">
+                                        <div class="details-title">Payment Method</div>
+                                        <div class="payment-method">
+                                            <div class="payment-icon">
+                                                <i class="${getPaymentIcon(transaction.payment_method)}"></i>
+                                            </div>
+                                            <div class="payment-info">
+                                                <div class="payment-type">${transaction.payment_method}</div>
+                                                <div class="payment-number">**** **** **** ${transaction.last_four}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('');
+                    } else {
+                        transactionsList.innerHTML = '<div class="no-transactions">Không có giao dịch nào</div>';
+                    }
+                })
+                .catch(error => console.error('Error loading transactions:', error));
+        }
+
+        // Hàm lấy icon cho thông báo
+        function getNotiIcon(type) {
+            switch (type) {
+                case 'booking': return 'fa-solid fa-calendar-check';
+                case 'payment': return 'fa-solid fa-credit-card';
+                case 'system': return 'fa-solid fa-circle-info';
+                default: return 'fa-solid fa-bell';
+            }
+        }
+
+        // Hàm lấy icon cho trạng thái giao dịch
+        function getTransactionIcon(status) {
+            switch (status.toLowerCase()) {
+                case 'completed': return 'fas fa-check-circle';
+                case 'pending': return 'fas fa-clock';
+                case 'failed': return 'fas fa-times-circle';
+                default: return 'fas fa-info-circle';
+            }
+        }
+
+        // Hàm lấy icon cho phương thức thanh toán
+        function getPaymentIcon(method) {
+            switch (method.toLowerCase()) {
+                case 'visa': return 'fab fa-cc-visa';
+                case 'mastercard': return 'fab fa-cc-mastercard';
+                case 'paypal': return 'fab fa-paypal';
+                default: return 'fas fa-credit-card';
+            }
+        }
+
+        // Hàm lấy text trạng thái giao dịch
+        function getTransactionStatus(status) {
+            switch (status.toLowerCase()) {
+                case 'completed': return 'Hoàn thành';
+                case 'pending': return 'Đang xử lý';
+                case 'failed': return 'Thất bại';
+                default: return status;
+            }
+        }
+
+        // Hàm format thời gian
+        function formatTimeAgo(dateString) {
+            const date = new Date(dateString);
+            const now = new Date();
+            const diffInSeconds = Math.floor((now - date) / 1000);
+
+            if (diffInSeconds < 60) return 'Vừa xong';
+            if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} phút trước`;
+            if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)} giờ trước`;
+            if (diffInSeconds < 604800) return `${Math.floor(diffInSeconds / 86400)} ngày trước`;
+            return date.toLocaleDateString('vi-VN');
+        }
+
+        // Hàm hiển thị thông báo
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <div class="notification-content">
+                    <i class="${getNotificationIcon(type)}"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 100);
+
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 3000);
+        }
+
+        // Hàm lấy icon cho thông báo
+        function getNotificationIcon(type) {
+            switch (type) {
+                case 'success': return 'fas fa-check-circle';
+                case 'error': return 'fas fa-times-circle';
+                case 'warning': return 'fas fa-exclamation-circle';
+                default: return 'fas fa-info-circle';
+            }
+        }
+
+        // Cập nhật khởi tạo trang
+        document.addEventListener('DOMContentLoaded', function () {
+            loadUserInfo();
+            loadBookings();
+            loadNotifications();
+            loadTransactions();
+            switchSection('bookings');
+
+            // Thêm event listener cho nút Save Changes
+            const saveButton = document.querySelector('.save-btn');
+            if (saveButton) {
+                saveButton.addEventListener('click', updateAccountInfo);
+            }
+        });
+    </script>
+</body>
+
+</html>
