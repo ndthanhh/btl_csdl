@@ -10,6 +10,271 @@
     <title>HaNoiBooking.</title>
     <link rel="stylesheet" type="text/css" href="../css/user.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        .booking-list-outer {
+            width: 100%;
+            overflow-x: auto;
+            overflow-y: hidden;
+            padding: 0;
+            margin: 0;
+            background: transparent;
+            height: auto;
+            position: relative;
+        }
+
+        .booking-list {
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: row;
+            gap: 24px;
+            width: 100%;
+            min-height: 100%;
+            height: auto;
+            align-items: flex-start;
+            padding: 0 0 24px 0;
+            margin: 0;
+            justify-content: flex-start;
+        }
+
+        .booking-list::-webkit-scrollbar {
+            height: 12px;
+            background: #f1f1f1;
+        }
+
+        .booking-list-outer::-webkit-scrollbar {
+            height: 12px;
+            background: #f1f1f1;
+        }
+
+        .booking-list-outer::-webkit-scrollbar-thumb {
+            background: #bbb;
+            border-radius: 8px;
+        }
+
+        .card {
+            flex: 1 1 320px;
+            min-width: 280px;
+            max-width: 420px;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 0;
+            transition: box-shadow 0.2s, transform 0.2s;
+            height: 600px;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            transform: translateY(-4px);
+        }
+
+        .card__img {
+            position: relative;
+            height: 55%;
+            min-height: 180px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .card__img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .status-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: #FFC107;
+            color: white;
+            font-weight: 600;
+            font-size: 12px;
+            padding: 5px 10px;
+            border-radius: 20px;
+            z-index: 2;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .card__info {
+            flex: 1 1 45%;
+            min-height: 180px;
+            max-height: 260px;
+            overflow-y: auto;
+            padding: 18px 18px 18px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            font-size: 16px;
+            color: #222;
+            background: #fff;
+            border-top: 1px solid #f0f0f0;
+            border-radius: 0 0 16px 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+            text-align: center;
+        }
+
+        .card__info .date {
+            font-weight: 700;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 10px;
+            padding-bottom: 4px;
+            font-size: 18px;
+            color: #1a237e;
+            width: 100%;
+            text-align: center;
+        }
+
+        .card__info .day {
+            font-size: 15px;
+            color: #444;
+            margin-bottom: 4px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .card__info .location {
+            font-size: 16px;
+            color: #222;
+            font-weight: 600;
+            margin-bottom: 4px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .card__info .room-type {
+            font-size: 17px;
+            color: #1976d2;
+            font-weight: 700;
+            margin-bottom: 8px;
+            margin-top: 2px;
+            width: 100%;
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+
+        .card__info .address {
+            font-size: 15px;
+            color: #666;
+            margin-bottom: 4px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .card__info .total-price {
+            color: #ff5722;
+            font-weight: bold;
+            margin-top: 16px;
+            font-size: 22px;
+            width: 100%;
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+
+        .card__info .status-badge {
+            display: inline-block;
+            margin-bottom: 10px;
+            padding: 5px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+            background: #bdbdbd;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+        }
+
+        .card__info .status-success {
+            background: #43a047;
+        }
+
+        .card__info .status-pending {
+            background: #ffc107;
+            color: #222;
+        }
+
+        .card__info .status-failed {
+            background: #e53935;
+        }
+
+        @media (max-width: 1200px) {
+            .booking-list {
+                gap: 16px;
+            }
+
+            .card {
+                max-width: 340px;
+                height: 520px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .booking-list {
+                gap: 12px;
+            }
+
+            .card {
+                max-width: 320px;
+                height: 480px;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .booking-list {
+                flex-direction: column;
+                flex-wrap: nowrap;
+                gap: 16px;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .card {
+                min-width: 90vw;
+                max-width: 98vw;
+                width: 100%;
+                height: auto;
+            }
+
+            .card__img {
+                min-height: 140px;
+                height: 180px;
+            }
+
+            .card__info {
+                min-height: 120px;
+                max-height: none;
+                font-size: 15px;
+                padding: 12px 8px 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .booking-list {
+                gap: 8px;
+            }
+
+            .card {
+                min-width: 98vw;
+                max-width: 100vw;
+                height: auto;
+                border-radius: 10px;
+            }
+
+            .card__img {
+                min-height: 100px;
+                height: 120px;
+            }
+
+            .card__info {
+                font-size: 14px;
+                padding: 8px 4px 8px;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -45,7 +310,7 @@
         <div class="main">
             <div class="header">
                 <div class="hello__user">
-                    <h1 class="hello-user">Hello, User</h1>
+                    <h1 class="hello-user">Hello, <span id="userFullName"></span></h1>
                     <p class="hello-title">Have a nice day</p>
                 </div>
 
@@ -108,27 +373,43 @@
             <!-- Bookings Section -->
             <div id="bookings" class="content-section active">
                 <h2 class="list-title">Booking List</h2>
-                <div class="booking-list">
-                    <div class="card">
-                        <div class="card__img">
-                            <h3 class="card__name">Blue Origin Fams</h3>
-                            <p class="card__location">Galle, Sri Lanka</p>
+                <div class="booking-list-outer">
+                    <div class="booking-list">
+                        {% if bookings and bookings|length > 0 %}
+                        {% for booking in bookings %}
+                        <div class="card">
+                            <div class="card__img">
+                                <div class="status-badge status-{{ booking.status|lower }}">
+                                    {% if booking.status == 'success' %}
+                                    Success
+                                    {% elif booking.status == 'pending' %}
+                                    Pending
+                                    {% elif booking.status == 'failed' %}
+                                    Failed
+                                    {% else %}
+                                    {{ booking.status|capitalize }}
+                                    {% endif %}
+                                </div>
+                                <img src="{{ booking.image_url or '/assets/image/default-room.webp' }}"
+                                    alt="Room Image">
+                            </div>
+                            <div class="card__info">
+                                <div class="date"><b>{{ booking.check_in }} - {{ booking.check_out }}</b></div>
+                                <div class="day">{{ (booking.check_out - booking.check_in).days if booking.check_in and
+                                    booking.check_out else '' }} Day(s)</div>
+                                <div class="location">{{ booking.hotel_name if booking.hotel_name else '' }}</div>
+                                <div class="room-type">{{ booking.room_type if booking.room_type else '' }}</div>
+                                <div class="address">{{ booking.hotel_address if booking.hotel_address else '' }}</div>
+                                <div class="total-price">Total: {{ booking.total_price|format_price if
+                                    booking.total_price
+                                    else '0₫' }}</div>
+                            </div>
                         </div>
-                        <div class="date">20 Jan - 22 Jan</div>
-                        <div class="day">02 Days</div>
-                        <div class="location">Galle to Colombo Road 245, Main Street, Galle.</div>
-                        <div class="ini-price">Initial Payment: $200</div>
-                        <div class="total-price">Total Payment: $400</div>
-                        <div class="card__actions">
-                            <button class="edit-btn" onclick="editBooking(1)">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="delete-btn" onclick="deleteBooking(1)">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
+                        {% endfor %}
+                        {% else %}
+                        <div class="no-bookings">You have no bookings yet</div>
+                        {% endif %}
                     </div>
-                    <!-- More cards can be added here -->
                 </div>
             </div>
 
@@ -136,95 +417,29 @@
             <div id="transactions" class="content-section">
                 <h2 class="list-title">Transaction History</h2>
                 <div class="transactions-list">
-                    <div class="transaction-card" onclick="toggleTransactionDetails(this)">
+                    {% if transactions and transactions|length > 0 %}
+                    {% for t in transactions %}
+                    <div class="transaction-card">
                         <div class="transaction-header">
-                            <div class="transaction-date">Jan 20, 2024</div>
-                            <div class="transaction-id">#TRX-2401201</div>
+                            <div class="transaction-date">{{ t.created_at.strftime('%Y-%m-%d') if t.created_at else ''
+                                }}</div>
+                            <div class="transaction-id">#{{ t.txn_ref or t.payment_id }}</div>
                         </div>
-                        <div class="transaction-amount">$200.00</div>
+                        <div class="transaction-amount">{{ t.amount }} VND</div>
                         <div class="transaction-info">
-                            <div class="transaction-hotel">Blue Origin Fams</div>
-                            <div class="transaction-nights">2 nights</div>
+                            <div class="transaction-hotel">{{ t.booking.hotel.hotel_name if t.booking and
+                                t.booking.hotel else '' }}</div>
+                            <div class="transaction-nights">{{ (t.booking.check_out - t.booking.check_in).days if
+                                t.booking and t.booking.check_in and t.booking.check_out else 1 }} nights</div>
                         </div>
-                        <span class="transaction-status status-success">
-                            <i class="fas fa-check-circle"></i>
-                            Completed
+                        <span class="transaction-status status-{{ t.payment_status|lower }}">
+                            {{ t.payment_status|capitalize }}
                         </span>
-                        <div class="transaction-details">
-                            <div class="details-section">
-                                <div class="details-title">Payment Details</div>
-                                <div class="details-row">
-                                    <span class="details-label">Room Rate</span>
-                                    <span class="details-value">$90.00 x 2 nights</span>
-                                </div>
-                                <div class="details-row">
-                                    <span class="details-label">Taxes & Fees</span>
-                                    <span class="details-value">$20.00</span>
-                                </div>
-                                <div class="details-row">
-                                    <span class="details-label">Total Amount</span>
-                                    <span class="details-value">$200.00</span>
-                                </div>
-                            </div>
-                            <div class="details-section">
-                                <div class="details-title">Payment Method</div>
-                                <div class="payment-method">
-                                    <div class="payment-icon">
-                                        <i class="fab fa-cc-visa"></i>
-                                    </div>
-                                    <div class="payment-info">
-                                        <div class="payment-type">Visa Card</div>
-                                        <div class="payment-number">**** **** **** 4242</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
-
-                    <div class="transaction-card" onclick="toggleTransactionDetails(this)">
-                        <div class="transaction-header">
-                            <div class="transaction-date">Jan 18, 2024</div>
-                            <div class="transaction-id">#TRX-2401181</div>
-                        </div>
-                        <div class="transaction-amount">$150.00</div>
-                        <div class="transaction-info">
-                            <div class="transaction-hotel">Ocean Land</div>
-                            <div class="transaction-nights">1 night</div>
-                        </div>
-                        <span class="transaction-status status-pending">
-                            <i class="fas fa-clock"></i>
-                            Pending
-                        </span>
-                        <div class="transaction-details">
-                            <div class="details-section">
-                                <div class="details-title">Payment Details</div>
-                                <div class="details-row">
-                                    <span class="details-label">Room Rate</span>
-                                    <span class="details-value">$130.00 x 1 night</span>
-                                </div>
-                                <div class="details-row">
-                                    <span class="details-label">Taxes & Fees</span>
-                                    <span class="details-value">$20.00</span>
-                                </div>
-                                <div class="details-row">
-                                    <span class="details-label">Total Amount</span>
-                                    <span class="details-value">$150.00</span>
-                                </div>
-                            </div>
-                            <div class="details-section">
-                                <div class="details-title">Payment Method</div>
-                                <div class="payment-method">
-                                    <div class="payment-icon">
-                                        <i class="fab fa-cc-mastercard"></i>
-                                    </div>
-                                    <div class="payment-info">
-                                        <div class="payment-type">Mastercard</div>
-                                        <div class="payment-number">**** **** **** 5678</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <div class="no-transactions">No transactions found</div>
+                    {% endif %}
                 </div>
             </div>
 
@@ -234,12 +449,8 @@
                 <div class="account-section">
                     <form class="account-form">
                         <div class="form-group">
-                            <label>First Name</label>
-                            <input type="text" value="Duc" />
-                        </div>
-                        <div class="form-group">
-                            <label>Last Name</label>
-                            <input type="text" value="Thanh" />
+                            <label>Full Name</label>
+                            <input type="text" class="input-fullname" value="" />
                         </div>
                         <div class="form-group">
                             <label>Email</label>
@@ -382,37 +593,38 @@
         // Hàm lấy thông tin user từ session
         function loadUserInfo() {
             fetch('/api/user/info')
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
                 .then(data => {
-                    console.log('User info:', data); // Log để debug
                     // Cập nhật thông tin user trong header
-                    const helloUser = document.querySelector('.hello-user');
-                    if (helloUser) helloUser.textContent = `Hello, ${data.full_name || data.username}`;
+                    const userFullName = document.getElementById('userFullName');
+                    if (userFullName) userFullName.textContent = data.full_name || data.username || 'User';
 
                     const userName = document.querySelector('.user-name');
                     const userRole = document.querySelector('.user-role');
                     if (userName) {
                         userName.textContent = data.full_name || data.username;
-                    } else {
-                        console.error('Không tìm thấy thẻ .user-name trên trang!');
                     }
                     if (userRole) {
                         userRole.textContent = data.role || 'User';
-                    } else {
-                        console.error('Không tìm thấy thẻ .user-role trên trang!');
                     }
 
                     // Cập nhật thông tin trong form account
                     if (document.querySelector('.account-form')) {
-                        document.querySelector('.account-form input[type="text"]').value = data.first_name || '';
-                        document.querySelector('.account-form input[type="text"]:nth-of-type(2)').value = data.last_name || '';
+                        document.querySelector('.account-form .input-fullname').value = data.full_name || '';
                         document.querySelector('.account-form input[type="email"]').value = data.email || '';
                         document.querySelector('.account-form input[type="tel"]').value = data.phone || '';
                     }
                 })
                 .catch(error => {
                     console.error('Error loading user info:', error);
-                    alert('Không thể lấy thông tin người dùng!');
+                    // Hiển thị lỗi nhẹ nhàng trên UI, không alert
+                    const userFullName = document.getElementById('userFullName');
+                    if (userFullName) userFullName.textContent = 'Error loading user info!';
                 });
         }
 
@@ -440,31 +652,48 @@
         function createBookingCard(booking) {
             const card = document.createElement('div');
             card.className = 'card';
-            card.setAttribute('data-booking-id', booking.id);
+            card.dataset.bookingId = booking.id;
 
-            const statusClass = getStatusClass(booking.status);
-            const statusText = getStatusText(booking.status);
+            const days = calculateDays(booking.check_in, booking.check_out);
+
+            // Định nghĩa status badge class
+            let statusClass = '';
+            let statusText = '';
+
+            switch (booking.status) {
+                case 'confirmed':
+                    statusClass = 'confirmed';
+                    statusText = 'Confirmed';
+                    break;
+                case 'pending':
+                    statusClass = 'pending';
+                    statusText = 'Pending';
+                    break;
+                case 'failed':
+                    statusClass = 'failed';
+                    statusText = 'Failed';
+                    break;
+                case 'success':
+                    statusClass = 'success';
+                    statusText = 'Success';
+                    break;
+                default:
+                    statusClass = '';
+                    statusText = booking.status || 'Pending';
+            }
 
             card.innerHTML = `
                 <div class="card__img">
-                    <h3 class="card__name">${booking.hotel_name}</h3>
-                    <p class="card__location">${booking.hotel_location}</p>
+                    <div class="status-badge ${statusClass}">${statusText}</div>
+                    <img src="${booking.image_url || '/assets/image/default-room.webp'}" alt="Room Image">
                 </div>
-                <div class="date">${formatDate(booking.check_in)} - ${formatDate(booking.check_out)}</div>
-                <div class="day">${calculateDays(booking.check_in, booking.check_out)} Days</div>
-                <div class="location">${booking.hotel_address}</div>
-                <div class="ini-price">Initial Payment: ${formatPrice(booking.initial_payment)}</div>
-                <div class="total-price">Total Payment: ${formatPrice(booking.total_payment)}</div>
-                <div class="booking-status ${statusClass}">${statusText}</div>
-                <div class="card__actions">
-                    ${booking.status === 'confirmed' ? `
-                        <button class="edit-btn" onclick="editBooking(${booking.id})">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button class="delete-btn" onclick="deleteBooking(${booking.id})">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    ` : ''}
+                <div class="card__info">
+                    <div class="date"><b>${booking.check_in} - ${booking.check_out}</b></div>
+                    <div class="day">${days} Day(s)</div>
+                    <div class="location">${booking.hotel_name || ''}</div>
+                    <div class="room-type">${booking.room_type || ''}</div>
+                    <div class="address">${booking.hotel_address || ''}</div>
+                    <div class="total-price">Total: ${formatPrice(booking.total_price)}</div>
                 </div>
             `;
 
@@ -522,8 +751,7 @@
         function updateAccountInfo() {
             const form = document.querySelector('.account-form');
             const formData = {
-                first_name: form.querySelector('input[type="text"]').value,
-                last_name: form.querySelector('input[type="text"]:nth-of-type(2)').value,
+                full_name: form.querySelector('.input-fullname').value,
                 email: form.querySelector('input[type="email"]').value,
                 phone: form.querySelector('input[type="tel"]').value
             };
@@ -606,35 +834,6 @@
                                     <i class="${getTransactionIcon(transaction.status)}"></i>
                                     ${getTransactionStatus(transaction.status)}
                                 </span>
-                                <div class="transaction-details">
-                                    <div class="details-section">
-                                        <div class="details-title">Payment Details</div>
-                                        <div class="details-row">
-                                            <span class="details-label">Room Rate</span>
-                                            <span class="details-value">${formatPrice(transaction.room_rate)} x ${transaction.nights} nights</span>
-                                        </div>
-                                        <div class="details-row">
-                                            <span class="details-label">Taxes & Fees</span>
-                                            <span class="details-value">${formatPrice(transaction.taxes)}</span>
-                                        </div>
-                                        <div class="details-row">
-                                            <span class="details-label">Total Amount</span>
-                                            <span class="details-value">${formatPrice(transaction.amount)}</span>
-                                        </div>
-                                    </div>
-                                    <div class="details-section">
-                                        <div class="details-title">Payment Method</div>
-                                        <div class="payment-method">
-                                            <div class="payment-icon">
-                                                <i class="${getPaymentIcon(transaction.payment_method)}"></i>
-                                            </div>
-                                            <div class="payment-info">
-                                                <div class="payment-type">${transaction.payment_method}</div>
-                                                <div class="payment-number">**** **** **** ${transaction.last_four}</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         `).join('');
                     } else {
@@ -661,16 +860,6 @@
                 case 'pending': return 'fas fa-clock';
                 case 'failed': return 'fas fa-times-circle';
                 default: return 'fas fa-info-circle';
-            }
-        }
-
-        // Hàm lấy icon cho phương thức thanh toán
-        function getPaymentIcon(method) {
-            switch (method.toLowerCase()) {
-                case 'visa': return 'fab fa-cc-visa';
-                case 'mastercard': return 'fab fa-cc-mastercard';
-                case 'paypal': return 'fab fa-paypal';
-                default: return 'fas fa-credit-card';
             }
         }
 

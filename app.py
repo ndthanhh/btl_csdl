@@ -26,6 +26,9 @@ from contextlib import contextmanager
 import secrets
 from flask_mail import Mail, Message
 import hmac, hashlib, urllib.parse
+import logging
+from logging.handlers import RotatingFileHandler
+import os
 
 app = Flask(__name__, 
     template_folder='hotelsmanagementweb/pages',
@@ -66,11 +69,11 @@ def format_number(value):
 
 # Custom filter để format số tiền
 @app.template_filter('format_price')
-def format_price(value):
+def format_price_filter(value):
     try:
-        return "{:,.0f}".format(float(value))
+        return "{:,.0f}₫".format(float(value))
     except (ValueError, TypeError):
-        return "0"
+        return "0₫"
 
 # Database setup
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URI
@@ -176,6 +179,22 @@ def process_image_path(image_path):
         image_path = '/' + image_path
         
     return image_path
+
+# Đảm bảo file log tồn tại
+if not os.path.exists('app.log'):
+    open('app.log', 'a').close()
+
+handler = RotatingFileHandler('app.log', maxBytes=1000000, backupCount=3)
+handler.setLevel(logging.DEBUG)
+formatter = logging.Formatter('[%(asctime)s] %(levelname)s in %(module)s: %(message)s')
+handler.setFormatter(formatter)
+
+# Xóa các handler mặc định nếu có
+if app.logger.hasHandlers():
+    app.logger.handlers.clear()
+
+app.logger.addHandler(handler)
+app.logger.setLevel(logging.DEBUG)
 
 # Route cho trang chủ
 @app.route('/')
@@ -321,9 +340,12 @@ def login():
                     'message': 'Mật khẩu không đúng!'
                 }), 401
             
+            app.logger.debug(f"User before login: {getattr(user, 'user_id', None)}")
+            login_user(user, remember=remember)
+            app.logger.debug(f"Login user successfully, user_id={getattr(user, 'user_id', None)}")
+            
             # Clear any existing flash messages before login
             session.pop('_flashes', None)
-            login_user(user, remember=remember)
             return jsonify({
                 'success': True,
                 'message': 'Đăng nhập thành công!'
@@ -659,7 +681,28 @@ def logout():
 @app.route('/user')
 @login_required
 def user_profile():
-    return render_template('user.html', user=current_user)
+    user = current_user
+    # Lấy danh sách booking, sắp xếp theo check_in tăng dần (sớm nhất lên đầu)
+    bookings = db_session.query(Booking).filter_by(user_id=user.user_id).order_by(Booking.check_in.asc()).all()
+    # Thêm image_url cho mỗi booking
+    for b in bookings:
+        room_image = db_session.execute(
+            text("SELECT image_path FROM room_images WHERE room_id = :room_id LIMIT 1"),
+            {"room_id": b.room_id}
+        ).fetchone()
+        if room_image and room_image[0]:
+            image_url = room_image[0].replace('\\', '/')
+            if not image_url.startswith('/'):
+                image_url = '/' + image_url
+            if 'hotelsmanagementweb' not in image_url:
+                image_url = '/hotelsmanagementweb/' + image_url.lstrip('/')
+        else:
+            image_url = '/assets/image/default-room.webp'
+        b.image_url = image_url
+    # Lấy danh sách payment/giao dịch
+    user_booking_ids = [b.booking_id for b in bookings]
+    transactions = db_session.query(Payment).filter(Payment.booking_id.in_(user_booking_ids)).order_by(Payment.created_at.desc()).all()
+    return render_template('user.html', user=user, bookings=bookings, transactions=transactions)
 
 @app.route('/api/room-images/<int:room_id>')
 def get_room_images(room_id):
@@ -1323,13 +1366,18 @@ def vnpay_return():
             payment.payment_status = 'success'
             payment.pay_date = datetime.now()
             db_session.commit()
-            # Gửi email xác nhận booking thành công
+            # Đồng bộ trạng thái booking và trừ số phòng
             if payment.booking_id:
                 booking = db_session.query(Booking).filter_by(booking_id=payment.booking_id).first()
                 if not booking:
                     return "Không tìm thấy booking liên kết với payment!", 404
-                user = db_session.query(User).filter_by(user_id=booking.user_id).first()
+                booking.status = 'success'
+                # Trừ số phòng khi booking thành công
                 room = db_session.query(Room).filter_by(room_id=booking.room_id).first()
+                if room and room.availableRooms is not None:
+                    room.availableRooms = max(0, room.availableRooms - booking.num_rooms)
+                db_session.commit()
+                user = db_session.query(User).filter_by(user_id=booking.user_id).first()
                 hotel = db_session.query(Hotel).filter_by(hotel_id=room.hotel_id).first() if room else None
                 if not (user and hotel and room):
                     return "Thiếu thông tin user/hotel/room!", 404
@@ -1344,7 +1392,12 @@ def vnpay_return():
         else:
             payment.payment_status = 'failed'
             payment.pay_date = datetime.now()
-        db_session.commit()
+            db_session.commit()
+            if payment.booking_id:
+                booking = db_session.query(Booking).filter_by(booking_id=payment.booking_id).first()
+                if booking:
+                    booking.status = 'failed'
+                    db_session.commit()
         if vnp_ResponseCode == '00':
             message = 'Thanh toán thành công qua VNPAY!'
         else:
@@ -1362,14 +1415,15 @@ def vnpay_return():
 @app.route('/api/user/info')
 @login_required
 def api_user_info():
+    app.logger.debug(f"Current user in /api/user/info: user_id={getattr(current_user, 'user_id', None)}, is_authenticated={current_user.is_authenticated}")
+    if not current_user.is_authenticated:
+        return jsonify({"error": "Not authenticated"}), 401
     return jsonify({
         "username": current_user.username,
-        "full_name": getattr(current_user, 'full_name', ''),
-        "first_name": getattr(current_user, 'first_name', ''),
-        "last_name": getattr(current_user, 'last_name', ''),
+        "full_name": current_user.full_name,
         "email": current_user.email,
-        "phone": getattr(current_user, 'phone', ''),
-        "role": getattr(current_user, 'role', 'User')
+        "phone": current_user.phone,
+        "role": str(current_user.role)
     })
 
 @app.route('/api/user/bookings')
@@ -1378,16 +1432,38 @@ def api_user_bookings():
     bookings = db_session.query(Booking).filter_by(user_id=current_user.user_id).all()
     result = []
     for b in bookings:
+        # Lấy thông tin phòng
+        room = db_session.query(Room).filter_by(room_id=b.room_id).first()
+        hotel_name = ''
+        hotel_address = ''
+        room_type = ''
+        if room:
+            hotel = db_session.query(Hotel).filter_by(hotel_id=room.hotel_id).first()
+            if hotel:
+                hotel_name = hotel.hotel_name
+                hotel_address = hotel.address_hotel
+            room_type = room.room_type  # Lấy tên hạng phòng
+
+        # Get room image
+        room_image = db_session.execute(
+            text("SELECT image_path FROM room_images WHERE room_id = :room_id LIMIT 1"),
+            {"room_id": b.room_id}
+        ).fetchone()
+        image_url = '/assets/image/default-room.webp'
+        if room_image and room_image[0]:
+            image_url = process_image_path(room_image[0])
+
         result.append({
             "id": b.booking_id,
-            "hotel_name": b.hotel.hotel_name if hasattr(b, 'hotel') and b.hotel else '',
-            "hotel_location": b.hotel.address_hotel if hasattr(b, 'hotel') and b.hotel else '',
-            "hotel_address": b.hotel.address_hotel if hasattr(b, 'hotel') and b.hotel else '',
+            "hotel_name": hotel_name,
+            "hotel_address": hotel_address,
+            "room_id": b.room_id,
+            "room_type": room_type,  # Thêm trường này
             "check_in": b.check_in.strftime('%Y-%m-%d') if b.check_in else '',
             "check_out": b.check_out.strftime('%Y-%m-%d') if b.check_out else '',
-            "initial_payment": getattr(b, 'initial_payment', 0),
-            "total_payment": getattr(b, 'total_price', 0),
-            "status": b.status
+            "total_price": float(b.total_price) if b.total_price else 0,
+            "status": b.status,
+            "image_url": image_url
         })
     return jsonify({"bookings": result})
 
@@ -1415,45 +1491,99 @@ def booking_hotel_room(hotel_id, room_id):
         processed_images = [{'image_path': '/hotelsmanagementweb/assets/image/default-room.jpg'}]
     return render_template('booking.html', hotel=hotel, room=room, room_images=processed_images)
 
+@app.route('/api/user/update', methods=['POST'])
+@login_required
+def api_user_update():
+    try:
+        data = request.json
+        user = db_session.query(User).filter_by(user_id=current_user.user_id).first()
+        if not user:
+            return jsonify({"success": False, "message": "User not found"}), 404
+        # Cập nhật thông tin user
+        if 'full_name' in data:
+            user.full_name = data['full_name']
+        if 'email' in data:
+            user.email = data['email']
+        if 'phone' in data:
+            user.phone = data['phone']
+        db_session.commit()
+        return jsonify({"success": True, "message": "User updated successfully"})
+    except Exception as e:
+        app.logger.error(f"Error updating user: {str(e)}")
+        db_session.rollback()
+        return jsonify({"success": False, "message": str(e)}), 500
+
 @app.route('/api/user/notifications')
 @login_required
 def api_user_notifications():
-    # Giả sử bạn có bảng Notification với user_id
-    notifications = db_session.execute(
-        text("SELECT id, type, message, read, created_at FROM notifications WHERE user_id = :uid ORDER BY created_at DESC"),
-        {"uid": current_user.user_id}
-    ).fetchall()
-    result = []
-    for n in notifications:
-        result.append({
-            "id": n.id,
-            "type": n.type,
-            "message": n.message,
-            "read": n.read,
-            "created_at": n.created_at.isoformat() if n.created_at else ''
-        })
-    return jsonify({"notifications": result})
+    # Giả lập dữ liệu thông báo
+    notifications = [
+        {
+            "id": 1,
+            "message": "Đặt phòng của bạn đã được xác nhận!",
+            "created_at": (datetime.now() - timedelta(minutes=2)).isoformat(),
+            "read": False,
+            "type": "booking"
+        },
+        {
+            "id": 2, 
+            "message": "Ưu đãi đặc biệt: Giảm 20% cho đặt phòng tiếp theo",
+            "created_at": (datetime.now() - timedelta(hours=2)).isoformat(),
+            "read": True,
+            "type": "system"
+        }
+    ]
+    return jsonify({"notifications": notifications})
 
 @app.route('/api/user/transactions')
 @login_required
 def api_user_transactions():
-    # Giả sử bạn có bảng Payment với user_id
-    transactions = db_session.query(Payment).filter_by(user_id=current_user.user_id).order_by(Payment.created_at.desc()).all()
-    result = []
-    for t in transactions:
-        result.append({
-            "id": getattr(t, 'txn_ref', t.id),
-            "date": t.created_at.strftime('%Y-%m-%d') if t.created_at else '',
-            "amount": t.amount,
-            "hotel_name": t.booking.hotel.hotel_name if hasattr(t, 'booking') and t.booking and hasattr(t.booking, 'hotel') and t.booking.hotel else '',
-            "nights": (t.booking.check_out - t.booking.check_in).days if hasattr(t, 'booking') and t.booking and t.booking.check_in and t.booking.check_out else 1,
-            "status": t.payment_status if hasattr(t, 'payment_status') else t.status,
-            "room_rate": getattr(t, 'room_rate', 0),
-            "taxes": getattr(t, 'taxes', 0),
-            "payment_method": t.payment_method,
-            "last_four": str(t.card_number)[-4:] if hasattr(t, 'card_number') and t.card_number else ''
-        })
-    return jsonify({"transactions": result})
+    # Lấy thông tin giao dịch từ database
+    transactions = []
+    
+    try:
+        # Lấy các payment gắn với booking của user
+        payments = db_session.query(Payment).join(
+            Booking, Payment.booking_id == Booking.booking_id
+        ).filter(
+            Booking.user_id == current_user.user_id
+        ).order_by(
+            Payment.created_at.desc()
+        ).all()
+        
+        for payment in payments:
+            booking = payment.booking
+            
+            # Lấy thông tin phòng và khách sạn
+            room = db_session.query(Room).filter_by(room_id=booking.room_id).first()
+            hotel_name = ''
+            if room:
+                hotel = db_session.query(Hotel).filter_by(hotel_id=room.hotel_id).first()
+                if hotel:
+                    hotel_name = hotel.hotel_name
+            
+            # Tính số đêm
+            nights = 1
+            if booking.check_in and booking.check_out:
+                nights = (booking.check_out - booking.check_in).days
+            
+            # Thêm transaction vào kết quả
+            transactions.append({
+                "id": payment.payment_id or f"P{payment.payment_id}",
+                "date": payment.created_at.isoformat() if payment.created_at else datetime.now().isoformat(),
+                "amount": float(payment.amount) if payment.amount else 0,
+                "status": payment.payment_status or "pending",
+                "hotel_name": hotel_name,
+                "nights": nights,
+                "room_rate": float(booking.total_price) / nights if booking.total_price and nights > 0 else 0,
+                "taxes": float(booking.total_price) * 0.1 if booking.total_price else 0,
+                "payment_method": "Credit Card",
+                "last_four": "1234"  # Mẫu để demo
+            })
+    except Exception as e:
+        app.logger.error(f"Error fetching transactions: {str(e)}")
+    
+    return jsonify({"transactions": transactions})
 
 @app.route('/book_and_pay/<int:room_id>', methods=['POST'])
 @customer_required
@@ -1462,6 +1592,10 @@ def book_and_pay(room_id):
     check_out = datetime.strptime(request.form.get('check_out'), '%Y-%m-%d')
     num_rooms = int(request.form.get('num_rooms', 1))
     total_price = float(request.form.get('total_price', 0))
+    # Kiểm tra số phòng còn lại
+    room = db_session.query(Room).filter_by(room_id=room_id).first()
+    if not room or room.availableRooms is None or room.availableRooms < num_rooms:
+        return "Not enough rooms available", 400
     # Tạo booking mới
     booking = Booking(
         user_id=current_user.user_id,
@@ -1485,6 +1619,15 @@ def book_and_pay(room_id):
     <script>document.getElementById('payForm').submit();</script>
     '''
     return Response(html)
+
+@app.route('/debug/session')
+def debug_session():
+    result = {
+        "user_id": session.get('_user_id'),
+        "is_authenticated": current_user.is_authenticated,
+        "session_keys": list(session.keys())
+    }
+    return jsonify(result)
 
 if __name__ == '__main__':
     try:
