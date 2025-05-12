@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify, abort
+from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify, abort, Response
 import flask
 from config import engine, Base, get_db
 from sqlalchemy.orm import Session, scoped_session, sessionmaker
@@ -24,7 +24,7 @@ from sqlalchemy.orm import sessionmaker
 from config import DATABASE_URI
 from contextlib import contextmanager
 import secrets
-from flask_mail import Mail
+from flask_mail import Mail, Message
 import hmac, hashlib, urllib.parse
 
 app = Flask(__name__, 
@@ -48,8 +48,9 @@ app.config['REMEMBER_COOKIE_SAMESITE'] = 'Lax'
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = 'your-email@gmail.com'  # Thay thế bằng email của bạn
-app.config['MAIL_PASSWORD'] = 'your-app-password'  # Thay thế bằng mật khẩu ứng dụng Gmail
+app.config['MAIL_USERNAME'] = 'thanhsc170725@gmail.com'  # Thay thế bằng email của bạn
+app.config['MAIL_PASSWORD'] = 'jgyt xeev ihvr mzyo'  # Thay thế bằng mật khẩu ứng dụng Gmail
+app.config['MAIL_DEFAULT_SENDER'] = app.config['MAIL_USERNAME']
 mail = Mail(app)
 
 # Set locale cho định dạng số
@@ -426,6 +427,8 @@ def book_room(room_id):
         if not image_path.startswith('/'):
             image_path = '/' + image_path
         processed_images.append({'image_path': image_path})
+    if not processed_images:
+        processed_images = [{'image_path': '/hotelsmanagementweb/assets/image/default-room.jpg'}]
     
     # Lấy services của phòng
     services = db_session.query(Service).filter(Service.room_id == room_id).all()
@@ -452,62 +455,39 @@ def book_room(room_id):
     if request.method == 'POST':
         check_in = datetime.strptime(request.form.get('check_in'), '%Y-%m-%d')
         check_out = datetime.strptime(request.form.get('check_out'), '%Y-%m-%d')
-        num_guests = int(request.form.get('num_guests', 1))
-        special_requests = request.form.get('special_requests', '')
-        
-        if check_in >= check_out:
-            flash('Ngày check-out phải sau ngày check-in', 'error')
-            return redirect(url_for('book_room', room_id=room_id))
-            
-        # Tính tổng giá
-        nights = (check_out - check_in).days
-        total_price = room.price * nights
-        
-        try:
-            # Tạo booking
-            booking = Booking(
-                user_id=current_user.user_id,
-                room_id=room_id,
-                check_in=check_in,
-                check_out=check_out,
-                total_price=total_price,
-                status='pending',
-                created_at=datetime.now()
-            )
-            db_session.add(booking)
-            db_session.commit()
-            
-            # Tạo payment
-            payment = Payment(
-                booking_id=booking.booking_id,
-                amount=total_price,
-                payment_method='...',
-                status='pending',
-                user_id=current_user.user_id,
-                created_at=datetime.now()
-            )
-            db_session.add(payment)
-            db_session.commit()
-            
-            # Cập nhật số lượng phòng trống
-            room.availableRooms -= 1
-            db_session.commit()
-            
-            flash('Đặt phòng thành công!', 'success')
-            return redirect(url_for('booking_confirmation', booking_id=booking.booking_id))
-            
-        except Exception as e:
-            db_session.rollback()
-            flash('Có lỗi xảy ra khi đặt phòng', 'error')
-            return redirect(url_for('book_room', room_id=room_id))
-            
+        num_rooms = int(request.form.get('num_rooms', 1))
+        num_nights = int(request.form.get('num_nights', 1))
+        total_price = float(request.form.get('total_price', 0))
+        # Tạo booking mới
+        booking = Booking(
+            user_id=current_user.user_id,
+            room_id=room_id,
+            check_in=check_in,
+            check_out=check_out,
+            total_price=total_price,
+            num_rooms=num_rooms,
+            status='pending',
+            created_at=datetime.now()
+        )
+        db_session.add(booking)
+        db_session.commit()
+        return render_template('booking.html',
+                             hotel=hotel,
+                             room=room,
+                             room_images=processed_images,
+                             services=service_categories,
+                             reviews=reviews,
+                             avg_rating=round(avg_rating, 1),
+                             booking=booking)
+    # GET: chỉ render booking.html không có booking_id
     return render_template('booking.html',
                          hotel=hotel,
                          room=room,
                          room_images=processed_images,
                          services=service_categories,
                          reviews=reviews,
-                         avg_rating=round(avg_rating, 1))
+                         avg_rating=round(avg_rating, 1),
+                         booking=None)
 
 # Route cho xem chi tiết đặt phòng
 @app.route('/booking/<int:booking_id>')
@@ -1248,7 +1228,6 @@ def change_password():
 VNPAY_URL = 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html'
 VNP_TMN_CODE = 'IQRCRXK8'
 VNP_HASH_SECRET = 'STDTDERBNDXT2LRBW1U4B59N72ZWWXDF'
-VNP_RETURN_URL = 'http://localhost:5000/vnpay_return'
 
 def build_vnpay_query_and_hash(vnp_params, secret_key):
     sorted_items = sorted(
@@ -1267,6 +1246,11 @@ def build_vnpay_query_and_hash(vnp_params, secret_key):
 @app.route('/vnpay_pay', methods=['POST'])
 @login_required
 def vnpay_pay():
+    booking_id = request.form.get('booking_id')
+    if not booking_id or not str(booking_id).isdigit():
+        flash('Vui lòng đặt phòng trước khi thanh toán!', 'error')
+        return redirect(url_for('home'))
+    booking_id = int(booking_id)
     amount = float(request.form.get('total_price', 0))
     amount_vnd = int(amount)
     if amount_vnd < 5000 or amount_vnd >= 1_000_000_000:
@@ -1274,6 +1258,8 @@ def vnpay_pay():
     order_id = 'ORDER' + datetime.now().strftime('%Y%m%d%H%M%S')
     order_desc = f"Thanh toán đơn hàng {order_id}"
     user_ip = request.remote_addr or '127.0.0.1'
+    # Build return URL động theo domain thực tế
+    return_url = request.url_root.rstrip('/') + '/vnpay_return'
     vnp_params = {
         'vnp_Version': '2.1.0',
         'vnp_Command': 'pay',
@@ -1284,7 +1270,7 @@ def vnpay_pay():
         'vnp_OrderInfo': order_desc,
         'vnp_OrderType': 'other',
         'vnp_Locale': 'vn',
-        'vnp_ReturnUrl': VNP_RETURN_URL,
+        'vnp_ReturnUrl': return_url,
         'vnp_IpAddr': user_ip,
         'vnp_CreateDate': datetime.now().strftime('%Y%m%d%H%M%S'),
     }
@@ -1297,37 +1283,81 @@ def vnpay_pay():
         payment_status='pending',
         secure_hash=vnp_secure_hash,
         created_at=datetime.now(),
-        # booking_id=booking_id  # Bỏ comment nếu có booking_id, nếu không thì để None
+        booking_id=booking_id
     )
     db_session.add(payment)
     db_session.commit()
     payment_url = f"{VNPAY_URL}?{query_string}&vnp_SecureHash={vnp_secure_hash}"
     return redirect(payment_url)
 
+def send_booking_success_email(user_email, booking_info):
+    subject = "Booking Confirmation - HaNoiBooking"
+    body = f"""
+    Dear Customer,
+
+    Your booking has been successfully confirmed!
+
+    Booking Details:
+    Hotel: {booking_info['hotel_name']}
+    Room: {booking_info['room_type']}
+    Check-in: {booking_info['check_in']}
+    Check-out: {booking_info['check_out']}
+    Total Price: {booking_info['total_price']} VND
+
+    Thank you for choosing HaNoiBooking!
+    """
+    msg = Message(subject, recipients=[user_email], body=body, sender=app.config['MAIL_DEFAULT_SENDER'])
+    mail.send(msg)
+
 @app.route('/vnpay_return')
 def vnpay_return():
     vnp_ResponseCode = request.args.get('vnp_ResponseCode')
     vnp_TxnRef = request.args.get('vnp_TxnRef')
-    from models import Payment
+    from models import Payment, Booking, User, Hotel, Room
     payment = db_session.query(Payment).filter_by(txn_ref=vnp_TxnRef).first()
-    if payment:
+    if not payment:
+        return "Không tìm thấy giao dịch thanh toán (txn_ref) trong hệ thống!", 404
+    try:
         payment.response_code = vnp_ResponseCode
         if vnp_ResponseCode == '00':
             payment.payment_status = 'success'
+            payment.pay_date = datetime.now()
+            db_session.commit()
+            # Gửi email xác nhận booking thành công
+            if payment.booking_id:
+                booking = db_session.query(Booking).filter_by(booking_id=payment.booking_id).first()
+                if not booking:
+                    return "Không tìm thấy booking liên kết với payment!", 404
+                user = db_session.query(User).filter_by(user_id=booking.user_id).first()
+                room = db_session.query(Room).filter_by(room_id=booking.room_id).first()
+                hotel = db_session.query(Hotel).filter_by(hotel_id=room.hotel_id).first() if room else None
+                if not (user and hotel and room):
+                    return "Thiếu thông tin user/hotel/room!", 404
+                booking_info = {
+                    'hotel_name': hotel.hotel_name,
+                    'room_type': room.room_type,
+                    'check_in': booking.check_in.strftime('%d/%m/%Y'),
+                    'check_out': booking.check_out.strftime('%d/%m/%Y'),
+                    'total_price': int(booking.total_price)
+                }
+                send_booking_success_email(user.email, booking_info)
         else:
             payment.payment_status = 'failed'
-        payment.pay_date = datetime.now()
+            payment.pay_date = datetime.now()
         db_session.commit()
-    if vnp_ResponseCode == '00':
-        message = 'Thanh toán thành công qua VNPAY!'
-    else:
-        message = 'Thanh toán thất bại hoặc bị hủy!'
-    return f'''
-    <script>
-        alert("{message}");
-        window.location.href = "/";
-    </script>
-    '''
+        if vnp_ResponseCode == '00':
+            message = 'Thanh toán thành công qua VNPAY!'
+        else:
+            message = 'Thanh toán thất bại hoặc bị hủy!'
+        return f'''
+        <script>
+            alert("{message}");
+            window.location.href = "/";
+        </script>
+        '''
+    except Exception as e:
+        db_session.rollback()
+        return f"Lỗi xử lý kết quả thanh toán: {str(e)}", 500
 
 @app.route('/api/user/info')
 @login_required
@@ -1360,6 +1390,30 @@ def api_user_bookings():
             "status": b.status
         })
     return jsonify({"bookings": result})
+
+@app.route('/booking/<int:hotel_id>/<int:room_id>', methods=['GET', 'POST'])
+@login_required
+def booking_hotel_room(hotel_id, room_id):
+    hotel = db_session.query(Hotel).filter_by(hotel_id=hotel_id).first()
+    room = db_session.query(Room).filter_by(room_id=room_id, hotel_id=hotel_id).first()
+    if not hotel or not room:
+        return "Hotel or room not found", 404
+    # Lấy danh sách ảnh phòng
+    room_images = db_session.execute(
+        text("SELECT image_path FROM room_images WHERE room_id = :room_id"),
+        {"room_id": room_id}
+    ).fetchall()
+    processed_images = []
+    for img in room_images:
+        image_path = img[0]
+        if 'hotelsmanagementweb' in image_path:
+            image_path = image_path[image_path.index('hotelsmanagementweb')+len('hotelsmanagementweb'):]
+        if not image_path.startswith('/'):
+            image_path = '/' + image_path
+        processed_images.append({'image_path': image_path})
+    if not processed_images:
+        processed_images = [{'image_path': '/hotelsmanagementweb/assets/image/default-room.jpg'}]
+    return render_template('booking.html', hotel=hotel, room=room, room_images=processed_images)
 
 @app.route('/api/user/notifications')
 @login_required
@@ -1400,6 +1454,37 @@ def api_user_transactions():
             "last_four": str(t.card_number)[-4:] if hasattr(t, 'card_number') and t.card_number else ''
         })
     return jsonify({"transactions": result})
+
+@app.route('/book_and_pay/<int:room_id>', methods=['POST'])
+@customer_required
+def book_and_pay(room_id):
+    check_in = datetime.strptime(request.form.get('check_in'), '%Y-%m-%d')
+    check_out = datetime.strptime(request.form.get('check_out'), '%Y-%m-%d')
+    num_rooms = int(request.form.get('num_rooms', 1))
+    total_price = float(request.form.get('total_price', 0))
+    # Tạo booking mới
+    booking = Booking(
+        user_id=current_user.user_id,
+        room_id=room_id,
+        check_in=check_in,
+        check_out=check_out,
+        total_price=total_price,
+        num_rooms=num_rooms,
+        status='pending',
+        created_at=datetime.now()
+    )
+    db_session.add(booking)
+    db_session.commit()
+    # Chuyển sang thanh toán VNPAY (POST sang /vnpay_pay)
+    html = f'''
+    <form id="payForm" action="/vnpay_pay" method="POST">
+        <input type="hidden" name="booking_id" value="{booking.booking_id}">
+        <input type="hidden" name="total_price" value="{total_price}">
+        <button type="submit" style="display:none;">Pay</button>
+    </form>
+    <script>document.getElementById('payForm').submit();</script>
+    '''
+    return Response(html)
 
 if __name__ == '__main__':
     try:

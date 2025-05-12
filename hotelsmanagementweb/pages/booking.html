@@ -555,24 +555,15 @@
                 <span>{{ hotel.rating }} ({{ reviews|length if reviews else 0 }} reviews)</span>
             </div>
 
-            <div class="room-images">
+            <div class="room-images" style="text-align:center;">
                 {% if room_images %}
-                <div class="main-image">
-                    <img src="{{ room_images[0].image_path }}" alt="Room Image" class="img-fluid">
+                <div class="main-image" style="display:inline-block; cursor:pointer;">
+                    <img src="{{ room_images[0].image_path }}" alt="Room Image" class="img-fluid" id="mainRoomImage">
                 </div>
-                {% if room_images|length > 1 %}
-                <div class="sub-images">
-                    {% for image in room_images[1:] %}
-                    <div class="sub-image">
-                        <img src="{{ image.image_path }}" alt="Room Image" class="img-fluid">
-                    </div>
-                    {% endfor %}
-                </div>
-                {% endif %}
                 {% else %}
-                <div class="main-image">
+                <div class="main-image" style="display:inline-block; cursor:pointer;">
                     <img src="/hotelsmanagementweb/assets/image/default-room.jpg" alt="Default Room Image"
-                        class="img-fluid">
+                        class="img-fluid" id="mainRoomImage">
                 </div>
                 {% endif %}
             </div>
@@ -654,7 +645,7 @@
                 <span id="total_amount">{{ "{:,.0f}".format(room.price * 1.05) }} VND</span>
             </div>
 
-            <form id="bookingForm" action="/vnpay_pay" method="POST">
+            <form id="bookingForm" action="/book_and_pay/{{ room.room_id }}" method="POST">
                 <input type="hidden" name="hotel_id" value="{{ hotel.hotel_id }}">
                 <input type="hidden" name="room_id" value="{{ room.room_id }}">
                 <input type="hidden" name="check_in" id="form_check_in">
@@ -827,48 +818,33 @@
                 document.getElementById('form_num_nights').value = currentNights;
                 document.getElementById('form_total_price').value = (parseFloat(pricePerNight) * currentRooms * currentNights * 1.05).toFixed(2);
             });
-        });
-    </script>
 
-    <!-- Add this before closing body tag -->
-    <div id="imageModal" class="modal">
-        <span class="close-modal">&times;</span>
-        <img class="modal-content" id="modalImage">
-        <div class="modal-controls">
-            <button class="modal-btn prev-btn"><i class="fas fa-chevron-left"></i></button>
-            <button class="modal-btn next-btn"><i class="fas fa-chevron-right"></i></button>
-        </div>
-    </div>
+            // --- Gallery Modal Logic ---
+            // Lấy danh sách các ảnh từ JSON script
+            let images = [];
+            try {
+                images = JSON.parse(document.getElementById('roomImagesData').textContent.trim());
+            } catch (e) {
+                images = [];
+            }
+            if (!images || images.length === 0) {
+                images = ["/hotelsmanagementweb/assets/image/default-room.jpg"];
+            }
 
-    <script>
-        // Add this to your existing script
-        document.addEventListener('DOMContentLoaded', function () {
             const modal = document.getElementById('imageModal');
             const modalImg = document.getElementById('modalImage');
             const closeBtn = document.querySelector('.close-modal');
             const prevBtn = document.querySelector('.prev-btn');
             const nextBtn = document.querySelector('.next-btn');
             let currentImageIndex = 0;
-            let images = [];
 
-            // Get all room images
-            function initializeGallery() {
-                const mainImage = document.querySelector('.main-image img');
-                const subImages = document.querySelectorAll('.sub-image img');
+            // Click vào ảnh lớn để mở modal
+            document.getElementById('mainRoomImage').addEventListener('click', function () {
+                currentImageIndex = 0;
+                openModal();
+            });
 
-                images = [mainImage, ...Array.from(subImages)];
-
-                // Add click event to main image
-                mainImage.addEventListener('click', () => openModal(0));
-
-                // Add click events to sub images
-                subImages.forEach((img, index) => {
-                    img.addEventListener('click', () => openModal(index + 1));
-                });
-            }
-
-            function openModal(index) {
-                currentImageIndex = index;
+            function openModal() {
                 updateModalImage();
                 modal.classList.add('show');
                 document.body.style.overflow = 'hidden';
@@ -880,11 +856,7 @@
             }
 
             function updateModalImage() {
-                modalImg.src = images[currentImageIndex].src;
-                updateNavigationButtons();
-            }
-
-            function updateNavigationButtons() {
+                modalImg.src = images[currentImageIndex];
                 prevBtn.style.display = currentImageIndex === 0 ? 'none' : 'flex';
                 nextBtn.style.display = currentImageIndex === images.length - 1 ? 'none' : 'flex';
             }
@@ -903,22 +875,18 @@
                 }
             }
 
-            // Event Listeners
             closeBtn.addEventListener('click', closeModal);
             prevBtn.addEventListener('click', showPrevImage);
             nextBtn.addEventListener('click', showNextImage);
 
-            // Close modal when clicking outside the image
             modal.addEventListener('click', (e) => {
                 if (e.target === modal) {
                     closeModal();
                 }
             });
 
-            // Keyboard navigation
             document.addEventListener('keydown', (e) => {
                 if (!modal.classList.contains('show')) return;
-
                 switch (e.key) {
                     case 'Escape':
                         closeModal();
@@ -931,10 +899,22 @@
                         break;
                 }
             });
-
-            // Initialize gallery
-            initializeGallery();
         });
+    </script>
+
+    <!-- Add this before closing body tag -->
+    <div id="imageModal" class="modal">
+        <span class="close-modal">&times;</span>
+        <img class="modal-content" id="modalImage">
+        <div class="modal-controls">
+            <button class="modal-btn prev-btn"><i class="fas fa-chevron-left"></i></button>
+            <button class="modal-btn next-btn"><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </div>
+
+    <!-- Truyền danh sách ảnh phòng sang JS bằng JSON -->
+    <script id="roomImagesData" type="application/json">
+        {{ (room_images|map(attribute='image_path')|list if room_images is defined and room_images else ['/hotelsmanagementweb/assets/image/default-room.jpg']) | tojson }}
     </script>
 </body>
 
