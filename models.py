@@ -175,4 +175,15 @@ class RoomImage(Base):
     image_path = Column(String(255), nullable=False)
     
     # Relationship
-    room = relationship('Room', back_populates='images') 
+    room = relationship('Room', back_populates='images')
+
+class Notification(Base):
+    __tablename__ = 'notifications'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    user_id = Column(Integer, ForeignKey('users.user_id'))
+    type = Column(String(50))
+    message = Column(String(255))
+    read = Column(Boolean, default=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    user = relationship("User", backref="notifications") 

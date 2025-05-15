@@ -3008,3 +3008,697 @@
 [2025-05-15 13:23:32,751] ERROR in app: Unhandled error: 'Payment' object has no attribute 'status'
 [2025-05-15 13:23:33,294] ERROR in app: Unhandled error: 'Payment' object has no attribute 'status'
 [2025-05-15 13:23:35,270] ERROR in app: Unhandled error: 'Payment' object has no attribute 'status'
+[2025-05-15 13:27:06,266] DEBUG in app: Current user in /api/user/info: user_id=26, is_authenticated=True
+[2025-05-15 13:27:06,321] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 13:27:06,383] DEBUG in app: Current user in /api/user/info: user_id=26, is_authenticated=True
+[2025-05-15 13:27:06,500] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 13:27:06,500] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 13:38:48,835] DEBUG in app: Current user in /api/user/info: user_id=26, is_authenticated=True
+[2025-05-15 13:38:48,849] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 13:38:48,957] DEBUG in app: Current user in /api/user/info: user_id=26, is_authenticated=True
+[2025-05-15 13:38:49,082] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 13:38:49,084] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 13:45:53,286] DEBUG in app: Current user in /api/user/info: user_id=26, is_authenticated=True
+[2025-05-15 13:45:53,306] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 13:45:53,398] DEBUG in app: Current user in /api/user/info: user_id=26, is_authenticated=True
+[2025-05-15 13:45:53,524] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 13:45:53,525] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 13:46:15,946] DEBUG in app: Current user in /api/user/info: user_id=26, is_authenticated=True
+[2025-05-15 13:46:15,951] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 13:46:16,057] DEBUG in app: Current user in /api/user/info: user_id=26, is_authenticated=True
+[2025-05-15 13:46:16,166] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 13:46:16,167] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 13:48:30,425] DEBUG in app: Current user in /api/user/info: user_id=26, is_authenticated=True
+[2025-05-15 13:48:30,426] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 13:48:30,541] DEBUG in app: Current user in /api/user/info: user_id=26, is_authenticated=True
+[2025-05-15 13:48:30,663] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 13:48:30,663] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 13:54:21,145] DEBUG in app: Current user in /api/user/info: user_id=26, is_authenticated=True
+[2025-05-15 13:54:21,152] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 13:54:21,255] DEBUG in app: Current user in /api/user/info: user_id=26, is_authenticated=True
+[2025-05-15 13:54:21,367] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 13:54:21,367] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 13:54:22,882] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 13:54:25,654] DEBUG in app: Current user in /api/user/info: user_id=26, is_authenticated=True
+[2025-05-15 13:54:25,664] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 13:54:25,776] DEBUG in app: Current user in /api/user/info: user_id=26, is_authenticated=True
+[2025-05-15 13:54:25,896] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 13:54:25,898] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 13:54:27,272] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 13:54:46,321] DEBUG in app: Current user in /api/user/info: user_id=26, is_authenticated=True
+[2025-05-15 13:54:46,322] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 13:54:46,433] DEBUG in app: Current user in /api/user/info: user_id=26, is_authenticated=True
+[2025-05-15 13:54:46,547] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 13:54:46,549] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 13:54:47,581] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 13:55:01,208] DEBUG in app: Current user in /api/user/info: user_id=26, is_authenticated=True
+[2025-05-15 13:55:01,210] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 13:55:01,322] DEBUG in app: Current user in /api/user/info: user_id=26, is_authenticated=True
+[2025-05-15 13:55:01,433] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 13:55:01,433] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 13:56:18,241] DEBUG in app: Current user in /api/user/info: user_id=26, is_authenticated=True
+[2025-05-15 13:56:18,242] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 13:56:18,350] DEBUG in app: Current user in /api/user/info: user_id=26, is_authenticated=True
+[2025-05-15 13:56:18,461] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 13:56:18,462] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 13:56:32,071] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 13:56:32,071] DEBUG in app: Current user in /api/user/info: user_id=26, is_authenticated=True
+[2025-05-15 13:56:32,180] DEBUG in app: Current user in /api/user/info: user_id=26, is_authenticated=True
+[2025-05-15 13:56:32,293] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 13:56:32,294] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 17:21:05,633] DEBUG in app: Starting home route
+[2025-05-15 17:21:05,638] DEBUG in app: Current user: None
+[2025-05-15 17:21:05,639] DEBUG in app: Executing most picked hotels query
+[2025-05-15 17:21:05,683] DEBUG in app: Processed 5 most picked hotels
+[2025-05-15 17:21:05,684] DEBUG in app: Executing list room hotels query
+[2025-05-15 17:21:05,692] DEBUG in app: Processed 8 list room hotels
+[2025-05-15 17:21:05,692] DEBUG in app: Rendering template
+[2025-05-15 17:21:06,435] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 17:21:15,879] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 17:21:38,444] DEBUG in app: Starting home route
+[2025-05-15 17:21:38,445] DEBUG in app: Current user: None
+[2025-05-15 17:21:38,446] DEBUG in app: Executing most picked hotels query
+[2025-05-15 17:21:38,454] DEBUG in app: Processed 5 most picked hotels
+[2025-05-15 17:21:38,455] DEBUG in app: Executing list room hotels query
+[2025-05-15 17:21:38,459] DEBUG in app: Processed 8 list room hotels
+[2025-05-15 17:21:38,460] DEBUG in app: Rendering template
+[2025-05-15 17:22:04,213] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 17:23:48,808] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 19:27:59,195] DEBUG in app: Starting home route
+[2025-05-15 19:27:59,196] DEBUG in app: Current user: None
+[2025-05-15 19:27:59,197] DEBUG in app: Executing most picked hotels query
+[2025-05-15 19:27:59,208] DEBUG in app: Processed 5 most picked hotels
+[2025-05-15 19:27:59,209] DEBUG in app: Executing list room hotels query
+[2025-05-15 19:27:59,221] DEBUG in app: Processed 8 list room hotels
+[2025-05-15 19:27:59,222] DEBUG in app: Rendering template
+[2025-05-15 19:29:30,551] DEBUG in app: Starting home route
+[2025-05-15 19:29:30,552] DEBUG in app: Current user: None
+[2025-05-15 19:29:30,552] DEBUG in app: Executing most picked hotels query
+[2025-05-15 19:29:30,558] DEBUG in app: Processed 5 most picked hotels
+[2025-05-15 19:29:30,559] DEBUG in app: Executing list room hotels query
+[2025-05-15 19:29:30,566] DEBUG in app: Processed 8 list room hotels
+[2025-05-15 19:29:30,567] DEBUG in app: Rendering template
+[2025-05-15 19:29:31,342] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 19:30:38,288] DEBUG in app: Starting home route
+[2025-05-15 19:30:38,291] DEBUG in app: Current user: None
+[2025-05-15 19:30:38,291] DEBUG in app: Executing most picked hotels query
+[2025-05-15 19:30:38,298] DEBUG in app: Processed 5 most picked hotels
+[2025-05-15 19:30:38,300] DEBUG in app: Executing list room hotels query
+[2025-05-15 19:30:38,306] DEBUG in app: Processed 8 list room hotels
+[2025-05-15 19:30:38,307] DEBUG in app: Rendering template
+[2025-05-15 19:30:45,855] DEBUG in app: Starting home route
+[2025-05-15 19:30:45,858] DEBUG in app: Current user: None
+[2025-05-15 19:30:45,859] DEBUG in app: Executing most picked hotels query
+[2025-05-15 19:30:45,868] DEBUG in app: Processed 5 most picked hotels
+[2025-05-15 19:30:45,869] DEBUG in app: Executing list room hotels query
+[2025-05-15 19:30:45,874] DEBUG in app: Processed 8 list room hotels
+[2025-05-15 19:30:45,874] DEBUG in app: Rendering template
+[2025-05-15 19:30:54,891] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 19:31:35,053] DEBUG in app: User before login: 34
+[2025-05-15 19:31:35,054] DEBUG in app: Login user successfully, user_id=34
+[2025-05-15 19:31:36,267] DEBUG in app: Starting home route
+[2025-05-15 19:31:36,271] DEBUG in app: Current user: <models.User object at 0x000001B035721190>
+[2025-05-15 19:31:36,272] DEBUG in app: Executing most picked hotels query
+[2025-05-15 19:31:36,283] DEBUG in app: Processed 5 most picked hotels
+[2025-05-15 19:31:36,283] DEBUG in app: Executing list room hotels query
+[2025-05-15 19:31:36,295] DEBUG in app: Processed 8 list room hotels
+[2025-05-15 19:31:36,295] DEBUG in app: Rendering template
+[2025-05-15 19:31:42,579] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 19:33:26,456] DEBUG in app: Starting home route
+[2025-05-15 19:33:26,461] DEBUG in app: Current user: <models.User object at 0x000001B0358458D0>
+[2025-05-15 19:33:26,463] DEBUG in app: Executing most picked hotels query
+[2025-05-15 19:33:26,473] DEBUG in app: Processed 5 most picked hotels
+[2025-05-15 19:33:26,473] DEBUG in app: Executing list room hotels query
+[2025-05-15 19:33:26,483] DEBUG in app: Processed 8 list room hotels
+[2025-05-15 19:33:26,483] DEBUG in app: Rendering template
+[2025-05-15 19:34:20,395] DEBUG in app: Starting home route
+[2025-05-15 19:34:20,396] DEBUG in app: Current user: None
+[2025-05-15 19:34:20,398] DEBUG in app: Executing most picked hotels query
+[2025-05-15 19:34:20,408] DEBUG in app: Processed 5 most picked hotels
+[2025-05-15 19:34:20,409] DEBUG in app: Executing list room hotels query
+[2025-05-15 19:34:20,421] DEBUG in app: Processed 8 list room hotels
+[2025-05-15 19:34:20,422] DEBUG in app: Rendering template
+[2025-05-15 19:34:23,875] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 20:46:29,030] DEBUG in app: Starting home route
+[2025-05-15 20:46:29,054] DEBUG in app: Current user: <models.User object at 0x000002ABB599B050>
+[2025-05-15 20:46:29,055] DEBUG in app: Executing most picked hotels query
+[2025-05-15 20:46:29,060] DEBUG in app: Processed 5 most picked hotels
+[2025-05-15 20:46:29,060] DEBUG in app: Executing list room hotels query
+[2025-05-15 20:46:29,064] DEBUG in app: Processed 8 list room hotels
+[2025-05-15 20:46:29,064] DEBUG in app: Rendering template
+[2025-05-15 20:46:29,586] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 20:46:33,316] DEBUG in app: Starting home route
+[2025-05-15 20:46:33,317] DEBUG in app: Current user: None
+[2025-05-15 20:46:33,317] DEBUG in app: Executing most picked hotels query
+[2025-05-15 20:46:33,321] DEBUG in app: Processed 5 most picked hotels
+[2025-05-15 20:46:33,321] DEBUG in app: Executing list room hotels query
+[2025-05-15 20:46:33,324] DEBUG in app: Processed 8 list room hotels
+[2025-05-15 20:46:33,324] DEBUG in app: Rendering template
+[2025-05-15 20:46:34,389] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 20:47:17,178] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 20:47:19,125] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 20:47:39,958] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:07:53,249] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:07:53,251] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:07:53,251] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:07:53,253] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:07:53,259] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:07:53,263] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:07:53,464] DEBUG in app: Current user in /api/user/info: user_id=19, is_authenticated=True
+[2025-05-15 21:07:53,470] DEBUG in app: Current user in /api/user/info: user_id=19, is_authenticated=True
+[2025-05-15 21:07:53,552] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:09:08,678] DEBUG in app: User before login: 26
+[2025-05-15 21:09:08,679] DEBUG in app: Login user successfully, user_id=26
+[2025-05-15 21:09:09,035] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:09:10,215] DEBUG in app: Starting home route
+[2025-05-15 21:09:10,220] DEBUG in app: Current user: <models.User object at 0x000002ABB5A6AED0>
+[2025-05-15 21:09:10,221] DEBUG in app: Executing most picked hotels query
+[2025-05-15 21:09:10,228] DEBUG in app: Processed 5 most picked hotels
+[2025-05-15 21:09:10,229] DEBUG in app: Executing list room hotels query
+[2025-05-15 21:09:10,240] DEBUG in app: Processed 8 list room hotels
+[2025-05-15 21:09:10,241] DEBUG in app: Rendering template
+[2025-05-15 21:09:10,498] DEBUG in app: User before login: 26
+[2025-05-15 21:09:10,499] DEBUG in app: Login user successfully, user_id=26
+[2025-05-15 21:09:11,810] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:09:17,307] DEBUG in app: Current user in /api/user/info: user_id=26, is_authenticated=True
+[2025-05-15 21:09:17,376] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:09:17,497] DEBUG in app: Current user in /api/user/info: user_id=26, is_authenticated=True
+[2025-05-15 21:09:17,690] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:09:17,691] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:10:44,578] DEBUG in app: Current user in /api/user/info: user_id=26, is_authenticated=True
+[2025-05-15 21:10:44,623] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:10:45,141] DEBUG in app: Current user in /api/user/info: user_id=26, is_authenticated=True
+[2025-05-15 21:10:45,495] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:10:45,498] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:12:05,372] DEBUG in app: Current user in /api/user/info: user_id=26, is_authenticated=True
+[2025-05-15 21:12:05,375] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:12:05,711] DEBUG in app: Current user in /api/user/info: user_id=26, is_authenticated=True
+[2025-05-15 21:12:06,039] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:12:06,041] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:13:29,690] DEBUG in app: Current user in /api/user/info: user_id=26, is_authenticated=True
+[2025-05-15 21:13:29,763] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:13:29,849] DEBUG in app: Current user in /api/user/info: user_id=26, is_authenticated=True
+[2025-05-15 21:13:30,188] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:13:30,188] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:15:15,630] DEBUG in app: Current user in /api/user/info: user_id=26, is_authenticated=True
+[2025-05-15 21:15:15,703] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:15:15,830] DEBUG in app: Current user in /api/user/info: user_id=26, is_authenticated=True
+[2025-05-15 21:15:15,997] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:15:15,999] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:16:01,459] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:16:01,463] DEBUG in app: Current user in /api/user/info: user_id=26, is_authenticated=True
+[2025-05-15 21:16:01,633] DEBUG in app: Current user in /api/user/info: user_id=26, is_authenticated=True
+[2025-05-15 21:16:02,079] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:16:02,081] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:17:12,431] DEBUG in app: Current user in /api/user/info: user_id=26, is_authenticated=True
+[2025-05-15 21:17:12,507] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:17:12,596] DEBUG in app: Current user in /api/user/info: user_id=26, is_authenticated=True
+[2025-05-15 21:17:12,762] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:17:12,762] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:17:33,400] DEBUG in app: Current user in /api/user/info: user_id=26, is_authenticated=True
+[2025-05-15 21:18:32,054] DEBUG in app: Current user in /api/user/info: user_id=26, is_authenticated=True
+[2025-05-15 21:19:31,904] ERROR in app: Unhandled error: 405 Method Not Allowed: The method is not allowed for the requested URL.
+[2025-05-15 21:19:33,910] ERROR in app: Unhandled error: 405 Method Not Allowed: The method is not allowed for the requested URL.
+[2025-05-15 21:19:35,812] ERROR in app: Unhandled error: 405 Method Not Allowed: The method is not allowed for the requested URL.
+[2025-05-15 21:19:36,535] ERROR in app: Unhandled error: 405 Method Not Allowed: The method is not allowed for the requested URL.
+[2025-05-15 21:19:42,125] DEBUG in app: Starting home route
+[2025-05-15 21:19:42,126] DEBUG in app: Current user: None
+[2025-05-15 21:19:42,127] DEBUG in app: Executing most picked hotels query
+[2025-05-15 21:19:42,142] DEBUG in app: Processed 5 most picked hotels
+[2025-05-15 21:19:42,144] DEBUG in app: Executing list room hotels query
+[2025-05-15 21:19:42,160] DEBUG in app: Processed 8 list room hotels
+[2025-05-15 21:19:42,161] DEBUG in app: Rendering template
+[2025-05-15 21:19:43,142] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:19:44,348] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:19:46,703] DEBUG in app: User before login: 19
+[2025-05-15 21:19:46,704] DEBUG in app: Login user successfully, user_id=19
+[2025-05-15 21:19:47,995] DEBUG in app: Starting home route
+[2025-05-15 21:19:47,997] DEBUG in app: Current user: <models.User object at 0x000002ABB5A6B550>
+[2025-05-15 21:19:47,998] DEBUG in app: Executing most picked hotels query
+[2025-05-15 21:19:48,003] DEBUG in app: Processed 5 most picked hotels
+[2025-05-15 21:19:48,003] DEBUG in app: Executing list room hotels query
+[2025-05-15 21:19:48,010] DEBUG in app: Processed 8 list room hotels
+[2025-05-15 21:19:48,010] DEBUG in app: Rendering template
+[2025-05-15 21:19:48,624] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:19:52,880] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:19:52,885] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:19:52,887] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:19:52,889] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:19:52,953] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:19:52,956] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:19:53,485] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:19:53,490] DEBUG in app: Current user in /api/user/info: user_id=19, is_authenticated=True
+[2025-05-15 21:19:53,644] DEBUG in app: Current user in /api/user/info: user_id=19, is_authenticated=True
+[2025-05-15 21:20:06,360] DEBUG in app: Starting home route
+[2025-05-15 21:20:06,360] DEBUG in app: Current user: None
+[2025-05-15 21:20:06,361] DEBUG in app: Executing most picked hotels query
+[2025-05-15 21:20:06,367] DEBUG in app: Processed 5 most picked hotels
+[2025-05-15 21:20:06,368] DEBUG in app: Executing list room hotels query
+[2025-05-15 21:20:06,374] DEBUG in app: Processed 8 list room hotels
+[2025-05-15 21:20:06,375] DEBUG in app: Rendering template
+[2025-05-15 21:20:07,521] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:20:08,869] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:20:14,092] DEBUG in app: User before login: 26
+[2025-05-15 21:20:14,094] DEBUG in app: Login user successfully, user_id=26
+[2025-05-15 21:20:15,439] DEBUG in app: Starting home route
+[2025-05-15 21:20:15,443] DEBUG in app: Current user: <models.User object at 0x000002ABB5B2BA50>
+[2025-05-15 21:20:15,443] DEBUG in app: Executing most picked hotels query
+[2025-05-15 21:20:15,448] DEBUG in app: Processed 5 most picked hotels
+[2025-05-15 21:20:15,449] DEBUG in app: Executing list room hotels query
+[2025-05-15 21:20:15,457] DEBUG in app: Processed 8 list room hotels
+[2025-05-15 21:20:15,457] DEBUG in app: Rendering template
+[2025-05-15 21:20:16,440] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:20:21,225] DEBUG in app: Current user in /api/user/info: user_id=26, is_authenticated=True
+[2025-05-15 21:20:21,293] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:20:21,382] DEBUG in app: Current user in /api/user/info: user_id=26, is_authenticated=True
+[2025-05-15 21:20:21,665] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:20:21,668] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:22:02,424] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:22:04,186] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:22:06,215] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:22:07,376] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:22:11,429] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:22:21,621] DEBUG in app: User before login: 26
+[2025-05-15 21:22:21,622] DEBUG in app: Login user successfully, user_id=26
+[2025-05-15 21:22:22,836] DEBUG in app: Starting home route
+[2025-05-15 21:22:22,838] DEBUG in app: Current user: <models.User object at 0x000002ABB4CC3310>
+[2025-05-15 21:22:22,839] DEBUG in app: Executing most picked hotels query
+[2025-05-15 21:22:22,843] DEBUG in app: Processed 5 most picked hotels
+[2025-05-15 21:22:22,843] DEBUG in app: Executing list room hotels query
+[2025-05-15 21:22:22,846] DEBUG in app: Processed 8 list room hotels
+[2025-05-15 21:22:22,846] DEBUG in app: Rendering template
+[2025-05-15 21:22:23,742] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:22:27,548] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:22:27,548] DEBUG in app: Current user in /api/user/info: user_id=26, is_authenticated=True
+[2025-05-15 21:22:27,774] DEBUG in app: Current user in /api/user/info: user_id=26, is_authenticated=True
+[2025-05-15 21:22:28,347] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:22:28,349] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:23:03,657] DEBUG in app: Current user in /api/user/info: user_id=26, is_authenticated=True
+[2025-05-15 21:25:10,442] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:25:10,446] DEBUG in app: Current user in /api/user/info: user_id=26, is_authenticated=True
+[2025-05-15 21:25:10,651] DEBUG in app: Current user in /api/user/info: user_id=26, is_authenticated=True
+[2025-05-15 21:25:10,849] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:25:10,851] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:25:35,432] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:25:51,120] DEBUG in app: User before login: 26
+[2025-05-15 21:25:51,121] DEBUG in app: Login user successfully, user_id=26
+[2025-05-15 21:25:52,360] DEBUG in app: Starting home route
+[2025-05-15 21:25:52,362] DEBUG in app: Current user: <models.User object at 0x000001A7D58813D0>
+[2025-05-15 21:25:52,363] DEBUG in app: Executing most picked hotels query
+[2025-05-15 21:25:52,372] DEBUG in app: Processed 5 most picked hotels
+[2025-05-15 21:25:52,373] DEBUG in app: Executing list room hotels query
+[2025-05-15 21:25:52,381] DEBUG in app: Processed 8 list room hotels
+[2025-05-15 21:25:52,381] DEBUG in app: Rendering template
+[2025-05-15 21:25:53,594] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:25:56,599] DEBUG in app: Current user in /api/user/info: user_id=26, is_authenticated=True
+[2025-05-15 21:25:56,604] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:25:56,782] DEBUG in app: Current user in /api/user/info: user_id=26, is_authenticated=True
+[2025-05-15 21:25:56,972] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:25:56,975] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:26:59,331] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:26:59,333] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:26:59,334] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:26:59,339] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:26:59,343] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:26:59,347] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:26:59,364] DEBUG in app: Current user in /api/user/info: user_id=19, is_authenticated=True
+[2025-05-15 21:26:59,372] DEBUG in app: Current user in /api/user/info: user_id=19, is_authenticated=True
+[2025-05-15 21:26:59,378] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:27:27,498] DEBUG in app: Starting home route
+[2025-05-15 21:27:27,499] DEBUG in app: Current user: None
+[2025-05-15 21:27:27,500] DEBUG in app: Executing most picked hotels query
+[2025-05-15 21:27:27,508] DEBUG in app: Processed 5 most picked hotels
+[2025-05-15 21:27:27,509] DEBUG in app: Executing list room hotels query
+[2025-05-15 21:27:27,516] DEBUG in app: Processed 8 list room hotels
+[2025-05-15 21:27:27,516] DEBUG in app: Rendering template
+[2025-05-15 21:27:28,253] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:27:31,028] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:27:33,484] DEBUG in app: User before login: 19
+[2025-05-15 21:27:33,485] DEBUG in app: Login user successfully, user_id=19
+[2025-05-15 21:27:34,643] DEBUG in app: Starting home route
+[2025-05-15 21:27:34,646] DEBUG in app: Current user: <models.User object at 0x000001A7D58A1F50>
+[2025-05-15 21:27:34,647] DEBUG in app: Executing most picked hotels query
+[2025-05-15 21:27:34,653] DEBUG in app: Processed 5 most picked hotels
+[2025-05-15 21:27:34,653] DEBUG in app: Executing list room hotels query
+[2025-05-15 21:27:34,659] DEBUG in app: Processed 8 list room hotels
+[2025-05-15 21:27:34,660] DEBUG in app: Rendering template
+[2025-05-15 21:27:35,416] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:27:39,919] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:27:39,922] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:27:39,924] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:27:39,991] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:27:39,992] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:27:39,997] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:27:40,211] DEBUG in app: Current user in /api/user/info: user_id=19, is_authenticated=True
+[2025-05-15 21:27:40,219] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:27:40,361] DEBUG in app: Current user in /api/user/info: user_id=19, is_authenticated=True
+[2025-05-15 21:34:33,170] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:34:33,171] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:34:33,171] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:34:33,173] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:34:33,175] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:34:33,179] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:34:33,223] DEBUG in app: Current user in /api/user/info: user_id=19, is_authenticated=True
+[2025-05-15 21:34:33,228] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:34:33,233] DEBUG in app: Current user in /api/user/info: user_id=19, is_authenticated=True
+[2025-05-15 21:35:05,515] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:35:05,516] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:35:05,518] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:35:05,521] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:35:05,526] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:35:05,527] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:35:05,541] DEBUG in app: Current user in /api/user/info: user_id=19, is_authenticated=True
+[2025-05-15 21:35:05,544] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:35:05,551] DEBUG in app: Current user in /api/user/info: user_id=19, is_authenticated=True
+[2025-05-15 21:36:26,187] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:36:26,191] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:36:26,193] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:36:26,236] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:36:26,237] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:36:26,238] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:36:26,359] DEBUG in app: Current user in /api/user/info: user_id=19, is_authenticated=True
+[2025-05-15 21:36:26,359] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:36:26,474] DEBUG in app: Current user in /api/user/info: user_id=19, is_authenticated=True
+[2025-05-15 21:38:45,201] DEBUG in app: Starting home route
+[2025-05-15 21:38:45,202] DEBUG in app: Current user: None
+[2025-05-15 21:38:45,203] DEBUG in app: Executing most picked hotels query
+[2025-05-15 21:38:45,210] DEBUG in app: Processed 5 most picked hotels
+[2025-05-15 21:38:45,210] DEBUG in app: Executing list room hotels query
+[2025-05-15 21:38:45,215] DEBUG in app: Processed 8 list room hotels
+[2025-05-15 21:38:45,216] DEBUG in app: Rendering template
+[2025-05-15 21:38:45,804] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:38:47,871] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:38:58,168] DEBUG in app: User before login: 25
+[2025-05-15 21:38:58,168] DEBUG in app: Login user successfully, user_id=25
+[2025-05-15 21:38:59,282] DEBUG in app: Starting home route
+[2025-05-15 21:38:59,285] DEBUG in app: Current user: <models.User object at 0x000001F6D7BD7150>
+[2025-05-15 21:38:59,286] DEBUG in app: Executing most picked hotels query
+[2025-05-15 21:38:59,292] DEBUG in app: Processed 5 most picked hotels
+[2025-05-15 21:38:59,293] DEBUG in app: Executing list room hotels query
+[2025-05-15 21:38:59,296] DEBUG in app: Processed 8 list room hotels
+[2025-05-15 21:38:59,296] DEBUG in app: Rendering template
+[2025-05-15 21:38:59,688] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:39:02,138] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:39:02,140] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:39:02,142] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:39:02,290] DEBUG in app: Current user in /api/user/info: user_id=25, is_authenticated=True
+[2025-05-15 21:39:02,299] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:39:02,410] DEBUG in app: Current user in /api/user/info: user_id=25, is_authenticated=True
+[2025-05-15 21:39:02,537] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:39:02,541] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:39:05,093] DEBUG in app: Starting home route
+[2025-05-15 21:39:05,093] DEBUG in app: Current user: None
+[2025-05-15 21:39:05,093] DEBUG in app: Executing most picked hotels query
+[2025-05-15 21:39:05,099] DEBUG in app: Processed 5 most picked hotels
+[2025-05-15 21:39:05,099] DEBUG in app: Executing list room hotels query
+[2025-05-15 21:39:05,103] DEBUG in app: Processed 8 list room hotels
+[2025-05-15 21:39:05,103] DEBUG in app: Rendering template
+[2025-05-15 21:39:05,534] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:39:07,395] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:39:22,518] DEBUG in app: User before login: 22
+[2025-05-15 21:39:22,519] DEBUG in app: Login user successfully, user_id=22
+[2025-05-15 21:39:23,635] DEBUG in app: Starting home route
+[2025-05-15 21:39:23,637] DEBUG in app: Current user: <models.User object at 0x000001F6D7BB6790>
+[2025-05-15 21:39:23,637] DEBUG in app: Executing most picked hotels query
+[2025-05-15 21:39:23,642] DEBUG in app: Processed 5 most picked hotels
+[2025-05-15 21:39:23,643] DEBUG in app: Executing list room hotels query
+[2025-05-15 21:39:23,648] DEBUG in app: Processed 8 list room hotels
+[2025-05-15 21:39:23,649] DEBUG in app: Rendering template
+[2025-05-15 21:39:24,065] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:39:26,276] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:39:26,279] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:39:26,433] DEBUG in app: Current user in /api/user/info: user_id=22, is_authenticated=True
+[2025-05-15 21:39:26,443] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:39:26,530] DEBUG in app: Current user in /api/user/info: user_id=22, is_authenticated=True
+[2025-05-15 21:39:30,682] DEBUG in app: Starting home route
+[2025-05-15 21:39:30,686] DEBUG in app: Current user: <models.User object at 0x000001F6D7C0E5D0>
+[2025-05-15 21:39:30,686] DEBUG in app: Executing most picked hotels query
+[2025-05-15 21:39:30,691] DEBUG in app: Processed 5 most picked hotels
+[2025-05-15 21:39:30,691] DEBUG in app: Executing list room hotels query
+[2025-05-15 21:39:30,699] DEBUG in app: Processed 8 list room hotels
+[2025-05-15 21:39:30,700] DEBUG in app: Rendering template
+[2025-05-15 21:39:31,358] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:42:01,200] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:42:01,276] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:42:01,278] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:42:01,279] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:42:01,283] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:42:01,285] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:42:01,451] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:42:01,467] DEBUG in app: Current user in /api/user/info: user_id=19, is_authenticated=True
+[2025-05-15 21:42:01,640] DEBUG in app: Current user in /api/user/info: user_id=19, is_authenticated=True
+[2025-05-15 21:43:22,602] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:43:32,925] DEBUG in app: User before login: 22
+[2025-05-15 21:43:32,926] DEBUG in app: Login user successfully, user_id=22
+[2025-05-15 21:43:34,135] DEBUG in app: Starting home route
+[2025-05-15 21:43:34,141] DEBUG in app: Current user: <models.User object at 0x000002322520F010>
+[2025-05-15 21:43:34,141] DEBUG in app: Executing most picked hotels query
+[2025-05-15 21:43:34,150] DEBUG in app: Processed 5 most picked hotels
+[2025-05-15 21:43:34,152] DEBUG in app: Executing list room hotels query
+[2025-05-15 21:43:34,164] DEBUG in app: Processed 8 list room hotels
+[2025-05-15 21:43:34,165] DEBUG in app: Rendering template
+[2025-05-15 21:43:34,844] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:43:37,042] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:43:37,087] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:43:37,235] DEBUG in app: Current user in /api/user/info: user_id=22, is_authenticated=True
+[2025-05-15 21:43:37,255] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:43:37,423] DEBUG in app: Current user in /api/user/info: user_id=22, is_authenticated=True
+[2025-05-15 21:43:54,860] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:44:02,599] DEBUG in app: User before login: 22
+[2025-05-15 21:44:02,600] DEBUG in app: Login user successfully, user_id=22
+[2025-05-15 21:44:03,740] DEBUG in app: Starting home route
+[2025-05-15 21:44:03,745] DEBUG in app: Current user: <models.User object at 0x000001605BBB5D10>
+[2025-05-15 21:44:03,745] DEBUG in app: Executing most picked hotels query
+[2025-05-15 21:44:03,752] DEBUG in app: Processed 5 most picked hotels
+[2025-05-15 21:44:03,752] DEBUG in app: Executing list room hotels query
+[2025-05-15 21:44:03,757] DEBUG in app: Processed 8 list room hotels
+[2025-05-15 21:44:03,757] DEBUG in app: Rendering template
+[2025-05-15 21:44:04,715] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:44:19,468] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:44:19,505] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:44:19,658] DEBUG in app: Current user in /api/user/info: user_id=22, is_authenticated=True
+[2025-05-15 21:44:19,678] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:44:19,813] DEBUG in app: Current user in /api/user/info: user_id=22, is_authenticated=True
+[2025-05-15 21:45:28,458] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:45:28,463] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:45:28,465] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:45:28,469] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:45:28,526] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:45:28,528] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:45:28,680] DEBUG in app: Current user in /api/user/info: user_id=19, is_authenticated=True
+[2025-05-15 21:45:28,684] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:45:28,823] DEBUG in app: Current user in /api/user/info: user_id=19, is_authenticated=True
+[2025-05-15 21:47:21,002] DEBUG in app: Starting home route
+[2025-05-15 21:47:21,005] DEBUG in app: Current user: <models.User object at 0x000001D084002650>
+[2025-05-15 21:47:21,007] DEBUG in app: Executing most picked hotels query
+[2025-05-15 21:47:21,013] DEBUG in app: Processed 5 most picked hotels
+[2025-05-15 21:47:21,014] DEBUG in app: Executing list room hotels query
+[2025-05-15 21:47:21,019] DEBUG in app: Processed 8 list room hotels
+[2025-05-15 21:47:21,019] DEBUG in app: Rendering template
+[2025-05-15 21:47:21,781] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:47:22,179] DEBUG in app: Starting home route
+[2025-05-15 21:47:22,181] DEBUG in app: Current user: <models.User object at 0x000001D084018710>
+[2025-05-15 21:47:22,182] DEBUG in app: Executing most picked hotels query
+[2025-05-15 21:47:22,187] DEBUG in app: Processed 5 most picked hotels
+[2025-05-15 21:47:22,188] DEBUG in app: Executing list room hotels query
+[2025-05-15 21:47:22,192] DEBUG in app: Processed 8 list room hotels
+[2025-05-15 21:47:22,193] DEBUG in app: Rendering template
+[2025-05-15 21:47:22,945] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:47:25,551] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:47:25,557] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:47:25,709] DEBUG in app: Current user in /api/user/info: user_id=22, is_authenticated=True
+[2025-05-15 21:47:25,845] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:47:25,960] DEBUG in app: Current user in /api/user/info: user_id=22, is_authenticated=True
+[2025-05-15 21:47:29,386] DEBUG in app: Starting home route
+[2025-05-15 21:47:29,389] DEBUG in app: Current user: <models.User object at 0x000001D083FFC8D0>
+[2025-05-15 21:47:29,390] DEBUG in app: Executing most picked hotels query
+[2025-05-15 21:47:29,395] DEBUG in app: Processed 5 most picked hotels
+[2025-05-15 21:47:29,396] DEBUG in app: Executing list room hotels query
+[2025-05-15 21:47:29,399] DEBUG in app: Processed 8 list room hotels
+[2025-05-15 21:47:29,399] DEBUG in app: Rendering template
+[2025-05-15 21:47:30,027] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:47:35,573] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:47:35,575] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:47:35,747] DEBUG in app: Current user in /api/user/info: user_id=22, is_authenticated=True
+[2025-05-15 21:47:35,760] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:47:35,935] DEBUG in app: Current user in /api/user/info: user_id=22, is_authenticated=True
+[2025-05-15 21:47:39,043] DEBUG in app: Starting home route
+[2025-05-15 21:47:39,046] DEBUG in app: Current user: <models.User object at 0x000001D08401B4D0>
+[2025-05-15 21:47:39,047] DEBUG in app: Executing most picked hotels query
+[2025-05-15 21:47:39,051] DEBUG in app: Processed 5 most picked hotels
+[2025-05-15 21:47:39,051] DEBUG in app: Executing list room hotels query
+[2025-05-15 21:47:39,054] DEBUG in app: Processed 8 list room hotels
+[2025-05-15 21:47:39,054] DEBUG in app: Rendering template
+[2025-05-15 21:47:39,962] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:47:42,813] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:47:42,881] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:47:43,087] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:47:43,093] DEBUG in app: Current user in /api/user/info: user_id=22, is_authenticated=True
+[2025-05-15 21:47:43,239] DEBUG in app: Current user in /api/user/info: user_id=22, is_authenticated=True
+[2025-05-15 21:47:58,410] DEBUG in app: Starting home route
+[2025-05-15 21:47:58,414] DEBUG in app: Current user: <models.User object at 0x000001D083FD74D0>
+[2025-05-15 21:47:58,415] DEBUG in app: Executing most picked hotels query
+[2025-05-15 21:47:58,418] DEBUG in app: Processed 5 most picked hotels
+[2025-05-15 21:47:58,419] DEBUG in app: Executing list room hotels query
+[2025-05-15 21:47:58,426] DEBUG in app: Processed 8 list room hotels
+[2025-05-15 21:47:58,426] DEBUG in app: Rendering template
+[2025-05-15 21:47:59,305] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:48:01,805] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:48:02,516] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:48:05,705] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:48:07,076] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:48:09,082] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:48:09,086] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:48:09,397] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:50:26,750] DEBUG in app: Starting home route
+[2025-05-15 21:50:26,752] DEBUG in app: Current user: <models.User object at 0x000001D084091E50>
+[2025-05-15 21:50:26,753] DEBUG in app: Executing most picked hotels query
+[2025-05-15 21:50:26,758] DEBUG in app: Processed 5 most picked hotels
+[2025-05-15 21:50:26,759] DEBUG in app: Executing list room hotels query
+[2025-05-15 21:50:26,765] DEBUG in app: Processed 8 list room hotels
+[2025-05-15 21:50:26,766] DEBUG in app: Rendering template
+[2025-05-15 21:50:27,404] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:50:29,306] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:50:29,319] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:50:29,321] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:50:29,355] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:50:29,356] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:50:29,359] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:50:29,361] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:50:29,546] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:50:29,600] DEBUG in app: Current user in /api/user/info: user_id=19, is_authenticated=True
+[2025-05-15 21:50:29,731] DEBUG in app: Current user in /api/user/info: user_id=19, is_authenticated=True
+[2025-05-15 21:50:39,195] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:50:40,385] DEBUG in app: Starting home route
+[2025-05-15 21:50:40,390] DEBUG in app: Current user: <models.User object at 0x000001D083FFD7D0>
+[2025-05-15 21:50:40,390] DEBUG in app: Executing most picked hotels query
+[2025-05-15 21:50:40,394] DEBUG in app: Processed 5 most picked hotels
+[2025-05-15 21:50:40,394] DEBUG in app: Executing list room hotels query
+[2025-05-15 21:50:40,398] DEBUG in app: Processed 8 list room hotels
+[2025-05-15 21:50:40,399] DEBUG in app: Rendering template
+[2025-05-15 21:50:40,841] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:50:42,172] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:50:42,458] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:54:43,574] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:54:43,578] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:54:43,581] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:54:43,636] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:54:43,637] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:54:43,638] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:54:43,640] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:54:44,181] DEBUG in app: Current user in /api/user/info: user_id=19, is_authenticated=True
+[2025-05-15 21:54:44,197] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:54:44,354] DEBUG in app: Current user in /api/user/info: user_id=19, is_authenticated=True
+[2025-05-15 21:54:47,648] DEBUG in app: Starting home route
+[2025-05-15 21:54:47,650] DEBUG in app: Current user: <models.User object at 0x000001D0840501D0>
+[2025-05-15 21:54:47,651] DEBUG in app: Executing most picked hotels query
+[2025-05-15 21:54:47,655] DEBUG in app: Processed 5 most picked hotels
+[2025-05-15 21:54:47,656] DEBUG in app: Executing list room hotels query
+[2025-05-15 21:54:47,662] DEBUG in app: Processed 8 list room hotels
+[2025-05-15 21:54:47,663] DEBUG in app: Rendering template
+[2025-05-15 21:54:48,441] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:54:58,604] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:55:14,792] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:55:14,794] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:55:31,300] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:55:32,254] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:55:32,574] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:55:43,802] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:55:45,080] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:55:45,082] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:55:45,227] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:57:17,431] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:57:35,839] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:57:35,935] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:57:36,094] DEBUG in app: Current user in /api/user/info: user_id=22, is_authenticated=True
+[2025-05-15 21:57:36,242] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:57:36,315] DEBUG in app: Current user in /api/user/info: user_id=22, is_authenticated=True
+[2025-05-15 21:58:05,104] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:58:06,913] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:58:08,465] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:58:09,034] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:58:13,473] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:58:14,831] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:58:15,888] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:58:17,072] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:58:18,792] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:58:19,547] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:58:42,614] DEBUG in app: Starting home route
+[2025-05-15 21:58:42,617] DEBUG in app: Current user: <models.User object at 0x000001D0841E3390>
+[2025-05-15 21:58:42,618] DEBUG in app: Executing most picked hotels query
+[2025-05-15 21:58:42,623] DEBUG in app: Processed 5 most picked hotels
+[2025-05-15 21:58:42,623] DEBUG in app: Executing list room hotels query
+[2025-05-15 21:58:42,627] DEBUG in app: Processed 8 list room hotels
+[2025-05-15 21:58:42,628] DEBUG in app: Rendering template
+[2025-05-15 21:58:43,471] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:59:43,200] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:59:43,687] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:59:47,629] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:59:47,631] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:59:47,852] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:59:49,652] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:59:50,099] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:59:50,474] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 21:59:51,397] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 22:00:16,104] DEBUG in app: Starting home route
+[2025-05-15 22:00:16,107] DEBUG in app: Current user: <models.User object at 0x000001D0841F5F50>
+[2025-05-15 22:00:16,107] DEBUG in app: Executing most picked hotels query
+[2025-05-15 22:00:16,112] DEBUG in app: Processed 5 most picked hotels
+[2025-05-15 22:00:16,113] DEBUG in app: Executing list room hotels query
+[2025-05-15 22:00:16,118] DEBUG in app: Processed 8 list room hotels
+[2025-05-15 22:00:16,120] DEBUG in app: Rendering template
+[2025-05-15 22:00:17,187] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 22:01:37,013] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 22:01:37,619] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 22:01:39,682] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 22:01:39,689] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 22:01:39,991] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 22:01:41,134] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 22:01:42,619] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 22:01:42,622] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 22:01:42,825] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 22:01:45,780] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 22:01:46,288] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 22:02:44,905] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 22:02:44,909] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 22:02:44,910] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 22:02:44,912] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 22:02:44,919] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 22:02:44,922] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 22:02:44,926] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 22:02:44,945] DEBUG in app: Current user in /api/user/info: user_id=19, is_authenticated=True
+[2025-05-15 22:02:44,946] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 22:02:44,958] DEBUG in app: Current user in /api/user/info: user_id=19, is_authenticated=True
+[2025-05-15 22:05:14,796] DEBUG in app: Starting home route
+[2025-05-15 22:05:14,800] DEBUG in app: Current user: <models.User object at 0x000001D0841E8590>
+[2025-05-15 22:05:14,800] DEBUG in app: Executing most picked hotels query
+[2025-05-15 22:05:14,806] DEBUG in app: Processed 5 most picked hotels
+[2025-05-15 22:05:14,806] DEBUG in app: Executing list room hotels query
+[2025-05-15 22:05:14,812] DEBUG in app: Processed 8 list room hotels
+[2025-05-15 22:05:14,812] DEBUG in app: Rendering template
+[2025-05-15 22:05:16,146] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 22:05:17,562] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 22:05:17,564] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 22:05:17,566] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 22:05:17,566] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 22:05:17,567] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 22:05:17,655] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 22:05:17,658] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 22:05:18,226] DEBUG in app: Current user in /api/user/info: user_id=19, is_authenticated=True
+[2025-05-15 22:05:18,290] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 22:05:18,540] DEBUG in app: Current user in /api/user/info: user_id=19, is_authenticated=True
+[2025-05-15 22:07:22,242] DEBUG in app: Starting home route
+[2025-05-15 22:07:22,244] DEBUG in app: Current user: <models.User object at 0x000001D08409E550>
+[2025-05-15 22:07:22,245] DEBUG in app: Executing most picked hotels query
+[2025-05-15 22:07:22,251] DEBUG in app: Processed 5 most picked hotels
+[2025-05-15 22:07:22,251] DEBUG in app: Executing list room hotels query
+[2025-05-15 22:07:22,257] DEBUG in app: Processed 8 list room hotels
+[2025-05-15 22:07:22,257] DEBUG in app: Rendering template
+[2025-05-15 22:07:23,032] ERROR in app: Unhandled error: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+[2025-05-15 22:07:41,824] DEBUG in app: Starting home route
+[2025-05-15 22:07:41,824] DEBUG in app: Current user: None
+[2025-05-15 22:07:41,825] DEBUG in app: Executing most picked hotels query
+[2025-05-15 22:07:41,829] DEBUG in app: Processed 5 most picked hotels
+[2025-05-15 22:07:41,829] DEBUG in app: Executing list room hotels query
+[2025-05-15 22:07:41,833] DEBUG in app: Processed 8 list room hotels
+[2025-05-15 22:07:41,834] DEBUG in app: Rendering template

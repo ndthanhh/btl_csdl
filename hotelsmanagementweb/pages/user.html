@@ -248,6 +248,159 @@
                 height: 440px;
             }
         }
+
+        .change-password-section {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .change-password-section h3 {
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 18px;
+            text-align: center;
+        }
+
+        .password-form {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .password-form .form-group {
+            margin-bottom: 15px;
+            flex: 0 0 calc(50% - 10px);
+            max-width: calc(50% - 10px);
+        }
+
+        .password-form .form-group:last-child {
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
+
+        .password-form label {
+            display: block;
+            margin-bottom: 5px;
+            color: #666;
+            font-size: 14px;
+            text-align: left;
+        }
+
+        .password-form input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        .password-form input:focus {
+            border-color: #1976d2;
+            outline: none;
+        }
+
+        .change-password-btn {
+            background-color: #1976d2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .change-password-btn:hover {
+            background-color: #1565c0;
+        }
+
+        .change-password-btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 480px) {
+            .password-form .form-group {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+
+            .password-form {
+                padding: 0 20px;
+            }
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 4px;
+            color: white;
+            font-size: 14px;
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .notification.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .notification.success {
+            background-color: #4CAF50;
+        }
+
+        .notification.error {
+            background-color: #f44336;
+        }
+
+        .notification.warning {
+            background-color: #ff9800;
+        }
+
+        .notification.info {
+            background-color: #2196F3;
+        }
+
+        .notification-content {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .notification-content i {
+            font-size: 20px;
+        }
+
+        .transactions-list {
+            max-height: 90%;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+
+        .transactions-list::-webkit-scrollbar {
+            width: 8px;
+            background: #f1f1f1;
+        }
+
+        .transactions-list::-webkit-scrollbar-thumb {
+            background: #bbb;
+            border-radius: 8px;
+        }
     </style>
 </head>
 
@@ -463,6 +616,25 @@
                         </div>
                         <button type="button" class="save-btn">Save Changes</button>
                     </form>
+
+                    <div class="change-password-section">
+                        <h3>Change Password</h3>
+                        <form class="password-form">
+                            <div class="form-group">
+                                <label>Current Password</label>
+                                <input type="password" class="current-password" required />
+                            </div>
+                            <div class="form-group">
+                                <label>New Password</label>
+                                <input type="password" class="new-password" required minlength="6" />
+                            </div>
+                            <div class="form-group">
+                                <label>Confirm New Password</label>
+                                <input type="password" class="confirm-password" required minlength="6" />
+                            </div>
+                            <button type="button" class="change-password-btn">Change Password</button>
+                        </form>
+                    </div>
                 </div>
             </div>
 
@@ -954,7 +1126,7 @@
                         notiCount.textContent = unreadCount;
                         document.querySelector('.dot').classList.toggle('has-noti', unreadCount > 0);
                     } else {
-                        notiList.innerHTML = '<div class="no-notifications">Không có thông báo mới</div>';
+                        notiList.innerHTML = '<div class="no-notifications">No new notifications</div>';
                         notiCount.textContent = '0';
                         document.querySelector('.dot').classList.remove('has-noti');
                     }
@@ -988,7 +1160,7 @@
                             </div>
                         `).join('');
                     } else {
-                        transactionsList.innerHTML = '<div class="no-transactions">Không có giao dịch nào</div>';
+                        transactionsList.innerHTML = '<div class="no-transactions">No transactions found</div>';
                     }
                 })
                 .catch(error => console.error('Error loading transactions:', error));
@@ -1039,36 +1211,51 @@
 
         // Hàm hiển thị thông báo
         function showNotification(message, type = 'info') {
+            // Remove any existing notifications
+            const existingNotifications = document.querySelectorAll('.notification');
+            existingNotifications.forEach(notification => notification.remove());
+
+            // Create new notification
             const notification = document.createElement('div');
             notification.className = `notification ${type}`;
+
+            // Get icon based on type
+            let icon = '';
+            switch (type) {
+                case 'success':
+                    icon = 'fa-check-circle';
+                    break;
+                case 'error':
+                    icon = 'fa-times-circle';
+                    break;
+                case 'warning':
+                    icon = 'fa-exclamation-circle';
+                    break;
+                default:
+                    icon = 'fa-info-circle';
+            }
+
             notification.innerHTML = `
                 <div class="notification-content">
-                    <i class="${getNotificationIcon(type)}"></i>
+                    <i class="fas ${icon}"></i>
                     <span>${message}</span>
                 </div>
             `;
+
             document.body.appendChild(notification);
 
+            // Show notification
             setTimeout(() => {
                 notification.classList.add('show');
             }, 100);
 
+            // Hide and remove notification after 3 seconds
             setTimeout(() => {
                 notification.classList.remove('show');
                 setTimeout(() => {
                     notification.remove();
                 }, 300);
             }, 3000);
-        }
-
-        // Hàm lấy icon cho thông báo
-        function getNotificationIcon(type) {
-            switch (type) {
-                case 'success': return 'fas fa-check-circle';
-                case 'error': return 'fas fa-times-circle';
-                case 'warning': return 'fas fa-exclamation-circle';
-                default: return 'fas fa-info-circle';
-            }
         }
 
         // Hàm kiểm tra và hiển thị menu dựa trên role
@@ -1313,6 +1500,81 @@
             const saveButton = document.querySelector('.save-btn');
             if (saveButton) {
                 saveButton.addEventListener('click', updateAccountInfo);
+            }
+        });
+
+        function changePassword() {
+            const form = document.querySelector('.password-form');
+            const currentPassword = form.querySelector('.current-password').value;
+            const newPassword = form.querySelector('.new-password').value;
+            const confirmPassword = form.querySelector('.confirm-password').value;
+
+            // Validate passwords
+            if (!currentPassword || !newPassword || !confirmPassword) {
+                showNotification('Vui lòng điền đầy đủ thông tin!', 'warning');
+                return;
+            }
+
+            if (newPassword.length < 6) {
+                showNotification('Mật khẩu mới phải có ít nhất 6 ký tự!', 'warning');
+                return;
+            }
+
+            if (newPassword !== confirmPassword) {
+                showNotification('Mật khẩu mới không khớp!', 'warning');
+                return;
+            }
+
+            // Disable button while processing
+            const changeButton = form.querySelector('.change-password-btn');
+            changeButton.disabled = true;
+            changeButton.textContent = 'Đang xử lý...';
+
+            fetch('/api/user/change-password', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    current_password: currentPassword,
+                    new_password: newPassword
+                })
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Có lỗi xảy ra khi kết nối đến server');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        showNotification('Đổi mật khẩu thành công! Vui lòng đăng nhập lại.', 'success');
+                        // Clear form
+                        form.reset();
+                        // Redirect to login page after 2 seconds
+                        setTimeout(() => {
+                            window.location.href = '/login';
+                        }, 2000);
+                    } else {
+                        showNotification(data.message || 'Có lỗi xảy ra khi đổi mật khẩu!', 'error');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showNotification(error.message || 'Có lỗi xảy ra khi đổi mật khẩu!', 'error');
+                })
+                .finally(() => {
+                    // Re-enable button
+                    changeButton.disabled = false;
+                    changeButton.textContent = 'Change Password';
+                });
+        }
+
+        // Add event listener for change password button
+        document.addEventListener('DOMContentLoaded', function () {
+            const changePasswordBtn = document.querySelector('.change-password-btn');
+            if (changePasswordBtn) {
+                changePasswordBtn.addEventListener('click', changePassword);
             }
         });
     </script>

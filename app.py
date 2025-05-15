@@ -4,7 +4,7 @@ from config import engine, Base, get_db
 from sqlalchemy.orm import Session, scoped_session, sessionmaker
 from functools import wraps
 from datetime import datetime, timedelta
-from models import User, Hotel, Room, Service, Review, Booking, Payment, UserRole, RoomImage, UserSecurity
+from models import User, Hotel, Room, Service, Review, Booking, Payment, UserRole, RoomImage, UserSecurity, Notification
 from utils import (
     create_user, verify_user, get_available_rooms, create_booking, 
     create_payment, create_review, get_hotel_by_id, get_room_by_id, 
@@ -493,6 +493,7 @@ def book_room(room_id):
         )
         db_session.add(booking)
         db_session.commit()
+        create_notification(current_user.user_id, 'booking', 'Đặt phòng thành công!')
         return render_template('booking.html',
                              hotel=hotel,
                              room=room,
@@ -1069,13 +1070,13 @@ def payment(booking_id):
             booking_id=bookings.booking_id,
             amount=booking.total_price,
             payment_method=payment_method,
-            status='completed',
+            payment_status='completed',  # Thay đổi từ status thành payment_status
             user_id=current_user.id
         )
         
         db_session.add(payment)
         db_session.commit()
-        
+        create_notification(current_user.user_id, 'payment', 'Thanh toán thành công cho đơn đặt phòng!')
         flash('Payment successful! Your booking is confirmed.', 'success')
         return redirect(url_for('booking_confirmation', booking_id=booking_id))
         
@@ -1389,6 +1390,7 @@ def vnpay_return():
                     'total_price': int(booking.total_price)
                 }
                 send_booking_success_email(user.email, booking_info)
+                create_notification(user.user_id, 'payment', 'Thanh toán thành công cho đơn đặt phòng!')
         else:
             payment.payment_status = 'failed'
             payment.pay_date = datetime.now()
@@ -1398,6 +1400,7 @@ def vnpay_return():
                 if booking:
                     booking.status = 'failed'
                     db_session.commit()
+                    create_notification(booking.user_id, 'payment', 'Thanh toán thất bại hoặc bị hủy!')
         if vnp_ResponseCode == '00':
             message = 'Thanh toán thành công qua VNPAY!'
         else:
@@ -1518,24 +1521,23 @@ def api_user_update():
 @app.route('/api/user/notifications')
 @login_required
 def api_user_notifications():
-    # Giả lập dữ liệu thông báo
-    notifications = [
-        {
-            "id": 1,
-            "message": "Đặt phòng của bạn đã được xác nhận!",
-            "created_at": (datetime.now() - timedelta(minutes=2)).isoformat(),
-            "read": False,
-            "type": "booking"
-        },
-        {
-            "id": 2, 
-            "message": "Ưu đãi đặc biệt: Giảm 20% cho đặt phòng tiếp theo",
-            "created_at": (datetime.now() - timedelta(hours=2)).isoformat(),
-            "read": True,
-            "type": "system"
-        }
-    ]
-    return jsonify({"notifications": notifications})
+    notifications = (
+        db_session.query(Notification)
+        .filter_by(user_id=current_user.user_id)
+        .order_by(Notification.created_at.desc())
+        .limit(20)
+        .all()
+    )
+    result = []
+    for n in notifications:
+        result.append({
+            "id": n.id,
+            "type": n.type,
+            "message": n.message,
+            "read": n.read,
+            "created_at": n.created_at.isoformat()
+        })
+    return jsonify({"notifications": result})
 
 @app.route('/api/user/transactions')
 @login_required
@@ -1858,10 +1860,69 @@ def hotel_payments(hotel_id):
             'amount': float(p.amount) if p.amount else 0,
             'room_type': room_type,
             'created_at': p.created_at.strftime('%Y-%m-%d %H:%M') if p.created_at else '',
-            'status': p.status or 'Pending'
+            'status': p.payment_status or 'Pending'  # Thay đổi từ p.status thành p.payment_status
         })
 
     return jsonify({'payments': result})
+
+@app.route('/api/user/change-password', methods=['POST'])
+@login_required
+def api_change_password():
+    try:
+        data = request.json
+        current_password = data.get('current_password')
+        new_password = data.get('new_password')
+
+        if not current_password or not new_password:
+            return jsonify({
+                'success': False,
+                'message': 'Vui lòng điền đầy đủ thông tin!'
+            }), 400
+
+        # Kiểm tra mật khẩu hiện tại
+        if not check_password_hash(current_user.password, current_password):
+            return jsonify({
+                'success': False,
+                'message': 'Mật khẩu hiện tại không đúng!'
+            }), 401
+
+        # Kiểm tra độ dài mật khẩu mới
+        if len(new_password) < 6:
+            return jsonify({
+                'success': False,
+                'message': 'Mật khẩu mới phải có ít nhất 6 ký tự!'
+            }), 400
+
+        # Cập nhật mật khẩu mới
+        current_user.password = generate_password_hash(new_password)
+        db_session.commit()
+
+        # Đăng xuất user sau khi đổi mật khẩu thành công
+        logout_user()
+
+        return jsonify({
+            'success': True,
+            'message': 'Đổi mật khẩu thành công! Vui lòng đăng nhập lại.'
+        })
+
+    except Exception as e:
+        db_session.rollback()
+        app.logger.error(f"Error changing password: {str(e)}")
+        return jsonify({
+            'success': False,
+            'message': 'Có lỗi xảy ra khi đổi mật khẩu!'
+        }), 500
+
+def create_notification(user_id, type, message):
+    noti = Notification(
+        user_id=user_id,
+        type=type,
+        message=message,
+        read=False,
+        created_at=datetime.now()
+    )
+    db_session.add(noti)
+    db_session.commit()
 
 if __name__ == '__main__':
     try:
