@@ -18,22 +18,23 @@
             padding: 0;
             margin: 0;
             background: transparent;
-            height: auto;
+            height: 93%;
             position: relative;
+            box-sizing: border-box;
         }
 
         .booking-list {
             display: flex;
-            flex-wrap: wrap;
             flex-direction: row;
             gap: 24px;
-            width: 100%;
-            min-height: 100%;
-            height: auto;
+            width: max-content;
+            min-height: 80%;
+            height: 100%;
             align-items: flex-start;
             padding: 0 0 24px 0;
             margin: 0;
             justify-content: flex-start;
+            box-sizing: border-box;
         }
 
         .booking-list::-webkit-scrollbar {
@@ -52,18 +53,17 @@
         }
 
         .card {
-            flex: 1 1 320px;
-            min-width: 280px;
-            max-width: 420px;
-            background: #fff;
-            border-radius: 16px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.1);
+            padding: 0;
+            width: 350px;
+            min-width: 350px;
             overflow: hidden;
+            height: 104%;
             display: flex;
             flex-direction: column;
-            margin-bottom: 0;
-            transition: box-shadow 0.2s, transform 0.2s;
-            height: 600px;
+            font-size: 13px;
         }
 
         .card:hover {
@@ -73,7 +73,7 @@
 
         .card__img {
             position: relative;
-            height: 55%;
+            height: 60%px;
             min-height: 180px;
             width: 100%;
             overflow: hidden;
@@ -101,16 +101,16 @@
         }
 
         .card__info {
-            flex: 1 1 45%;
+            flex: 1 1 auto;
             min-height: 180px;
-            max-height: 260px;
-            overflow-y: auto;
+            max-height: none;
+            overflow-y: visible;
             padding: 18px 18px 18px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: flex-start;
-            font-size: 16px;
+            justify-content: flex-end;
+            font-size: 13px;
             color: #222;
             background: #fff;
             border-top: 1px solid #f0f0f0;
@@ -124,14 +124,14 @@
             border-bottom: 1px solid #eee;
             margin-bottom: 10px;
             padding-bottom: 4px;
-            font-size: 18px;
+            font-size: 15px;
             color: #1a237e;
             width: 100%;
             text-align: center;
         }
 
         .card__info .day {
-            font-size: 15px;
+            font-size: 13px;
             color: #444;
             margin-bottom: 4px;
             width: 100%;
@@ -139,7 +139,7 @@
         }
 
         .card__info .location {
-            font-size: 16px;
+            font-size: 14px;
             color: #222;
             font-weight: 600;
             margin-bottom: 4px;
@@ -148,9 +148,9 @@
         }
 
         .card__info .room-type {
-            font-size: 17px;
+            font-size: 15px;
             color: #1976d2;
-            font-weight: 700;
+            font-weight: 600;
             margin-bottom: 8px;
             margin-top: 2px;
             width: 100%;
@@ -159,7 +159,7 @@
         }
 
         .card__info .address {
-            font-size: 15px;
+            font-size: 13px;
             color: #666;
             margin-bottom: 4px;
             width: 100%;
@@ -170,7 +170,7 @@
             color: #ff5722;
             font-weight: bold;
             margin-top: 16px;
-            font-size: 22px;
+            font-size: 18px;
             width: 100%;
             text-align: center;
             letter-spacing: 0.5px;
@@ -207,7 +207,8 @@
             }
 
             .card {
-                max-width: 340px;
+                width: 340px;
+                min-width: 340px;
                 height: 520px;
             }
         }
@@ -218,60 +219,33 @@
             }
 
             .card {
-                max-width: 320px;
-                height: 480px;
+                width: 320px;
+                min-width: 320px;
+                height: 500px;
             }
         }
 
         @media (max-width: 700px) {
             .booking-list {
-                flex-direction: column;
-                flex-wrap: nowrap;
                 gap: 16px;
-                align-items: center;
-                justify-content: center;
             }
 
             .card {
-                min-width: 90vw;
-                max-width: 98vw;
-                width: 100%;
-                height: auto;
-            }
-
-            .card__img {
-                min-height: 140px;
-                height: 180px;
-            }
-
-            .card__info {
-                min-height: 120px;
-                max-height: none;
-                font-size: 15px;
-                padding: 12px 8px 12px;
+                width: 300px;
+                min-width: 300px;
+                height: 480px;
             }
         }
 
         @media (max-width: 480px) {
             .booking-list {
-                gap: 8px;
+                gap: 12px;
             }
 
             .card {
-                min-width: 98vw;
-                max-width: 100vw;
-                height: auto;
-                border-radius: 10px;
-            }
-
-            .card__img {
-                min-height: 100px;
-                height: 120px;
-            }
-
-            .card__info {
-                font-size: 14px;
-                padding: 8px 4px 8px;
+                width: 280px;
+                min-width: 280px;
+                height: 440px;
             }
         }
     </style>
@@ -280,29 +254,52 @@
 <body>
     <div class="container">
         <div class="menu">
-            <div class="logo">
+            <a href="{{ url_for('home') }}" class="logo" style="text-decoration: none;">
                 <span class="logo-light">HaNoi</span><span class="logo-bold">Booking.</span>
-            </div>
+            </a>
             <div class="menu__func">
-                <div class="func1 active" onclick="switchSection('bookings')">
+                <!-- Menu cho Customer -->
+                <div class="func1 active" onclick="switchSection('bookings')" data-role="customer">
                     <i class="fa-solid fa-file-invoice"></i>
                     <p class="func-title">Bookings</p>
                 </div>
-                <div class="func2" onclick="switchSection('transactions')">
+                <div class="func2" onclick="switchSection('transactions')" data-role="customer">
                     <i class="fa-solid fa-credit-card"></i>
                     <p class="func-title">Transactions</p>
                 </div>
-                <div class="func3" onclick="switchSection('account')">
+                <div class="func3" onclick="switchSection('account')" data-role="customer">
                     <i class="fa-solid fa-id-badge"></i>
-                    <p class="func-title">Your Account</p>
+                    <p class="func-title">Account</p>
                 </div>
-                <div class="func4">
+                <div class="func4" data-role="customer">
                     <i class="fa-solid fa-circle-info"></i>
                     <p class="func-title">Help</p>
                 </div>
-                <div class="func5">
+                <div class="func5" data-role="customer">
                     <i class="fa-solid fa-message"></i>
-                    <p class="func-title">Message</p>
+                    <p class="func-title">Messages</p>
+                </div>
+
+                <!-- Menu cho Owner -->
+                <div class="func1" onclick="switchSection('booking-history')" data-role="owner">
+                    <i class="fa-solid fa-history"></i>
+                    <p class="func-title">Booking History</p>
+                </div>
+                <div class="func2" onclick="switchSection('room-management')" data-role="owner">
+                    <i class="fa-solid fa-bed"></i>
+                    <p class="func-title">Room Management</p>
+                </div>
+                <div class="func3" onclick="switchSection('dashboard')" data-role="owner">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <p class="func-title">Dashboard</p>
+                </div>
+                <div class="func4" onclick="switchSection('hotel-rooms')" data-role="owner">
+                    <i class="fa-solid fa-hotel"></i>
+                    <p class="func-title">Payment History</p>
+                </div>
+                <div class="func5" onclick="switchSection('account')" data-role="owner">
+                    <i class="fa-solid fa-id-badge"></i>
+                    <p class="func-title">Account</p>
                 </div>
             </div>
         </div>
@@ -354,7 +351,10 @@
                     <div class="vector"></div>
 
                     <div class="user-box" onclick="toggleDropdown()">
-                        <div class="avatar"></div>
+                        <div class="avatar">
+                            <img src="https://ui-avatars.com/api/?name={{ current_user.full_name or current_user.username }}&background=random"
+                                alt="Avatar" style="width: 40px; height: 40px; border-radius: 50%;">
+                        </div>
                         <div class="user-info">
                             <div class="user-name"></div>
                             <div class="user-role"></div>
@@ -362,9 +362,10 @@
                         <i class="fa-solid fa-chevron-down"></i>
 
                         <div class="dropdown" id="userDropdown">
-                            <a href="#"><i class="fa-regular fa-calendar-check"></i>My Booking</a>
+                            <!-- <a href="#"><i class="fa-regular fa-calendar-check"></i>My Booking</a> -->
                             <div class="dropdown-divider"></div>
-                            <a href="#" class="logout"><i class="fa-solid fa-right-from-bracket"></i>Log out</a>
+                            <a href="{{ url_for('logout') }}" class="logout"><i
+                                    class="fa-solid fa-right-from-bracket"></i>Logout</a>
                         </div>
                     </div>
                 </div>
@@ -464,6 +465,101 @@
                     </form>
                 </div>
             </div>
+
+            <!-- Booking History Section -->
+            <div id="booking-history" class="content-section">
+                <h2 class="list-title">Booking History</h2>
+                <div class="booking-list-outer">
+                    <div class="booking-list booking-history-list">
+                        <!-- Content will be loaded dynamically -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Room Management Section -->
+            <div id="room-management" class="content-section">
+                <h2 class="list-title">Room Management</h2>
+                <div class="booking-list-outer">
+                    <div class="booking-list room-list">
+                        <!-- Room list will be loaded dynamically -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Section -->
+            <div id="dashboard" class="content-section">
+                <h2 class="list-title">Dashboard</h2>
+                <div id="ownerHotelList" style="margin-bottom: 20px;"></div>
+                <div class="dashboard-content">
+                    <div class="stats-cards">
+                        <div class="stat-card">
+                            <i class="fa-solid fa-hotel"></i>
+                            <div class="stat-info">
+                                <h3>Total Hotels</h3>
+                                <p id="totalHotels">0</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fa-solid fa-bed"></i>
+                            <div class="stat-info">
+                                <h3>Total Rooms</h3>
+                                <p id="totalRooms">0</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fa-solid fa-calendar-day"></i>
+                            <div class="stat-info">
+                                <h3>Today's Bookings</h3>
+                                <p id="todayBookings">0</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fa-solid fa-calendar-check"></i>
+                            <div class="stat-info">
+                                <h3>Total Bookings</h3>
+                                <p id="totalBookings">0</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fa-solid fa-money-bill-wave"></i>
+                            <div class="stat-info">
+                                <h3>Total Revenue</h3>
+                                <p id="totalRevenue">0₫</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fa-solid fa-coins"></i>
+                            <div class="stat-info">
+                                <h3>Day Revenue</h3>
+                                <p id="monthlyRevenue">0₫</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="charts-container" style="display: flex; gap: 32px; margin-top: 32px; flex-wrap: wrap;">
+                        <div class="chart-wrapper" style="flex: 1; min-width: 320px;">
+                            <h3>Revenue by Day</h3>
+                            <canvas id="revenueChart"></canvas>
+                        </div>
+                        <div class="chart-wrapper" style="flex: 1; min-width: 320px;">
+                            <h3>Bookings by Day</h3>
+                            <canvas id="bookingsChart"></canvas>
+                        </div>
+                        <div class="chart-wrapper" style="flex: 1; min-width: 320px;">
+                            <h3>Booking Status Rate</h3>
+                            <canvas id="statusChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hotel Rooms Section -->
+            <div id="hotel-rooms" class="content-section">
+                <h2 class="list-title">Payment History</h2>
+                <div id="paymentHistoryHotelList" style="margin-bottom: 20px;"></div>
+                <div class="payment-history-content">
+                    <div id="paymentHistoryTableWrapper"></div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -483,20 +579,61 @@
             // Hiển thị section được chọn
             document.getElementById(sectionId).style.display = 'block';
 
+            // Xác định role hiện tại dựa trên menu đang hiển thị
+            let currentRole = 'customer';
+            const visibleMenu = Array.from(document.querySelectorAll('.menu__func > div')).find(item => item.style.display !== 'none');
+            if (visibleMenu && visibleMenu.getAttribute('data-role') === 'owner') {
+                currentRole = 'owner';
+            }
+
             // Thêm active class cho menu item được chọn
             let activeClass = '';
-            switch (sectionId) {
-                case 'bookings':
-                    activeClass = 'func1';
-                    break;
-                case 'transactions':
-                    activeClass = 'func2';
-                    break;
-                case 'account':
-                    activeClass = 'func3';
-                    break;
+            if (currentRole === 'customer') {
+                switch (sectionId) {
+                    case 'bookings':
+                        activeClass = 'func1';
+                        break;
+                    case 'transactions':
+                        activeClass = 'func2';
+                        break;
+                    case 'account':
+                        activeClass = 'func3';
+                        break;
+                    case 'help':
+                        activeClass = 'func4';
+                        break;
+                    case 'message':
+                        activeClass = 'func5';
+                        break;
+                }
+            } else if (currentRole === 'owner') {
+                switch (sectionId) {
+                    case 'booking-history':
+                        activeClass = 'func1';
+                        loadOwnerBookingHistory();
+                        break;
+                    case 'room-management':
+                        activeClass = 'func2';
+                        loadOwnerRoomTypes();
+                        break;
+                    case 'dashboard':
+                        activeClass = 'func3';
+                        loadOwnerDashboardStats();
+                        break;
+                    case 'hotel-rooms':
+                        activeClass = 'func4';
+                        break;
+                    case 'account':
+                        activeClass = 'func5';
+                        break;
+                }
             }
-            document.querySelector('.' + activeClass).classList.add('active');
+            if (activeClass) {
+                // Chỉ set active cho menu đang hiển thị
+                const menuItem = Array.from(document.querySelectorAll('.menu__func > div'))
+                    .find(item => item.classList.contains(activeClass) && item.style.display !== 'none');
+                if (menuItem) menuItem.classList.add('active');
+            }
         }
 
         // Hàm xử lý thông báo
@@ -618,6 +755,20 @@
                         document.querySelector('.account-form .input-fullname').value = data.full_name || '';
                         document.querySelector('.account-form input[type="email"]').value = data.email || '';
                         document.querySelector('.account-form input[type="tel"]').value = data.phone || '';
+                    }
+
+                    // Ẩn/hiện menu theo role và tự động mở tab đầu tiên
+                    const role = data.role;
+                    const allMenuItems = document.querySelectorAll('.menu__func > div');
+                    allMenuItems.forEach(item => {
+                        const itemRole = item.getAttribute('data-role');
+                        item.style.display = (itemRole === role) ? 'flex' : 'none';
+                    });
+                    // Tự động mở tab đầu tiên của role
+                    if (role === 'owner') {
+                        switchSection('booking-history');
+                    } else {
+                        switchSection('bookings');
                     }
                 })
                 .catch(error => {
@@ -920,13 +1071,243 @@
             }
         }
 
+        // Hàm kiểm tra và hiển thị menu dựa trên role
+        function updateMenuByRole(role) {
+            const menuItems = document.querySelectorAll('.menu__func > div');
+            menuItems.forEach(item => {
+                const itemRole = item.getAttribute('data-role');
+                if (itemRole === role) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // Hàm load thông tin khách sạn
+        function loadHotelInfo() {
+            fetch('/api/hotel/info')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('hotelName').value = data.name || '';
+                    document.getElementById('hotelAddress').value = data.address || '';
+                    document.getElementById('hotelDescription').value = data.description || '';
+                })
+                .catch(error => console.error('Error loading hotel info:', error));
+        }
+
+        // Hàm cập nhật thông tin khách sạn
+        function updateHotelInfo() {
+            const formData = {
+                name: document.getElementById('hotelName').value,
+                address: document.getElementById('hotelAddress').value,
+                description: document.getElementById('hotelDescription').value
+            };
+
+            fetch('/api/hotel/update', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showNotification('Cập nhật thông tin khách sạn thành công!', 'success');
+                    } else {
+                        showNotification('Có lỗi xảy ra khi cập nhật thông tin!', 'error');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showNotification('Có lỗi xảy ra khi cập nhật thông tin!', 'error');
+                });
+        }
+
+        // Hàm load thống kê
+        function loadDashboardStats() {
+            fetch('/api/hotel/dashboard')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('totalRooms').textContent = data.totalRooms || 0;
+                    document.getElementById('todayBookings').textContent = data.todayBookings || 0;
+                    document.getElementById('monthlyRevenue').textContent = formatPrice(data.monthlyRevenue || 0);
+                    document.getElementById('averageRating').textContent = (data.averageRating || 0).toFixed(1);
+
+                    // Vẽ biểu đồ doanh thu
+                    const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+                    new Chart(revenueCtx, {
+                        type: 'line',
+                        data: {
+                            labels: data.revenueChart.labels,
+                            datasets: [{
+                                label: 'Doanh thu',
+                                data: data.revenueChart.data,
+                                borderColor: '#1976d2',
+                                tension: 0.1
+                            }]
+                        }
+                    });
+
+                    // Vẽ biểu đồ tỷ lệ đặt phòng
+                    const bookingCtx = document.getElementById('bookingRateChart').getContext('2d');
+                    new Chart(bookingCtx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['Đã đặt', 'Còn trống'],
+                            datasets: [{
+                                data: [data.bookingRate.occupied, data.bookingRate.available],
+                                backgroundColor: ['#43a047', '#e0e0e0']
+                            }]
+                        }
+                    });
+                })
+                .catch(error => console.error('Error loading dashboard stats:', error));
+        }
+
+        // Hàm load booking history cho owner
+        function loadOwnerBookingHistory() {
+            fetch('/api/owner/booking-history')
+                .then(response => response.json())
+                .then(data => {
+                    const historyList = document.querySelector('.booking-history-list');
+                    if (!historyList) return;
+                    if (data.bookings && data.bookings.length > 0) {
+                        historyList.innerHTML = data.bookings.map(b => {
+                            const nights = b.nights || (b.check_in && b.check_out ? calculateDays(b.check_in, b.check_out) : 1);
+                            return `
+                                <div class="card">
+                                    <div class="card__img">
+                                        <img src="${b.image_url || '/assets/image/default-room.webp'}" alt="Room Image">
+                                    </div>
+                                    <div class="card__info">
+                                        <div class="date"><b>${b.check_in} - ${b.check_out}</b></div>
+                                        <div class="day">${nights} Night(s)</div>
+                                        <div class="location">${b.hotel_name || ''}</div>
+                                        <div class="room-type">${b.room_type || ''}</div>
+                                        <div class="address">Booked by: ${b.booked_by || ''}</div>
+                                        <div class="address">Rooms: ${b.num_rooms || 1}</div>
+                                        <div class="address">Created: ${b.created_at || ''}</div>
+                                        <div class="total-price">Total: ${formatPrice(b.total_price)}</div>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('');
+                    } else {
+                        historyList.innerHTML = '<div class="no-bookings">No booking history found.</div>';
+                    }
+                })
+                .catch(error => {
+                    const historyList = document.querySelector('.booking-history-list');
+                    if (historyList) historyList.innerHTML = '<div class="no-bookings">Error loading booking history.</div>';
+                });
+        }
+
+        // Hàm load các hạng phòng mà owner quản lý
+        function loadOwnerRoomTypes() {
+            fetch('/api/owner/room-types')
+                .then(response => response.json())
+                .then(data => {
+                    const roomList = document.querySelector('#room-management .room-list');
+                    if (!roomList) return;
+                    if (data.rooms && data.rooms.length > 0) {
+                        roomList.innerHTML = data.rooms.map(r => `
+                            <div class="card">
+                                <div class="card__img">
+                                    <img src="${r.image_url || '/assets/image/default-room.webp'}" alt="Room Image">
+                                </div>
+                                <div class="card__info">
+                                    <div class="room-type"><b>${r.room_type}</b></div>
+                                    <div class="location">Hotel: ${r.hotel_name}</div>
+                                    <div class="address">Available: ${r.availableRooms}</div>
+                                </div>
+                            </div>
+                        `).join('');
+                    } else {
+                        roomList.innerHTML = '<div class="no-bookings">No room types found.</div>';
+                    }
+                })
+                .catch(error => {
+                    const roomList = document.querySelector('#room-management .room-list');
+                    if (roomList) roomList.innerHTML = '<div class="no-bookings">Error loading room types.</div>';
+                });
+        }
+
+        // Hàm load thống kê dashboard cho owner
+        function loadOwnerDashboardStats() {
+            fetch('/api/owner/dashboard')
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById('totalHotels').textContent = data.total_hotels || 0;
+                    document.getElementById('totalRooms').textContent = data.total_rooms || 0;
+                    document.getElementById('totalBookings').textContent = data.total_bookings || 0;
+                    document.getElementById('totalRevenue').textContent = formatPrice(data.total_revenue || 0);
+                    // Hiển thị danh sách khách sạn
+                    const hotelList = document.getElementById('ownerHotelList');
+                    if (hotelList && data.hotels) {
+                        hotelList.innerHTML = data.hotels.map(h => `
+                            <button class="hotel-btn" onclick="loadHotelDashboard(${h.hotel_id}, '${h.hotel_name.replace(/'/g, "\\'")}')">${h.hotel_name}</button>
+                        `).join('');
+                    }
+                })
+                .catch(err => console.error('Error loading dashboard:', err));
+        }
+        function loadHotelDashboard(hotelId, hotelName) {
+            fetch(`/api/hotel/${hotelId}/dashboard`)
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById('totalHotels').textContent = hotelName;
+                    document.getElementById('totalRooms').textContent = data.total_rooms || 0;
+                    document.getElementById('totalBookings').textContent = data.total_bookings || 0;
+                    document.getElementById('totalRevenue').textContent = formatPrice(data.total_revenue || 0);
+                })
+                .catch(err => console.error('Error loading hotel dashboard:', err));
+        }
+
         // Cập nhật khởi tạo trang
         document.addEventListener('DOMContentLoaded', function () {
             loadUserInfo();
-            loadBookings();
+
+            // Lấy role từ /api/user/info thay vì /api/user/role
+            fetch('/api/user/info')
+                .then(response => response.json())
+                .then(data => {
+                    const role = (data.role || '').toLowerCase();
+                    updateMenuByRole(role === 'owner' ? 'owner' : 'customer');
+                    if (role === 'owner') {
+                        loadHotelInfo();
+                        loadDashboardStats();
+                    } else {
+                        loadBookings();
+                        loadTransactions();
+                    }
+
+                    // Tự động chuyển section phù hợp với role
+                    setTimeout(function () {
+                        const firstMenu = Array.from(document.querySelectorAll('.menu__func > div')).find(item => item.style.display !== 'none');
+                        if (firstMenu) {
+                            let sectionId = '';
+                            if (firstMenu.getAttribute('data-role') === 'customer') {
+                                sectionId = 'bookings';
+                            } else if (firstMenu.getAttribute('data-role') === 'owner') {
+                                sectionId = 'booking-history';
+                            }
+                            if (sectionId) switchSection(sectionId);
+                        }
+                    }, 0);
+                })
+                .catch(error => {
+                    console.error('Error loading user info:', error);
+                    updateMenuByRole('customer');
+                    loadBookings();
+                    loadTransactions();
+                    setTimeout(function () {
+                        switchSection('bookings');
+                    }, 0);
+                });
+
             loadNotifications();
-            loadTransactions();
-            switchSection('bookings');
 
             // Thêm event listener cho nút Save Changes
             const saveButton = document.querySelector('.save-btn');
@@ -935,6 +1316,8 @@
             }
         });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/js/user.js"></script>
 </body>
 
 </html>

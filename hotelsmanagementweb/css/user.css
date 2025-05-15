@@ -29,6 +29,12 @@ body {
     align-items: center;
     padding-top: 20px;
     padding-bottom: 50px;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+.logo:hover {
+    opacity: 0.8;
 }
 
 .logo-light {
@@ -335,7 +341,7 @@ i {
     height: 40px;
     border-radius: 50%;
     background-color: #ddd;
-    background-image: url(../assets/image/user/0aacbc30-50a5-43c9-9aee-df502c44a5f9.jpg);
+    /* background-image: url(../assets/image/user/0aacbc30-50a5-43c9-9aee-df502c44a5f9.jpg); */
     object-fit: cover;
     background-size: cover;
     background-repeat: no-repeat;
@@ -486,7 +492,7 @@ i {
     position: relative;
     width: 100%;
     height: clamp(200px, 50%, 300px);
-    background-image: url(../assets/image/detailroom/95980877.jpg);
+    /* background-image: url(../assets/image/detailroom/95980877.jpg); */
     background-size: cover;
     background-position: center;
     margin-bottom: 8px;
@@ -961,4 +967,344 @@ i {
 
 .save-btn:hover {
     background-color: #2952cc;
+}
+
+/* --- Dashboard Stat Cards & Charts - Modern Style --- */
+.stats-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 28px;
+    justify-content: flex-start;
+    align-items: stretch;
+}
+
+.stat-card {
+    background: linear-gradient(135deg, #f8fafc 60%, #e3f0ff 100%);
+    border-radius: 14px;
+    box-shadow: 0 2px 12px rgba(25, 118, 210, 0.08);
+    padding: 18px 12px;
+    min-width: 120px;
+    flex: 1 1 140px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 180px;
+    transition: box-shadow 0.2s, transform 0.2s;
+    cursor: pointer;
+    border: 1px solid #e3eafc;
+}
+
+.stat-card:hover {
+    box-shadow: 0 8px 32px rgba(25, 118, 210, 0.14);
+    transform: translateY(-4px) scale(1.03);
+    border-color: #b6d0ff;
+    background: linear-gradient(135deg, #e3f0ff 60%, #f8fafc 100%);
+}
+
+.stat-card i {
+    font-size: 1.7rem;
+    color: #1976d2;
+    background: #e3f0ff;
+    border-radius: 50%;
+    padding: 8px;
+    margin-right: 0;
+    box-shadow: 0 1px 4px rgba(25, 118, 210, 0.06);
+}
+
+.stat-card:hover i {
+    background: #d0e3ff;
+}
+
+.stat-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.stat-info h3 {
+    font-size: 0.98rem;
+    margin: 0 0 3px 0;
+    color: #1a237e;
+    font-weight: 600;
+    letter-spacing: 0.1px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.stat-info p {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin: 0;
+    color: #1976d2;
+    letter-spacing: 0.2px;
+    text-shadow: 0 1px 0 #e3f0ff;
+    word-break: break-all;
+    text-align: left;
+    line-height: 1.1;
+    max-width: 100%;
+    overflow-wrap: break-word;
+}
+
+/* Charts container: 3 biểu đồ nằm ngang, tự xuống dòng khi nhỏ */
+.charts-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 36px;
+    justify-content: flex-start;
+    align-items: stretch;
+}
+
+.chart-wrapper {
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 2px 12px rgba(25, 118, 210, 0.10);
+    padding: 28px 18px 18px 18px;
+    flex: 1 1 340px;
+    min-width: 320px;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1.5px solid #e3eafc;
+    transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.chart-wrapper:hover {
+    box-shadow: 0 8px 32px rgba(25, 118, 210, 0.14);
+    border-color: #b6d0ff;
+}
+
+.chart-wrapper h3 {
+    font-size: 1.13rem;
+    margin-bottom: 14px;
+    color: #1976d2;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+}
+
+.chart-wrapper canvas {
+    width: 100% !important;
+    max-width: 440px;
+    height: 270px !important;
+    margin: 0 auto;
+    background: #f8fafc;
+    border-radius: 12px;
+    box-shadow: 0 1px 4px rgba(25, 118, 210, 0.04);
+}
+
+/* Responsive cho mobile/tablet */
+@media (max-width: 1100px) {
+
+    .stats-cards,
+    .charts-container {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .stat-card,
+    .chart-wrapper {
+        max-width: 100%;
+        min-width: 0;
+    }
+
+    .chart-wrapper canvas {
+        max-width: 100%;
+        height: 200px !important;
+    }
+}
+
+@media (max-width: 900px) {
+    .stats-cards {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .stat-card {
+        max-width: 100%;
+        min-width: 0;
+    }
+}
+
+#ownerHotelList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 18px;
+    justify-content: flex-start;
+}
+
+.hotel-btn {
+    background: linear-gradient(135deg, #e3f0ff 60%, #f8fafc 100%);
+    color: #1976d2;
+    border: 1.5px solid #b6d0ff;
+    border-radius: 22px;
+    padding: 8px 22px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.18s, color 0.18s, box-shadow 0.18s, border-color 0.18s;
+    box-shadow: 0 2px 8px rgba(25, 118, 210, 0.06);
+    outline: none;
+    white-space: nowrap;
+    max-width: 100vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.hotel-btn:hover,
+.hotel-btn.active {
+    background: linear-gradient(135deg, #1976d2 60%, #43a047 100%);
+    color: #fff;
+    border-color: #1976d2;
+    box-shadow: 0 4px 16px rgba(25, 118, 210, 0.13);
+}
+
+@media (max-width: 700px) {
+    #ownerHotelList {
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .hotel-btn {
+        font-size: 0.95rem;
+        padding: 7px 12px;
+        max-width: 90vw;
+    }
+}
+
+/* Payment History Table Styles */
+.payment-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(25, 118, 210, 0.07);
+    margin: 0 auto 32px auto;
+    font-size: 15px;
+    min-width: 320px;
+    max-width: 100%;
+}
+
+.payment-table th,
+.payment-table td {
+    padding: 12px 10px;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.payment-table th {
+    background: #1976d2;
+    color: #fff;
+    font-weight: 600;
+    font-size: 1rem;
+    border-bottom: 2px solid #1565c0;
+}
+
+.payment-table tr:nth-child(even) {
+    background: #f5f7fa;
+}
+
+.payment-table tr:hover {
+    background: #e3f2fd;
+}
+
+.payment-table td {
+    color: #222;
+    font-size: 0.98rem;
+    max-width: 180px;
+}
+
+@media (max-width: 700px) {
+
+    .payment-table th,
+    .payment-table td {
+        font-size: 13px;
+        padding: 8px 4px;
+    }
+
+    .payment-table td {
+        max-width: 90px;
+    }
+}
+
+.loading,
+.no-data,
+.error {
+    text-align: center;
+    color: #1976d2;
+    font-size: 1.1rem;
+    padding: 32px 0;
+}
+
+.payment-history-content {
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.payment-history-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.payment-history-table th,
+.payment-history-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.payment-history-table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: #333;
+}
+
+.payment-history-table tr:hover {
+    background-color: #f8f9fa;
+}
+
+.status-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+.status-badge.pending {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.status-badge.completed {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.status-badge.failed {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.loading,
+.error,
+.no-data {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+}
+
+.error {
+    color: #dc3545;
+}
+
+.no-data {
+    color: #6c757d;
 }

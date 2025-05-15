@@ -145,9 +145,9 @@
         <span>HaNoi</span><span>Booking.</span>
     </a>
     <ul class="nav">
-        <li>About Us</li>
-        <li>Contact Us</li>
-        <li><a href="{{ url_for('my_bookings') }}" style="text-decoration:none;color:inherit;">My booking</a></li>
+        <li onclick="scrollToAboutUs()">About Us</li>
+        <li onclick="scrollToContact()">Contact Us</li>
+        <li><a href="{{ url_for('user_profile') }}" style="text-decoration:none;color:inherit;">My booking</a></li>
         {% if current_user and current_user.is_authenticated %}
         <div class="user-profile-dropdown">
             <button onclick="toggleDropdown()" class="profile-button">
@@ -169,6 +169,20 @@
     </ul>
 </div>
 <script>
+    function scrollToAboutUs() {
+        const footer = document.getElementById('about-us');
+        if (footer) {
+            footer.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+
+    function scrollToContact() {
+        const contact = document.getElementById('contact-us');
+        if (contact) {
+            contact.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+
     function toggleDropdown() {
         var dropdown = document.getElementById('profileDropdown');
         dropdown.classList.toggle('show');

@@ -682,8 +682,8 @@ def logout():
 @login_required
 def user_profile():
     user = current_user
-    # Lấy danh sách booking, sắp xếp theo check_in tăng dần (sớm nhất lên đầu)
-    bookings = db_session.query(Booking).filter_by(user_id=user.user_id).order_by(Booking.check_in.asc()).all()
+    # Lấy danh sách booking, sắp xếp theo thời gian tạo mới nhất lên đầu
+    bookings = db_session.query(Booking).filter_by(user_id=user.user_id).order_by(Booking.created_at.desc()).all()
     # Thêm image_url cho mỗi booking
     for b in bookings:
         room_image = db_session.execute(
@@ -1419,17 +1419,19 @@ def api_user_info():
     if not current_user.is_authenticated:
         return jsonify({"error": "Not authenticated"}), 401
     return jsonify({
+        "user_id": current_user.user_id,
         "username": current_user.username,
-        "full_name": current_user.full_name,
         "email": current_user.email,
+        "full_name": current_user.full_name,
         "phone": current_user.phone,
-        "role": str(current_user.role)
+        "role": current_user.role.name.lower()  # đảm bảo trả về 'owner', 'customer'
     })
 
 @app.route('/api/user/bookings')
 @login_required
 def api_user_bookings():
-    bookings = db_session.query(Booking).filter_by(user_id=current_user.user_id).all()
+    # Sắp xếp theo thời gian tạo mới nhất
+    bookings = db_session.query(Booking).filter_by(user_id=current_user.user_id).order_by(Booking.created_at.desc()).all()
     result = []
     for b in bookings:
         # Lấy thông tin phòng
@@ -1458,7 +1460,7 @@ def api_user_bookings():
             "hotel_name": hotel_name,
             "hotel_address": hotel_address,
             "room_id": b.room_id,
-            "room_type": room_type,  # Thêm trường này
+            "room_type": room_type,
             "check_in": b.check_in.strftime('%Y-%m-%d') if b.check_in else '',
             "check_out": b.check_out.strftime('%Y-%m-%d') if b.check_out else '',
             "total_price": float(b.total_price) if b.total_price else 0,
@@ -1628,6 +1630,238 @@ def debug_session():
         "session_keys": list(session.keys())
     }
     return jsonify(result)
+
+@app.route('/api/owner/booking-history')
+@login_required
+def api_owner_booking_history():
+    # Chỉ cho phép owner
+    if not hasattr(current_user, 'role') or current_user.role.name.lower() != 'owner':
+        return jsonify({'error': 'Permission denied'}), 403
+    # Lấy tất cả khách sạn của owner
+    hotels = db_session.query(Hotel).filter_by(owner_id=current_user.user_id).all()
+    hotel_ids = [h.hotel_id for h in hotels]
+    # Lấy tất cả phòng thuộc các khách sạn này
+    rooms = db_session.query(Room).filter(Room.hotel_id.in_(hotel_ids)).all()
+    room_id_to_hotel = {room.room_id: room.hotel_id for room in rooms}
+    room_id_to_type = {room.room_id: room.room_type for room in rooms}
+    hotel_id_to_name = {hotel.hotel_id: hotel.hotel_name for hotel in hotels}
+    room_ids = list(room_id_to_hotel.keys())
+    # Lấy tất cả booking của các phòng này
+    bookings = db_session.query(Booking).filter(Booking.room_id.in_(room_ids)).order_by(Booking.created_at.desc()).all()
+    result = []
+    for b in bookings:
+        hotel_id = room_id_to_hotel.get(b.room_id)
+        # Lấy tên người book
+        user = db_session.query(User).filter_by(user_id=b.user_id).first()
+        booked_by = user.full_name if user and user.full_name else (user.username if user else '')
+        # Lấy ảnh phòng
+        room_image = db_session.execute(
+            text("SELECT image_path FROM room_images WHERE room_id = :room_id LIMIT 1"),
+            {"room_id": b.room_id}
+        ).fetchone()
+        image_url = '/assets/image/default-room.webp'
+        if room_image and room_image[0]:
+            image_url = room_image[0]
+            if 'hotelsmanagementweb' in image_url:
+                image_url = image_url[image_url.index('hotelsmanagementweb')+len('hotelsmanagementweb'):]
+            if not image_url.startswith('/'):
+                image_url = '/' + image_url
+        # Số đêm
+        nights = 1
+        if b.check_in and b.check_out:
+            nights = (b.check_out - b.check_in).days
+        result.append({
+            'hotel_name': hotel_id_to_name.get(hotel_id, ''),
+            'room_type': room_id_to_type.get(b.room_id, ''),
+            'check_in': b.check_in.strftime('%Y-%m-%d') if b.check_in else '',
+            'check_out': b.check_out.strftime('%Y-%m-%d') if b.check_out else '',
+            'status': b.status,
+            'total_price': float(b.total_price) if b.total_price else 0,
+            'booked_by': booked_by,
+            'num_rooms': b.num_rooms,
+            'nights': nights,
+            'created_at': b.created_at.strftime('%Y-%m-%d %H:%M') if b.created_at else '',
+            'image_url': image_url
+        })
+    return jsonify({'bookings': result})
+
+@app.route('/api/owner/room-types')
+@login_required
+def api_owner_room_types():
+    # Chỉ cho phép owner
+    if not hasattr(current_user, 'role') or current_user.role.name.lower() != 'owner':
+        return jsonify({'error': 'Permission denied'}), 403
+    # Lấy tất cả khách sạn của owner
+    hotels = db_session.query(Hotel).filter_by(owner_id=current_user.user_id).all()
+    hotel_ids = [h.hotel_id for h in hotels]
+    hotel_id_to_name = {hotel.hotel_id: hotel.hotel_name for hotel in hotels}
+    # Lấy tất cả phòng thuộc các khách sạn này
+    rooms = db_session.query(Room).filter(Room.hotel_id.in_(hotel_ids)).all()
+    result = []
+    for r in rooms:
+        # Lấy ảnh phòng
+        room_image = db_session.execute(
+            text("SELECT image_path FROM room_images WHERE room_id = :room_id LIMIT 1"),
+            {"room_id": r.room_id}
+        ).fetchone()
+        image_url = '/assets/image/default-room.webp'
+        if room_image and room_image[0]:
+            image_url = room_image[0]
+            if 'hotelsmanagementweb' in image_url:
+                image_url = image_url[image_url.index('hotelsmanagementweb')+len('hotelsmanagementweb'):]
+            if not image_url.startswith('/'):
+                image_url = '/' + image_url
+        result.append({
+            'room_type': r.room_type,
+            'hotel_name': hotel_id_to_name.get(r.hotel_id, ''),
+            'availableRooms': r.availableRooms,
+            'image_url': image_url
+        })
+    return jsonify({'rooms': result})
+
+@app.route('/api/owner/dashboard')
+@login_required
+def owner_dashboard():
+    if not hasattr(current_user, 'role') or current_user.role.name.lower() != 'owner':
+        return jsonify({'error': 'Unauthorized'}), 403
+    hotels = db_session.query(Hotel).filter_by(owner_id=current_user.user_id).all()
+    hotel_ids = [h.hotel_id for h in hotels]
+    total_rooms = db_session.query(Room).filter(Room.hotel_id.in_(hotel_ids)).count()
+    total_bookings = db_session.query(Booking).join(Room).filter(Room.hotel_id.in_(hotel_ids)).count()
+    total_revenue = db_session.query(func.sum(Payment.amount)).join(Booking).join(Room).filter(
+        Room.hotel_id.in_(hotel_ids)).scalar() or 0
+    now = datetime.now()
+    monthly_revenue = db_session.query(func.sum(Payment.amount)).join(Booking).join(Room).filter(
+        Room.hotel_id.in_(hotel_ids),
+        func.extract('month', Payment.created_at) == now.month,
+        func.extract('year', Payment.created_at) == now.year
+    ).scalar() or 0
+    return jsonify({
+        'total_hotels': len(hotels),
+        'total_rooms': total_rooms,
+        'total_bookings': total_bookings,
+        'total_revenue': float(total_revenue),
+        'monthly_revenue': float(monthly_revenue),
+        'hotels': [
+            {'hotel_id': h.hotel_id, 'hotel_name': h.hotel_name}
+            for h in hotels
+        ]
+    })
+
+@app.route('/api/hotel/<int:hotel_id>/dashboard')
+@login_required
+def hotel_dashboard(hotel_id):
+    hotel = db_session.query(Hotel).filter_by(hotel_id=hotel_id, owner_id=current_user.user_id).first()
+    if not hotel:
+        return jsonify({'error': 'Unauthorized'}), 403
+    total_rooms = db_session.query(Room).filter_by(hotel_id=hotel_id).count()
+    room_ids = [r.room_id for r in db_session.query(Room).filter_by(hotel_id=hotel_id).all()]
+    total_bookings = db_session.query(Booking).filter(Booking.room_id.in_(room_ids)).count() if room_ids else 0
+    total_revenue = db_session.query(func.sum(Payment.amount)).join(Booking).filter(
+        Booking.room_id.in_(room_ids)).scalar() or 0
+
+    # Thống kê lượt đặt hôm nay
+    today = datetime.now().date()
+    today_bookings = db_session.query(Booking).filter(
+        Booking.room_id.in_(room_ids),
+        func.date(Booking.check_in) == today
+    ).count() if room_ids else 0
+
+    # Thống kê doanh thu tháng này
+    now = datetime.now()
+    monthly_revenue = db_session.query(func.sum(Payment.amount)).join(Booking).filter(
+        Booking.room_id.in_(room_ids),
+        func.extract('month', Payment.created_at) == now.month,
+        func.extract('year', Payment.created_at) == now.year
+    ).scalar() or 0
+
+    # Thống kê doanh thu và lượt đặt theo 30 ngày gần nhất
+    from datetime import timedelta
+    days = []
+    day_labels = []
+    for i in range(29, -1, -1):
+        day = now - timedelta(days=i)
+        days.append(day.date())
+        day_labels.append(day.strftime('%d/%m'))
+
+    revenue_per_day = []
+    bookings_per_day = []
+    for day in days:
+        revenue = db_session.query(func.sum(Payment.amount)).join(Booking).filter(
+            Booking.room_id.in_(room_ids),
+            func.date(Payment.created_at) == day
+        ).scalar() or 0
+        revenue_per_day.append(float(revenue))
+        booking_count = db_session.query(Booking).filter(
+            Booking.room_id.in_(room_ids),
+            func.date(Booking.created_at) == day
+        ).count()
+        bookings_per_day.append(booking_count)
+
+    # Tỷ lệ trạng thái đặt phòng
+    status_counts = db_session.query(Booking.status, func.count(Booking.booking_id)).filter(
+        Booking.room_id.in_(room_ids)
+    ).group_by(Booking.status).all()
+    status_dict = {s: c for s, c in status_counts}
+    status_labels = ['success', 'pending', 'failed']
+    status_data = [status_dict.get(s, 0) for s in status_labels]
+
+    return jsonify({
+        'total_rooms': total_rooms,
+        'total_bookings': total_bookings,
+        'total_revenue': float(total_revenue),
+        'today_bookings': today_bookings,
+        'monthly_revenue': float(monthly_revenue),
+        'charts': {
+            'revenue': {
+                'labels': day_labels,
+                'data': revenue_per_day
+            },
+            'bookings': {
+                'labels': day_labels,
+                'data': bookings_per_day
+            },
+            'status': {
+                'labels': status_labels,
+                'data': status_data
+            }
+        }
+    })
+
+@app.route('/api/hotel/<int:hotel_id>/payments')
+@login_required
+def hotel_payments(hotel_id):
+    if not current_user.is_owner:
+        return jsonify({'error': 'Unauthorized'}), 403
+
+    hotel = db_session.query(Hotel).filter_by(hotel_id=hotel_id, owner_id=current_user.user_id).first()
+    if not hotel:
+        return jsonify({'error': 'Hotel not found'}), 404
+
+    # Join Booking và Room để lọc theo hotel_id
+    payments = (
+        db_session.query(Payment, Booking, Room)
+        .join(Booking, Payment.booking_id == Booking.booking_id)
+        .join(Room, Booking.room_id == Room.room_id)
+        .filter(Room.hotel_id == hotel_id)
+        .all()
+    )
+
+    result = []
+    for p, b, r in payments:
+        payer = db_session.query(User).filter_by(user_id=b.user_id).first()
+        payer_name = payer.full_name if payer else 'Unknown'
+        room_type = r.room_type if r else 'Unknown'
+        result.append({
+            'payment_id': p.payment_id,
+            'payer_name': payer_name,
+            'amount': float(p.amount) if p.amount else 0,
+            'room_type': room_type,
+            'created_at': p.created_at.strftime('%Y-%m-%d %H:%M') if p.created_at else '',
+            'status': p.status or 'Pending'
+        })
+
+    return jsonify({'payments': result})
 
 if __name__ == '__main__':
     try:
