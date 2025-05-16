@@ -620,6 +620,10 @@
                 <span>Room rate (per night)</span>
                 <span id="room_rate">{{ "{:,.0f}".format(room.price) }} VND</span>
             </div>
+            <div class="price-row">
+                <span>Discount (10%)</span>
+                <span id="discount">-{{ "{:,.0f}".format(room.price * 0.10) }} VND</span>
+            </div>
             <div class="price-row with-controls">
                 <div class="price-label">Number of rooms</div>
                 <div class="price-control">
@@ -638,11 +642,11 @@
             </div>
             <div class="price-row">
                 <span>Taxes & fees (5%)</span>
-                <span id="taxes">{{ "{:,.0f}".format(room.price * 0.05) }} VND</span>
+                <span id="taxes">{{ "{:,.0f}".format(room.price * 0.9 * 0.05) }} VND</span>
             </div>
             <div class="price-row total-price">
                 <span>Total price</span>
-                <span id="total_amount">{{ "{:,.0f}".format(room.price * 1.05) }} VND</span>
+                <span id="total_amount">{{ "{:,.0f}".format(room.price * 0.9 * 1.05) }} VND</span>
             </div>
 
             <form id="bookingForm" action="/book_and_pay/{{ room.room_id }}" method="POST">
@@ -779,12 +783,19 @@
                     currentNights + ' night' + (currentNights > 1 ? 's' : '');
 
                 // Update prices
-                const subtotal = parseFloat(pricePerNight) * currentRooms * currentNights;
-                const taxes = subtotal * 0.05;
-                const total = subtotal + taxes;
+                const pricePerNight = parseFloat("{{ room.price }}");
+                const subtotal = pricePerNight * currentRooms * currentNights;
+                const discount = subtotal * 0.10;
+                const discountedSubtotal = subtotal - discount;
+                // Thuế/phí luôn là 10% giá phòng 1 đêm (sau giảm giá), không nhân số phòng/số đêm
+                const taxPerNight = pricePerNight * 0.9 * 0.05;
+                const taxes = taxPerNight;
+                const total = discountedSubtotal + taxes;
 
                 document.getElementById('room_rate').textContent =
-                    parseFloat(pricePerNight).toLocaleString('vi-VN') + ' VND';
+                    pricePerNight.toLocaleString('vi-VN') + ' VND';
+                document.getElementById('discount').textContent =
+                    '-' + discount.toLocaleString('vi-VN') + ' VND';
                 document.getElementById('taxes').textContent =
                     taxes.toLocaleString('vi-VN') + ' VND';
                 document.getElementById('total_amount').textContent =
@@ -816,7 +827,15 @@
                 document.getElementById('form_check_out').value = checkOut.toISOString().split('T')[0];
                 document.getElementById('form_num_rooms').value = currentRooms;
                 document.getElementById('form_num_nights').value = currentNights;
-                document.getElementById('form_total_price').value = (parseFloat(pricePerNight) * currentRooms * currentNights * 1.05).toFixed(2);
+                // Tổng tiền đã giảm giá và cộng thuế
+                const pricePerNight = parseFloat("{{ room.price }}");
+                const subtotal = pricePerNight * currentRooms * currentNights;
+                const discount = subtotal * 0.10;
+                const discountedSubtotal = subtotal - discount;
+                const taxPerNight = pricePerNight * 0.9 * 0.10;
+                const taxes = taxPerNight;
+                const total = discountedSubtotal + taxes;
+                document.getElementById('form_total_price').value = total.toFixed(2);
             });
 
             // --- Gallery Modal Logic ---
@@ -916,6 +935,20 @@
     <script id="roomImagesData" type="application/json">
         {{ (room_images|map(attribute='image_path')|list if room_images is defined and room_images else ['/hotelsmanagementweb/assets/image/default-room.jpg']) | tojson }}
     </script>
+
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+        var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+        (function () {
+            var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+            s1.async = true;
+            s1.src = 'https://embed.tawk.to/6826bd708ec535190f11a681/1irbl80k7';
+            s1.charset = 'UTF-8';
+            s1.setAttribute('crossorigin', '*');
+            s0.parentNode.insertBefore(s1, s0);
+        })();
+    </script>
+    <!--End of Tawk.to Script-->
 </body>
 
 </html>

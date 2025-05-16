@@ -755,7 +755,7 @@ body {
 /* Amenities Styles */
 .amenities {
     padding: 50px 200px;
-    background-color: #fff;
+    /* background-color: white; */
 }
 
 .section-title {
@@ -942,7 +942,7 @@ body {
 
 .rooms-section {
     padding: 50px 200px;
-    background-color: #f8f9fa;
+    background-color: #fff;
 }
 
 .rooms-container {

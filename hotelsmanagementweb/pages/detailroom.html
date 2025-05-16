@@ -176,6 +176,36 @@
     </div>
     </div>
 
+    <!-- Hotel Location Section (after Available Rooms) -->
+    <div class="hotel-location-section">
+        <div class="hotel-location-info">
+            <div class="hotel-contact">
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <span>{{ hotel.tel }}</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>{{ hotel.address_hotel }}</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-star"></i>
+                    <span>{{ hotel.rating }} / 10</span>
+                </div>
+            </div>
+            <div class="hotel-map">
+                {% if latitude and longitude %}
+                <iframe width="100%" height="300" frameborder="0" style="border:0; border-radius: 12px;"
+                    src="https://maps.google.com/maps?q={{ latitude }},{{ longitude }}&z=15&output=embed"
+                    allowfullscreen>
+                </iframe>
+                {% else %}
+                <div style="color: #888; text-align: center; padding: 40px;">Location not available</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
     <div class="amenities">
         <h2 class="section-title">Amenities & Facilities</h2>
         <div class="amenities-grid">
@@ -858,6 +888,87 @@
                 margin-bottom: 30px;
             }
         }
+
+        .hotel-location-section {
+            padding: 20px 200px;
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+
+        .hotel-location-info {
+            display: flex;
+            gap: 40px;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            padding: 32px;
+            align-items: center;
+        }
+
+        .hotel-contact {
+            flex: 3;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            font-size: 18px;
+            color: #222;
+            min-width: 180px;
+            max-width: 300px;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 17px;
+            color: #333;
+            justify-content: center;
+            text-align: center;
+            width: 100%;
+        }
+
+        .contact-item i {
+            color: #3366ff;
+            font-size: 20px;
+            min-width: 24px;
+        }
+
+        .hotel-map {
+            flex: 7;
+            min-width: 300px;
+            max-width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @media (max-width: 1200px) {
+            .hotel-location-section {
+                padding: 20px 50px;
+            }
+
+            .hotel-location-info {
+                flex-direction: column;
+                gap: 24px;
+            }
+
+            .hotel-map {
+                min-width: unset;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hotel-location-section {
+                padding: 20px 10px;
+            }
+
+            .hotel-location-info {
+                padding: 16px;
+            }
+        }
     </style>
 
     <script>
@@ -1038,6 +1149,19 @@
             });
         }
     </script>
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+        var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+        (function () {
+            var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+            s1.async = true;
+            s1.src = 'https://embed.tawk.to/6826bd708ec535190f11a681/1irbl80k7';
+            s1.charset = 'UTF-8';
+            s1.setAttribute('crossorigin', '*');
+            s0.parentNode.insertBefore(s1, s0);
+        })();
+    </script>
+    <!--End of Tawk.to Script-->
 </body>
 
 </html>

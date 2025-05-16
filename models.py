@@ -184,4 +184,10 @@ class Notification(Base):
     type = Column(String(50))
     message = Column(String(255))
     read = Column(Boolean, default=False)
-    created_at = Column(DateTime, default=datetime.utcnow) 
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+class HotelLocation(Base):
+    __tablename__ = 'hotel_locations'
+    hotel_id = Column(Integer, ForeignKey('hotels.hotel_id'), primary_key=True)
+    latitude = Column(Float)
+    longitude = Column(Float) 

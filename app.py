@@ -4,7 +4,7 @@ from config import engine, Base, get_db
 from sqlalchemy.orm import Session, scoped_session, sessionmaker
 from functools import wraps
 from datetime import datetime, timedelta
-from models import User, Hotel, Room, Service, Review, Booking, Payment, UserRole, RoomImage, UserSecurity, Notification
+from models import User, Hotel, Room, Service, Review, Booking, Payment, UserRole, RoomImage, UserSecurity, Notification, HotelLocation
 from utils import (
     create_user, verify_user, get_available_rooms, create_booking, 
     create_payment, create_review, get_hotel_by_id, get_room_by_id, 
@@ -480,7 +480,7 @@ def book_room(room_id):
         num_rooms = int(request.form.get('num_rooms', 1))
         num_nights = int(request.form.get('num_nights', 1))
         total_price = float(request.form.get('total_price', 0))
-        # Tạo booking mới
+        # Lưu thẳng total_price, không giảm giá nữa
         booking = Booking(
             user_id=current_user.user_id,
             room_id=room_id,
@@ -657,12 +657,19 @@ def hotel_details(hotel_id):
         else:
             first_room_dict = None
         
+        # Lấy vị trí
+        location = db_session.query(HotelLocation).filter_by(hotel_id=hotel_id).first()
+        latitude = location.latitude if location else None
+        longitude = location.longitude if location else None
+        
         return render_template('detailroom.html', 
                              hotel=hotel,
                              images=hotel_image_urls,
                              rooms=processed_rooms,
                              room=first_room_dict,
-                             reviews=reviews)
+                             reviews=reviews,
+                             latitude=latitude,
+                             longitude=longitude)
                              
     except Exception as e:
         app.logger.error(f"Error in hotel_details: {str(e)}")
@@ -1603,11 +1610,10 @@ def book_and_pay(room_id):
     check_out = datetime.strptime(request.form.get('check_out'), '%Y-%m-%d')
     num_rooms = int(request.form.get('num_rooms', 1))
     total_price = float(request.form.get('total_price', 0))
-    # Kiểm tra số phòng còn lại
+    # Lưu thẳng total_price, không giảm giá nữa
     room = db_session.query(Room).filter_by(room_id=room_id).first()
     if not room or room.availableRooms is None or room.availableRooms < num_rooms:
         return "Not enough rooms available", 400
-    # Tạo booking mới
     booking = Booking(
         user_id=current_user.user_id,
         room_id=room_id,
@@ -1620,7 +1626,6 @@ def book_and_pay(room_id):
     )
     db_session.add(booking)
     db_session.commit()
-    # Chuyển sang thanh toán VNPAY (POST sang /vnpay_pay)
     html = f'''
     <form id="payForm" action="/vnpay_pay" method="POST">
         <input type="hidden" name="booking_id" value="{booking.booking_id}">
