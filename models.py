@@ -184,6 +184,4 @@ class Notification(Base):
     type = Column(String(50))
     message = Column(String(255))
     read = Column(Boolean, default=False)
-    created_at = Column(DateTime, default=datetime.utcnow)
-
-    user = relationship("User", backref="notifications") 
+    created_at = Column(DateTime, default=datetime.utcnow) 

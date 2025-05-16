@@ -386,20 +386,72 @@
             font-size: 20px;
         }
 
-        .transactions-list {
+        .transactions-list-outer {
             max-height: 90%;
             overflow-y: auto;
-            padding-right: 8px;
+            margin-bottom: 16px;
         }
 
-        .transactions-list::-webkit-scrollbar {
-            width: 8px;
-            background: #f1f1f1;
+        .help-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .transactions-list::-webkit-scrollbar-thumb {
-            background: #bbb;
-            border-radius: 8px;
+        .help-popup-content {
+            background: #fff;
+            border-radius: 12px;
+            padding: 32px 28px 24px 28px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+            position: relative;
+            animation: fadeIn 0.3s;
+        }
+
+        .help-close {
+            position: absolute;
+            top: 12px;
+            right: 18px;
+            font-size: 24px;
+            color: #888;
+            cursor: pointer;
+        }
+
+        .help-popup-content h2 {
+            margin-top: 0;
+            color: #1976d2;
+            font-size: 22px;
+            margin-bottom: 18px;
+        }
+
+        .help-popup-content ul {
+            padding-left: 18px;
+            margin: 0;
+        }
+
+        .help-popup-content li {
+            margin-bottom: 12px;
+            font-size: 15px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
@@ -424,7 +476,7 @@
                     <i class="fa-solid fa-id-badge"></i>
                     <p class="func-title">Account</p>
                 </div>
-                <div class="func4" data-role="customer">
+                <div class="func4" data-role="customer" onclick="openHelpPopup()">
                     <i class="fa-solid fa-circle-info"></i>
                     <p class="func-title">Help</p>
                 </div>
@@ -476,24 +528,7 @@
                                 <span class="noti-count">1</span>
                             </div>
                             <div class="noti-list">
-                                <div class="noti-item unread">
-                                    <div class="noti-icon">
-                                        <i class="fa-solid fa-circle-check"></i>
-                                    </div>
-                                    <div class="noti-content">
-                                        <p class="noti-text">Your booking has been confirmed!</p>
-                                        <span class="noti-time">2 minutes ago</span>
-                                    </div>
-                                </div>
-                                <div class="noti-item">
-                                    <div class="noti-icon">
-                                        <i class="fa-solid fa-tag"></i>
-                                    </div>
-                                    <div class="noti-content">
-                                        <p class="noti-text">Special offer: Get 20% off on your next booking</p>
-                                        <span class="noti-time">2 hours ago</span>
-                                    </div>
-                                </div>
+                                <!-- Notifications will be loaded here by JavaScript -->
                             </div>
                             <div class="noti-footer">
                                 <a href="#">View all notifications</a>
@@ -570,30 +605,33 @@
             <!-- Transactions Section -->
             <div id="transactions" class="content-section">
                 <h2 class="list-title">Transaction History</h2>
-                <div class="transactions-list">
-                    {% if transactions and transactions|length > 0 %}
-                    {% for t in transactions %}
-                    <div class="transaction-card">
-                        <div class="transaction-header">
-                            <div class="transaction-date">{{ t.created_at.strftime('%Y-%m-%d') if t.created_at else ''
-                                }}</div>
-                            <div class="transaction-id">#{{ t.txn_ref or t.payment_id }}</div>
+                <div class="transactions-list-outer">
+                    <div class="transactions-list">
+                        {% if transactions and transactions|length > 0 %}
+                        {% for t in transactions %}
+                        <div class="transaction-card">
+                            <div class="transaction-header">
+                                <div class="transaction-date">{{ t.created_at.strftime('%Y-%m-%d') if t.created_at else
+                                    ''
+                                    }}</div>
+                                <div class="transaction-id">#{{ t.txn_ref or t.payment_id }}</div>
+                            </div>
+                            <div class="transaction-amount">{{ t.amount }} VND</div>
+                            <div class="transaction-info">
+                                <div class="transaction-hotel">{{ t.booking.hotel.hotel_name if t.booking and
+                                    t.booking.hotel else '' }}</div>
+                                <div class="transaction-nights">{{ (t.booking.check_out - t.booking.check_in).days if
+                                    t.booking and t.booking.check_in and t.booking.check_out else 1 }} nights</div>
+                            </div>
+                            <span class="transaction-status status-{{ t.payment_status|lower }}">
+                                {{ t.payment_status|capitalize }}
+                            </span>
                         </div>
-                        <div class="transaction-amount">{{ t.amount }} VND</div>
-                        <div class="transaction-info">
-                            <div class="transaction-hotel">{{ t.booking.hotel.hotel_name if t.booking and
-                                t.booking.hotel else '' }}</div>
-                            <div class="transaction-nights">{{ (t.booking.check_out - t.booking.check_in).days if
-                                t.booking and t.booking.check_in and t.booking.check_out else 1 }} nights</div>
-                        </div>
-                        <span class="transaction-status status-{{ t.payment_status|lower }}">
-                            {{ t.payment_status|capitalize }}
-                        </span>
+                        {% endfor %}
+                        {% else %}
+                        <div class="no-transactions">No transactions found</div>
+                        {% endif %}
                     </div>
-                    {% endfor %}
-                    {% else %}
-                    <div class="no-transactions">No transactions found</div>
-                    {% endif %}
                 </div>
             </div>
 
@@ -732,6 +770,23 @@
                     <div id="paymentHistoryTableWrapper"></div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Help Popup -->
+    <div id="helpPopup" class="help-popup" style="display:none;">
+        <div class="help-popup-content">
+            <span class="help-close" onclick="closeHelpPopup()">&times;</span>
+            <h2>Help & Support</h2>
+            <ul>
+                <li><b>How to book a room?</b><br>Go to the hotel, select a room, choose your dates, and click "Book
+                    Now".</li>
+                <li><b>How to view my bookings?</b><br>Click on the "Bookings" menu to see your booking history.</li>
+                <li><b>How to contact support?</b><br>Email: <a
+                        href="mailto:support@hanoibooking.com">support@hanoibooking.com</a> or call: 0123-456-789.</li>
+                <li><b>How to change my password?</b><br>Go to "Account" &rarr; "Change Password".</li>
+            </ul>
+            <p style="margin-top:16px;">If you need further assistance, please contact our support team.</p>
         </div>
     </div>
 
@@ -1108,7 +1163,6 @@
                 .then(data => {
                     const notiList = document.querySelector('.noti-list');
                     const notiCount = document.querySelector('.noti-count');
-
                     if (data.notifications && data.notifications.length > 0) {
                         notiList.innerHTML = data.notifications.map(noti => `
                             <div class="noti-item ${noti.read ? '' : 'unread'}">
@@ -1121,7 +1175,7 @@
                                 </div>
                             </div>
                         `).join('');
-
+                        // Count unread notifications
                         const unreadCount = data.notifications.filter(n => !n.read).length;
                         notiCount.textContent = unreadCount;
                         document.querySelector('.dot').classList.toggle('has-noti', unreadCount > 0);
@@ -1160,7 +1214,7 @@
                             </div>
                         `).join('');
                     } else {
-                        transactionsList.innerHTML = '<div class="no-transactions">No transactions found</div>';
+                        transactionsList.innerHTML = '<div class="no-transactions">Không có giao dịch nào</div>';
                     }
                 })
                 .catch(error => console.error('Error loading transactions:', error));
@@ -1201,12 +1255,11 @@
             const date = new Date(dateString);
             const now = new Date();
             const diffInSeconds = Math.floor((now - date) / 1000);
-
-            if (diffInSeconds < 60) return 'Vừa xong';
-            if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} phút trước`;
-            if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)} giờ trước`;
-            if (diffInSeconds < 604800) return `${Math.floor(diffInSeconds / 86400)} ngày trước`;
-            return date.toLocaleDateString('vi-VN');
+            if (diffInSeconds < 60) return 'Just now';
+            if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} minutes ago`;
+            if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)} hours ago`;
+            if (diffInSeconds < 604800) return `${Math.floor(diffInSeconds / 86400)} days ago`;
+            return date.toLocaleDateString('en-US');
         }
 
         // Hàm hiển thị thông báo
@@ -1575,6 +1628,20 @@
             const changePasswordBtn = document.querySelector('.change-password-btn');
             if (changePasswordBtn) {
                 changePasswordBtn.addEventListener('click', changePassword);
+            }
+        });
+
+        function openHelpPopup() {
+            document.getElementById('helpPopup').style.display = 'flex';
+        }
+        function closeHelpPopup() {
+            document.getElementById('helpPopup').style.display = 'none';
+        }
+        // Đóng popup khi click ra ngoài
+        window.addEventListener('click', function (event) {
+            var popup = document.getElementById('helpPopup');
+            if (popup && event.target === popup) {
+                closeHelpPopup();
             }
         });
     </script>

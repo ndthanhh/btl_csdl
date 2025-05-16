@@ -493,7 +493,6 @@ def book_room(room_id):
         )
         db_session.add(booking)
         db_session.commit()
-        create_notification(current_user.user_id, 'booking', 'Đặt phòng thành công!')
         return render_template('booking.html',
                              hotel=hotel,
                              room=room,
@@ -1076,7 +1075,7 @@ def payment(booking_id):
         
         db_session.add(payment)
         db_session.commit()
-        create_notification(current_user.user_id, 'payment', 'Thanh toán thành công cho đơn đặt phòng!')
+        
         flash('Payment successful! Your booking is confirmed.', 'success')
         return redirect(url_for('booking_confirmation', booking_id=booking_id))
         
@@ -1357,7 +1356,6 @@ def send_booking_success_email(user_email, booking_info):
 def vnpay_return():
     vnp_ResponseCode = request.args.get('vnp_ResponseCode')
     vnp_TxnRef = request.args.get('vnp_TxnRef')
-    from models import Payment, Booking, User, Hotel, Room
     payment = db_session.query(Payment).filter_by(txn_ref=vnp_TxnRef).first()
     if not payment:
         return "Không tìm thấy giao dịch thanh toán (txn_ref) trong hệ thống!", 404
@@ -1390,7 +1388,23 @@ def vnpay_return():
                     'total_price': int(booking.total_price)
                 }
                 send_booking_success_email(user.email, booking_info)
-                create_notification(user.user_id, 'payment', 'Thanh toán thành công cho đơn đặt phòng!')
+                # Thêm notification booking thành công
+                notification1 = Notification(
+                    user_id=booking.user_id,
+                    type='booking',
+                    message='Your booking has been confirmed!',
+                    read=False
+                )
+                db_session.add(notification1)
+                # Thêm notification thanh toán thành công
+                notification2 = Notification(
+                    user_id=booking.user_id,
+                    type='payment',
+                    message='Your payment was successful!',
+                    read=False
+                )
+                db_session.add(notification2)
+                db_session.commit()
         else:
             payment.payment_status = 'failed'
             payment.pay_date = datetime.now()
@@ -1400,7 +1414,6 @@ def vnpay_return():
                 if booking:
                     booking.status = 'failed'
                     db_session.commit()
-                    create_notification(booking.user_id, 'payment', 'Thanh toán thất bại hoặc bị hủy!')
         if vnp_ResponseCode == '00':
             message = 'Thanh toán thành công qua VNPAY!'
         else:
@@ -1521,13 +1534,7 @@ def api_user_update():
 @app.route('/api/user/notifications')
 @login_required
 def api_user_notifications():
-    notifications = (
-        db_session.query(Notification)
-        .filter_by(user_id=current_user.user_id)
-        .order_by(Notification.created_at.desc())
-        .limit(20)
-        .all()
-    )
+    notifications = db_session.query(Notification).filter_by(user_id=current_user.user_id).order_by(Notification.created_at.desc()).all()
     result = []
     for n in notifications:
         result.append({
@@ -1535,7 +1542,7 @@ def api_user_notifications():
             "type": n.type,
             "message": n.message,
             "read": n.read,
-            "created_at": n.created_at.isoformat()
+            "created_at": n.created_at.isoformat() if n.created_at else ''
         })
     return jsonify({"notifications": result})
 
@@ -1912,17 +1919,6 @@ def api_change_password():
             'success': False,
             'message': 'Có lỗi xảy ra khi đổi mật khẩu!'
         }), 500
-
-def create_notification(user_id, type, message):
-    noti = Notification(
-        user_id=user_id,
-        type=type,
-        message=message,
-        read=False,
-        created_at=datetime.now()
-    )
-    db_session.add(noti)
-    db_session.commit()
 
 if __name__ == '__main__':
     try:
