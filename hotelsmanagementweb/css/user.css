@@ -512,6 +512,13 @@ i {
     flex: 1;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.card__info>* {
+    text-align: center !important;
+    width: 100%;
 }
 
 .card__name {
@@ -1307,4 +1314,150 @@ i {
 
 .no-data {
     color: #6c757d;
+}
+
+#booking-history .card__info {
+    align-items: center !important;
+}
+
+#booking-history .card__info>.total-price,
+#booking-history .card__info>.date {
+    text-align: center !important;
+    width: 100%;
+}
+
+#booking-history .card__info>.payment-status {
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+#booking-history .card__info>.payment-status.status-success {
+    color: #43a047;
+}
+
+#booking-history .card__info>.payment-status.status-pending {
+    color: #ffc107;
+}
+
+#booking-history .card__info>.payment-status.status-failed {
+    color: #e53935;
+}
+
+#booking-history .card__img {
+    position: relative;
+}
+
+#booking-history .card__img .payment-status {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: #1976d2;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 20px;
+    z-index: 3;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.10);
+    text-align: center;
+    min-width: 90px;
+    pointer-events: none;
+}
+
+#booking-history .card__img .payment-status.status-success {
+    background: #43a047;
+}
+
+#booking-history .card__img .payment-status.status-pending {
+    background: #ffc107;
+    color: #222;
+}
+
+#booking-history .card__img .payment-status.status-failed {
+    background: #e53935;
+}
+
+.booking-list .card__img {
+    position: relative;
+}
+
+.booking-list .card__img .payment-status {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: #1976d2;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 20px;
+    z-index: 3;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.10);
+    text-align: center;
+    min-width: 90px;
+    pointer-events: none;
+}
+
+.booking-list .card__img .payment-status.status-success {
+    background: #43a047 !important;
+}
+
+.booking-list .card__img .payment-status.status-pending {
+    background: #ffc107 !important;
+    color: #222 !important;
+}
+
+.booking-list .card__img .payment-status.status-failed {
+    background: #e53935 !important;
+}
+
+.content-section#account {
+    overflow-x: auto;
+    max-width: 100%;
+}
+
+.card__img {
+    position: relative;
+}
+
+.card__actions-img {
+    position: absolute;
+    top: 50px;
+    right: 15px;
+    display: flex;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 20px;
+    padding: 4px 10px;
+    z-index: 4;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
+    align-items: center;
+}
+
+.card__actions-img .delete-btn,
+.card__actions-img .pay-btn {
+    background: none;
+    border: none;
+    color: #1976d2;
+    font-size: 18px;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+    cursor: pointer;
+}
+
+.card__actions-img .delete-btn:hover {
+    background: #ffeaea;
+    color: #e53935;
+}
+
+.card__actions-img .pay-btn:hover {
+    background: #e3f2fd;
+    color: #43a047;
 }

@@ -29,6 +29,7 @@ import hmac, hashlib, urllib.parse
 import logging
 from logging.handlers import RotatingFileHandler
 import os
+import unicodedata
 
 app = Flask(__name__, 
     template_folder='hotelsmanagementweb/pages',
@@ -105,6 +106,32 @@ def after_request(response):
     if response.status_code >= 400:
         db_session.rollback()
     return response
+
+@app.before_request
+def auto_update_room_availability():
+    now = datetime.now()
+    # 1. Cộng lại phòng cho booking success đã hết hạn (giữ nguyên logic cũ)
+    expired_bookings = db_session.query(Booking).filter(
+        Booking.check_out < now,
+        Booking.status == 'success',
+        Booking.num_rooms > 0
+    ).all()
+    for booking in expired_bookings:
+        room = db_session.query(Room).filter_by(room_id=booking.room_id).first()
+        if room:
+            room.availableRooms = int(room.availableRooms or 0) + int(booking.num_rooms or 0)
+            booking.num_rooms = 0
+    # 2. Xóa booking pending quá 1 ngày, cộng lại phòng
+    pending_expired = db_session.query(Booking).filter(
+        Booking.status == 'pending',
+        Booking.created_at < now - timedelta(days=1)
+    ).all()
+    for booking in pending_expired:
+        room = db_session.query(Room).filter_by(room_id=booking.room_id).first()
+        if room:
+            room.availableRooms = int(room.availableRooms or 0) + int(booking.num_rooms or 0)
+        db_session.delete(booking)
+    db_session.commit()
 
 # Flask-Login setup
 login_manager = LoginManager()
@@ -319,11 +346,16 @@ def login():
             username = data.get('username')
             password = data.get('password')
             remember = data.get('remember', False)
-            
+
             if not username or not password:
                 return jsonify({
                     'success': False,
                     'message': 'Vui lòng nhập đầy đủ thông tin!'
+                }), 400
+            if len(password) < 6:
+                return jsonify({
+                    'success': False,
+                    'message': 'Mật khẩu phải có ít nhất 6 ký tự!'
                 }), 400
             
             user = db_session.query(User).filter_by(username=username).first()
@@ -371,12 +403,17 @@ def register():
             email = request.form.get('email')
             full_name = request.form.get('full_name')
             phone = request.form.get('phone')
-            
+
             # Kiểm tra dữ liệu bắt buộc
             if not all([username, password, email]):
                 return jsonify({
                     'success': False,
                     'message': 'Vui lòng điền đầy đủ thông tin bắt buộc!'
+                }), 400
+            if len(password) < 6:
+                return jsonify({
+                    'success': False,
+                    'message': 'Mật khẩu phải có ít nhất 6 ký tự!'
                 }), 400
             
             # Kiểm tra username đã tồn tại chưa
@@ -477,10 +514,12 @@ def book_room(room_id):
     if request.method == 'POST':
         check_in = datetime.strptime(request.form.get('check_in'), '%Y-%m-%d')
         check_out = datetime.strptime(request.form.get('check_out'), '%Y-%m-%d')
-        num_rooms = int(request.form.get('num_rooms', 1))
-        num_nights = int(request.form.get('num_nights', 1))
-        total_price = float(request.form.get('total_price', 0))
-        # Lưu thẳng total_price, không giảm giá nữa
+        num_rooms = int(request.form.get('num_rooms', 1) or 1)
+        num_nights = int(request.form.get('num_nights', 1) or 1)
+        total_price = float(request.form.get('total_price', 0) or 0)
+        if room.availableRooms is None or room.availableRooms < num_rooms:
+            flash('Không đủ phòng trống!', 'error')
+            return redirect(url_for('index'))
         booking = Booking(
             user_id=current_user.user_id,
             room_id=room_id,
@@ -492,6 +531,7 @@ def book_room(room_id):
             created_at=datetime.now()
         )
         db_session.add(booking)
+        room.availableRooms = int(room.availableRooms or 0) - int(num_rooms or 0)
         db_session.commit()
         return render_template('booking.html',
                              hotel=hotel,
@@ -521,14 +561,15 @@ def booking_details(booking_id):
     if not booking or booking.user_id != current_user.user_id:
         flash('Không tìm thấy thông tin đặt phòng', 'error')
         return redirect(url_for('index'))
-    return render_template('booking_details.html', booking=booking)
+    user = db_session.query(User).filter_by(user_id=booking.user_id).first()
+    return render_template('booking_details.html', booking=booking, user=user)
 
 # Route cho xem lịch sử đặt phòng
 @app.route('/user/my-bookings')
 @login_required
 def my_bookings():
     # Lấy tất cả booking của user hiện tại
-    bookings = db_session.query(Booking).filter_by(user_id=current_user.id)\
+    bookings = db_session.query(Booking).filter_by(user_id=current_user.user_id)\
         .order_by(Booking.created_at.desc()).all()
     
     return render_template('my_bookings.html', bookings=bookings)
@@ -789,17 +830,23 @@ def create_payment():
         check_in=datetime.strptime(check_in, '%Y-%m-%d'),
         check_out=datetime.strptime(check_out, '%Y-%m-%d'),
         total_price=total_price,
-        num_rooms=num_rooms,  # Lưu đúng số phòng
+        num_rooms=num_rooms,
         status='pending',
         created_at=datetime.now()
     )
     db_session.add(booking)
+    room = db_session.query(Room).filter_by(room_id=room_id).first()
+    if room.availableRooms is None or room.availableRooms < num_rooms:
+        flash('Không đủ phòng trống!', 'error')
+        return redirect(url_for('index'))
+    room.availableRooms = int(room.availableRooms or 0) - int(num_rooms or 0)
     db_session.commit()
 
     # Lấy thông tin để render ra payment.html
     room = Room.query.get(room_id)
     hotel = Hotel.query.get(hotel_id)
-    return render_template('payment.html', booking=booking, room=room, hotel=hotel, nights=num_nights)
+    user = db_session.query(User).filter_by(user_id=booking.user_id).first()
+    return render_template('payment.html', booking=booking, room=room, hotel=hotel, nights=num_nights, user=user)
 
 @app.route('/booking/confirmation/<int:booking_id>')
 @login_required
@@ -807,39 +854,54 @@ def booking_confirmation(booking_id):
     booking = db_session.query(Booking).filter(Booking.booking_id == booking_id).first()
     if not booking:
         abort(404)
-    if booking.user_id != current_user.id:
+    if booking.user_id != current_user.user_id:
         abort(403)
     
     return render_template('booking_confirmation.html', booking=booking)
+
+def remove_vietnamese_tones(s):
+    s = unicodedata.normalize('NFD', s)
+    s = ''.join(c for c in s if unicodedata.category(c) != 'Mn')
+    s = s.replace('đ', 'd').replace('Đ', 'D')
+    return s.lower()
+
+def extract_province(address):
+    parts = address.split(',')
+    if len(parts) >= 2:
+        return parts[-2].strip()
+    return ''
 
 @app.route('/search', methods=['POST'])
 def search_hotels():
     try:
         data = request.get_json()
-        
-        # Validate required fields
         required_fields = ['location', 'check_in_date', 'check_out_date', 'required_rooms']
         for field in required_fields:
             if field not in data:
                 return jsonify({'error': f'Missing required field: {field}'}), 400
-
-        # Parse dates
         try:
             check_in = datetime.strptime(data['check_in_date'], '%Y-%m-%d')
             check_out = datetime.strptime(data['check_out_date'], '%Y-%m-%d')
         except ValueError:
             return jsonify({'error': 'Invalid date format. Use YYYY-MM-DD'}), 400
-
-        # Validate dates
         if check_in < datetime.now().replace(hour=0, minute=0, second=0, microsecond=0):
             return jsonify({'error': 'Check-in date cannot be in the past'}), 400
         if check_out <= check_in:
             return jsonify({'error': 'Check-out date must be after check-in date'}), 400
-
-        # Calculate number of nights
         nights = (check_out - check_in).days
-
-        # Build the SQL query
+        location_search = remove_vietnamese_tones(data['location'].strip().lower())
+        hotels_query = db_session.query(Hotel).all()
+        filtered_hotels = []
+        for h in hotels_query:
+            province = remove_vietnamese_tones(extract_province(h.address_hotel)).lower().strip()
+            address = remove_vietnamese_tones(h.address_hotel).lower().strip()
+            if location_search in province or location_search in address:
+                filtered_hotels.append(h)
+            else:
+                print(f"[NOT MATCH] location_search: '{location_search}' not in province: '{province}' and not in address: '{address}'")
+        hotel_ids = [h.hotel_id for h in filtered_hotels]
+        if not hotel_ids:
+            return jsonify({'hotels': [], 'total': 0, 'nights': nights})
         query = """
         WITH RoomAvailability AS (
             SELECT 
@@ -857,7 +919,7 @@ def search_hotels():
             FROM hotels h
             LEFT JOIN rooms r ON h.hotel_id = r.hotel_id
             LEFT JOIN bookings b ON r.room_id = b.room_id
-            WHERE h.address_hotel LIKE :location
+            WHERE h.hotel_id IN :hotel_ids
             GROUP BY h.hotel_id, h.hotel_name, h.address_hotel, h.rating
             HAVING available_rooms >= :required_rooms
         )
@@ -872,28 +934,21 @@ def search_hotels():
         FROM RoomAvailability
         ORDER BY rating DESC, min_price ASC
         """
-
-        # Execute query with parameters
         result = db_session.execute(
             text(query), 
             {
-                'location': f'%{data["location"]}%',
+                'hotel_ids': tuple(hotel_ids),
                 'check_in': check_in,
                 'check_out': check_out,
                 'required_rooms': data['required_rooms']
             }
         )
-
-        # Convert result to list of dictionaries
         hotels = []
         for row in result:
-            # Get main image for hotel
             main_image = db_session.execute(
                 text("SELECT image_path FROM hotel_images WHERE hotel_id = :hotel_id AND is_main = 1"),
                 {"hotel_id": row.hotel_id}
             ).fetchone()
-            
-            # Process image path
             image_path = None
             if main_image and main_image[0]:
                 image_path = main_image[0]
@@ -901,7 +956,6 @@ def search_hotels():
                     image_path = image_path[image_path.index('hotelsmanagementweb')+len('hotelsmanagementweb'):]
                 if not image_path.startswith('/'):
                     image_path = '/' + image_path
-            
             hotels.append({
                 'hotel_id': row.hotel_id,
                 'hotel_name': row.hotel_name,
@@ -912,13 +966,11 @@ def search_hotels():
                 'available_rooms': row.available_rooms,
                 'total_rooms': row.total_rooms
             })
-
         return jsonify({
             'hotels': hotels,
             'total': len(hotels),
             'nights': nights
         })
-
     except Exception as e:
         print(f"Error in search_hotels: {str(e)}")
         return jsonify({'error': 'Internal server error'}), 500
@@ -1006,91 +1058,33 @@ def manage_users():
     users = db_session.query(User).all()
     return render_template('manage_users.html', users=users)
 
-# Route cho thanh toán (chỉ dành cho customer)
-@app.route('/payment/<int:booking_id>', methods=['GET', 'POST'])
+@app.route('/payment/<int:booking_id>', methods=['GET'])
 @customer_required
 def payment(booking_id):
     try:
-        # Get booking information
         booking = db_session.query(Booking).filter_by(booking_id=booking_id).first()
         if not booking:
             flash('Booking not found', 'error')
-            return redirect(url_for('my_bookings'))
-            
-        # Check if booking belongs to current user
-        if booking.user_id != current_user.id:
+            return redirect(url_for('user_profile'))
+        if booking.user_id != current_user.user_id:
             flash('Unauthorized access', 'error')
-            return redirect(url_for('my_bookings'))
-            
-        # Get hotel and room information
-        hotel = db_session.query(Hotel).filter_by(hotel_id=booking.hotel_id).first()
-        room = db_session.query(Room).filter_by(room_id=booking.room_id).first()
-        
-        if not hotel or not room:
-            flash('Hotel or room information not found', 'error')
-            return redirect(url_for('my_bookings'))
-            
-        # Calculate number of nights
-        nights = (booking.check_out - booking.check_in).days
-        
-        # For GET request, show payment page
-        if request.method == 'GET':
-            return render_template('payment.html',
-                                booking=booking,
-                                hotel=hotel,
-                                room=room,
-                                nights=nights)
-                                
-        # For POST request, process payment
-        payment_method = request.form.get('payment_method')
-        
-        if payment_method == 'credit_card':
-            # Validate credit card info
-            card_number = request.form.get('card_number')
-            expiry_date = request.form.get('expiry_date')
-            cvv = request.form.get('cvv')
-            cardholder_name = request.form.get('cardholder_name')
-            
-            if not all([card_number, expiry_date, cvv, cardholder_name]):
-                flash('Please fill in all card details', 'error')
-                return redirect(url_for('payment', booking_id=booking_id))
-                
-            # Here you would integrate with a payment gateway
-            # For demo purposes, we'll just mark the payment as successful
-            
-        elif payment_method == 'bank_transfer':
-            # Generate bank transfer information
-            pass
-            
-        elif payment_method == 'momo':
-            # Integrate with MoMo payment
-            pass
-            
-        else:
-            flash('Invalid payment method', 'error')
-            return redirect(url_for('payment', booking_id=booking_id))
-            
-        # Update booking and payment status
-        booking.status = 'confirmed'
-        payment = Payment(
-            booking_id=bookings.booking_id,
-            amount=booking.total_price,
-            payment_method=payment_method,
-            payment_status='completed',  # Thay đổi từ status thành payment_status
-            user_id=current_user.id
-        )
-        
-        db_session.add(payment)
-        db_session.commit()
-        
-        flash('Payment successful! Your booking is confirmed.', 'success')
-        return redirect(url_for('booking_confirmation', booking_id=booking_id))
-        
+            return redirect(url_for('user_profile'))
+        if booking.status not in ['pending', 'failed']:
+            flash('Chỉ có thể thanh toán tiếp với booking đang chờ hoặc thất bại!', 'error')
+            return redirect(url_for('user_profile'))
+        # Tự động submit form POST sang /vnpay_pay
+        return f'''
+        <form id="payForm" action="/vnpay_pay" method="POST">
+            <input type="hidden" name="booking_id" value="{booking.booking_id}">
+            <input type="hidden" name="total_price" value="{booking.total_price}">
+        </form>
+        <script>document.getElementById('payForm').submit();</script>
+        '''
     except Exception as e:
         db_session.rollback()
         app.logger.error(f"Error processing payment: {str(e)}")
         flash('An error occurred while processing your payment. Please try again.', 'error')
-        return redirect(url_for('payment', booking_id=booking_id))
+        return redirect(url_for('user_profile'))
 
 # Route cho thêm/sửa khách sạn (chỉ dành cho owner)
 @app.route('/hotel/edit/<int:hotel_id>', methods=['GET', 'POST'])
@@ -1211,7 +1205,7 @@ def verify_email(token):
 @login_required
 def my_reviews():
     # Lấy tất cả review của user hiện tại
-    reviews = db_session.query(Review).filter_by(user_id=current_user.id)\
+    reviews = db_session.query(Review).filter_by(user_id=current_user.user_id)\
         .order_by(Review.created_at.desc()).all()
     
     return render_template('my_reviews.html', reviews=reviews)
@@ -1396,11 +1390,13 @@ def vnpay_return():
                 }
                 send_booking_success_email(user.email, booking_info)
                 # Thêm notification booking thành công
+                now_vn = datetime.utcnow() + timedelta(hours=7)
                 notification1 = Notification(
                     user_id=booking.user_id,
                     type='booking',
                     message='Your booking has been confirmed!',
-                    read=False
+                    read=False,
+                    created_at=now_vn
                 )
                 db_session.add(notification1)
                 # Thêm notification thanh toán thành công
@@ -1408,7 +1404,8 @@ def vnpay_return():
                     user_id=booking.user_id,
                     type='payment',
                     message='Your payment was successful!',
-                    read=False
+                    read=False,
+                    created_at=now_vn
                 )
                 db_session.add(notification2)
                 db_session.commit()
@@ -1478,6 +1475,10 @@ def api_user_bookings():
         if room_image and room_image[0]:
             image_url = process_image_path(room_image[0])
 
+        # Lấy trạng thái thanh toán mới nhất
+        payment = db_session.query(Payment).filter_by(booking_id=b.booking_id).order_by(Payment.created_at.desc()).first()
+        payment_status = payment.payment_status if payment and payment.payment_status else 'pending'
+
         result.append({
             "id": b.booking_id,
             "hotel_name": hotel_name,
@@ -1488,7 +1489,8 @@ def api_user_bookings():
             "check_out": b.check_out.strftime('%Y-%m-%d') if b.check_out else '',
             "total_price": float(b.total_price) if b.total_price else 0,
             "status": b.status,
-            "image_url": image_url
+            "image_url": image_url,
+            "payment_status": payment_status
         })
     return jsonify({"bookings": result})
 
@@ -1608,9 +1610,8 @@ def api_user_transactions():
 def book_and_pay(room_id):
     check_in = datetime.strptime(request.form.get('check_in'), '%Y-%m-%d')
     check_out = datetime.strptime(request.form.get('check_out'), '%Y-%m-%d')
-    num_rooms = int(request.form.get('num_rooms', 1))
-    total_price = float(request.form.get('total_price', 0))
-    # Lưu thẳng total_price, không giảm giá nữa
+    num_rooms = int(request.form.get('num_rooms', 1) or 1)
+    total_price = float(request.form.get('total_price', 0) or 0)
     room = db_session.query(Room).filter_by(room_id=room_id).first()
     if not room or room.availableRooms is None or room.availableRooms < num_rooms:
         return "Not enough rooms available", 400
@@ -1625,6 +1626,7 @@ def book_and_pay(room_id):
         created_at=datetime.now()
     )
     db_session.add(booking)
+    room.availableRooms = int(room.availableRooms or 0) - int(num_rooms or 0)
     db_session.commit()
     html = f'''
     <form id="payForm" action="/vnpay_pay" method="POST">
@@ -1668,6 +1670,8 @@ def api_owner_booking_history():
         # Lấy tên người book
         user = db_session.query(User).filter_by(user_id=b.user_id).first()
         booked_by = user.full_name if user and user.full_name else (user.username if user else '')
+        user_phone = user.phone if user else ''
+        user_email = user.email if user else ''
         # Lấy ảnh phòng
         room_image = db_session.execute(
             text("SELECT image_path FROM room_images WHERE room_id = :room_id LIMIT 1"),
@@ -1684,6 +1688,9 @@ def api_owner_booking_history():
         nights = 1
         if b.check_in and b.check_out:
             nights = (b.check_out - b.check_in).days
+        # Lấy trạng thái thanh toán mới nhất
+        payment = db_session.query(Payment).filter_by(booking_id=b.booking_id).order_by(Payment.created_at.desc()).first()
+        payment_status = payment.payment_status if payment and payment.payment_status else 'pending'
         result.append({
             'hotel_name': hotel_id_to_name.get(hotel_id, ''),
             'room_type': room_id_to_type.get(b.room_id, ''),
@@ -1692,10 +1699,13 @@ def api_owner_booking_history():
             'status': b.status,
             'total_price': float(b.total_price) if b.total_price else 0,
             'booked_by': booked_by,
+            'user_phone': user_phone,
+            'user_email': user_email,
             'num_rooms': b.num_rooms,
             'nights': nights,
             'created_at': b.created_at.strftime('%Y-%m-%d %H:%M') if b.created_at else '',
-            'image_url': image_url
+            'image_url': image_url,
+            'payment_status': payment_status
         })
     return jsonify({'bookings': result})
 
@@ -1924,6 +1934,64 @@ def api_change_password():
             'success': False,
             'message': 'Có lỗi xảy ra khi đổi mật khẩu!'
         }), 500
+
+@app.route('/api/user/booking/<int:booking_id>', methods=['DELETE'])
+@login_required
+def api_delete_booking(booking_id):
+    booking = db_session.query(Booking).filter_by(booking_id=booking_id, user_id=current_user.user_id).first()
+    if not booking:
+        app.logger.error(f"[DELETE BOOKING] Booking not found! booking_id={booking_id}, user_id={current_user.user_id}")
+        return jsonify({'success': False, 'message': 'Booking not found!'}), 404
+    if booking.status not in ['pending', 'failed']:
+        app.logger.error(f"[DELETE BOOKING] Invalid status: {booking.status} for booking_id={booking_id}")
+        return jsonify({'success': False, 'message': 'Chỉ có thể xóa booking trạng thái pending hoặc failed!'}), 400
+    try:
+        # Xóa payment liên quan trước (nếu có)
+        payments = db_session.query(Payment).filter_by(booking_id=booking.booking_id).all()
+        for payment in payments:
+            db_session.delete(payment)
+        # Nếu booking là pending, cộng lại phòng
+        if booking.status == 'pending':
+            room = db_session.query(Room).filter_by(room_id=booking.room_id).first()
+            if room:
+                room.availableRooms = int(room.availableRooms or 0) + int(booking.num_rooms or 0)
+        db_session.delete(booking)
+        db_session.commit()
+        app.logger.info(f"[DELETE BOOKING] Booking deleted successfully! booking_id={booking_id}, user_id={current_user.user_id}")
+        return jsonify({'success': True, 'message': 'Booking deleted successfully!'})
+    except Exception as e:
+        db_session.rollback()
+        app.logger.error(f"[DELETE BOOKING] Exception: {str(e)} | booking_id={booking_id}, user_id={current_user.user_id}")
+        return jsonify({'success': False, 'message': str(e)}), 500
+
+@app.route('/booking/<int:booking_id>', methods=['DELETE'])
+@login_required
+def delete_booking(booking_id):
+    booking = db_session.query(Booking).filter_by(booking_id=booking_id, user_id=current_user.user_id).first()
+    if not booking:
+        app.logger.error(f"[DELETE BOOKING] Booking not found! booking_id={booking_id}, user_id={current_user.user_id}")
+        return jsonify({'success': False, 'message': 'Booking not found!'}), 404
+    if booking.status not in ['pending', 'failed']:
+        app.logger.error(f"[DELETE BOOKING] Invalid status: {booking.status} for booking_id={booking_id}")
+        return jsonify({'success': False, 'message': 'Chỉ có thể xóa booking trạng thái pending hoặc failed!'}), 400
+    try:
+        # Xóa payment liên quan trước (nếu có)
+        payments = db_session.query(Payment).filter_by(booking_id=booking.booking_id).all()
+        for payment in payments:
+            db_session.delete(payment)
+        # Nếu booking là pending, cộng lại phòng
+        if booking.status == 'pending':
+            room = db_session.query(Room).filter_by(room_id=booking.room_id).first()
+            if room:
+                room.availableRooms = int(room.availableRooms or 0) + int(booking.num_rooms or 0)
+        db_session.delete(booking)
+        db_session.commit()
+        app.logger.info(f"[DELETE BOOKING] Booking deleted successfully! booking_id={booking_id}, user_id={current_user.user_id}")
+        return jsonify({'success': True, 'message': 'Booking deleted successfully!'})
+    except Exception as e:
+        db_session.rollback()
+        app.logger.error(f"[DELETE BOOKING] Exception: {str(e)} | booking_id={booking_id}, user_id={current_user.user_id}")
+        return jsonify({'success': False, 'message': str(e)}), 500
 
 if __name__ == '__main__':
     try:

@@ -49,16 +49,20 @@ def get_available_rooms(db: Session, hotel_id: int = None, room_type: str = None
         
     return query.all()
 
-def create_booking(db: Session, user_id: int, room_id: int, check_in: datetime, check_out: datetime, total_price: float):
+def create_booking(db: Session, user_id: int, room_id: int, check_in: datetime, check_out: datetime, total_price: float, num_rooms: int = 1):
     booking = Booking(
         user_id=user_id,
         room_id=room_id,
         check_in=check_in,
         check_out=check_out,
         total_price=total_price,
+        num_rooms=num_rooms,
         status='pending'
     )
     db.add(booking)
+    room = db.query(Room).filter(Room.room_id == room_id).first()
+    if room and room.availableRooms is not None and room.availableRooms >= num_rooms:
+        room.availableRooms -= num_rooms
     db.commit()
     db.refresh(booking)
     return booking

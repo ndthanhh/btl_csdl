@@ -105,10 +105,10 @@
             min-height: 180px;
             max-height: none;
             overflow-y: visible;
-            padding: 18px 18px 18px;
+            padding: 8px 10px 8px 10px;
             display: flex;
             flex-direction: column;
-            align-items: center;
+            align-items: stretch;
             justify-content: flex-end;
             font-size: 13px;
             color: #222;
@@ -116,18 +116,24 @@
             border-top: 1px solid #f0f0f0;
             border-radius: 0 0 16px 16px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
-            text-align: center;
+            text-align: left;
+            gap: 2px;
+        }
+
+        .card__info>div {
+            margin-bottom: 2px;
+            line-height: 1.2;
         }
 
         .card__info .date {
             font-weight: 700;
             border-bottom: 1px solid #eee;
-            margin-bottom: 10px;
-            padding-bottom: 4px;
-            font-size: 15px;
+            margin-bottom: 4px;
+            padding-bottom: 2px;
+            font-size: 14px;
             color: #1a237e;
             width: 100%;
-            text-align: center;
+            text-align: left;
         }
 
         .card__info .day {
@@ -169,10 +175,10 @@
         .card__info .total-price {
             color: #ff5722;
             font-weight: bold;
-            margin-top: 16px;
-            font-size: 18px;
+            margin-top: 6px;
+            font-size: 15px;
             width: 100%;
-            text-align: center;
+            text-align: left;
             letter-spacing: 0.5px;
         }
 
@@ -199,6 +205,25 @@
 
         .card__info .status-failed {
             background: #e53935;
+        }
+
+        .customer-contact {
+            margin-bottom: 4px;
+            line-height: 1.2;
+            font-size: 13px;
+            color: #333;
+        }
+
+        .customer-contact>span {
+            margin-bottom: 1px;
+            display: block;
+        }
+
+        @media (max-width: 600px) {
+            .customer-contact {
+                font-size: 12px;
+                padding: 4px 2px;
+            }
         }
 
         @media (max-width: 1200px) {
@@ -566,7 +591,7 @@
                     <div class="booking-list">
                         {% if bookings and bookings|length > 0 %}
                         {% for booking in bookings %}
-                        <div class="card">
+                        <div class="card" data-booking-id="{{ booking.booking_id }}">
                             <div class="card__img">
                                 <div class="status-badge status-{{ booking.status|lower }}">
                                     {% if booking.status == 'success' %}
@@ -589,6 +614,10 @@
                                 <div class="location">{{ booking.hotel_name if booking.hotel_name else '' }}</div>
                                 <div class="room-type">{{ booking.room_type if booking.room_type else '' }}</div>
                                 <div class="address">{{ booking.hotel_address if booking.hotel_address else '' }}</div>
+                                <div class="customer-contact">
+                                    <span>Phone: {{ current_user.phone }}</span><br>
+                                    <span>Email: {{ current_user.email }}</span>
+                                </div>
                                 <div class="total-price">Total: {{ booking.total_price|format_price if
                                     booking.total_price
                                     else '0₫' }}</div>
@@ -1037,7 +1066,6 @@
             // Định nghĩa status badge class
             let statusClass = '';
             let statusText = '';
-
             switch (booking.status) {
                 case 'confirmed':
                     statusClass = 'confirmed';
@@ -1060,9 +1088,25 @@
                     statusText = booking.status || 'Pending';
             }
 
+            // Xác định trạng thái thanh toán
+            let paymentStatusClass = booking.payment_status ? 'status-' + booking.payment_status.toLowerCase() : '';
+            let paymentStatusText = booking.payment_status ? booking.payment_status.charAt(0).toUpperCase() + booking.payment_status.slice(1) : 'N/A';
+
+            // Nút xóa và thanh toán tiếp cho pending/failed
+            let actionBtns = '';
+            if (booking.status === 'pending' || booking.status === 'failed') {
+                actionBtns = `
+                    <div class="card__actions card__actions-img">
+                        <button class="delete-btn" title="Delete booking" onclick="deleteBooking(${booking.id})"><i class="fa fa-trash"></i></button>
+                        <button class="pay-btn" title="Continue payment" onclick="continuePayment(${booking.id})"><i class="fa fa-credit-card"></i></button>
+                    </div>
+                `;
+            }
+
             card.innerHTML = `
                 <div class="card__img">
-                    <div class="status-badge ${statusClass}">${statusText}</div>
+                    <div class="payment-status ${paymentStatusClass}">Payment: ${paymentStatusText}</div>
+                    ${actionBtns}
                     <img src="${booking.image_url || '/assets/image/default-room.webp'}" alt="Room Image">
                 </div>
                 <div class="card__info">
@@ -1419,6 +1463,9 @@
                             return `
                                 <div class="card">
                                     <div class="card__img">
+                                        <div class="payment-status ${b.payment_status ? 'status-' + b.payment_status.toLowerCase() : ''}">
+                                            Payment: ${b.payment_status ? b.payment_status.charAt(0).toUpperCase() + b.payment_status.slice(1) : 'N/A'}
+                                        </div>
                                         <img src="${b.image_url || '/assets/image/default-room.webp'}" alt="Room Image">
                                     </div>
                                     <div class="card__info">
@@ -1427,6 +1474,8 @@
                                         <div class="location">${b.hotel_name || ''}</div>
                                         <div class="room-type">${b.room_type || ''}</div>
                                         <div class="address">Booked by: ${b.booked_by || ''}</div>
+                                        <div class="address">Phone: ${b.user_phone || ''}</div>
+                                        <div class="address">Email: ${b.user_email || ''}</div>
                                         <div class="address">Rooms: ${b.num_rooms || 1}</div>
                                         <div class="address">Created: ${b.created_at || ''}</div>
                                         <div class="total-price">Total: ${formatPrice(b.total_price)}</div>
@@ -1644,6 +1693,42 @@
                 closeHelpPopup();
             }
         });
+
+        // Hàm load notification cho user
+        function loadUserNotifications() {
+            fetch('/api/user/notifications')
+                .then(response => response.json())
+                .then(data => {
+                    const notiList = document.querySelector('.noti-list');
+                    const notiCount = document.querySelector('.noti-count');
+                    if (!notiList || !notiCount) return;
+                    if (data.notifications && data.notifications.length > 0) {
+                        notiList.innerHTML = data.notifications.slice(0, 10).map(noti => `
+                            <div class="noti-item ${noti.read ? '' : 'unread'}">
+                                <i class="${getNotiIcon(noti.type)}"></i>
+                                <span>${noti.message}</span>
+                                <span class="noti-time">${formatTimeAgo(noti.created_at)}</span>
+                            </div>
+                        `).join('');
+                        notiCount.textContent = data.notifications.filter(n => !n.read).length;
+                    } else {
+                        notiList.innerHTML = '<div class="no-noti">No notifications</div>';
+                        notiCount.textContent = '0';
+                    }
+                })
+                .catch(err => {
+                    const notiList = document.querySelector('.noti-list');
+                    if (notiList) notiList.innerHTML = '<div class="no-noti">Error loading notifications</div>';
+                });
+        }
+
+        // Gọi hàm này khi trang load
+        window.addEventListener('DOMContentLoaded', loadUserNotifications);
+
+        // Hàm tiếp tục thanh toán
+        function continuePayment(bookingId) {
+            window.location.href = `/payment/${bookingId}`;
+        }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="/js/user.js"></script>

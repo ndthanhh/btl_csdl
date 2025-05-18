@@ -148,21 +148,21 @@
                 <label>Location</label>
                 <select class="search-input scrollable-select" id="location">
                     <option value="">Select location</option>
-                    <option value="hanoi">Hà Nội</option>
-                    <option value="hochiminh">TP. Hồ Chí Minh</option>
-                    <option value="danang">Đà Nẵng</option>
-                    <option value="dalat">Đà Lạt</option>
-                    <option value="nhatrang">Khánh Hòa</option>
-                    <option value="phuquoc">Phú Quốc</option>
-                    <option value="halong">Quang Ninh</option>
+                    <option value="ha noi">Hà Nội</option>
+                    <option value="ho chi minh">TP. Hồ Chí Minh</option>
+                    <option value="da nang">Đà Nẵng</option>
+                    <option value="da lat">Đà Lạt</option>
+                    <option value="khanh hoa">Khánh Hòa</option>
+                    <option value="phu quoc">Phú Quốc</option>
+                    <option value="quang ninh">Quang Ninh</option>
                     <option value="sapa">Sa Pa</option>
                     <option value="hue">Huế</option>
-                    <option value="quynhon">Quy Nhơn</option>
-                    <option value="vungtau">Vũng Tàu</option>
-                    <option value="muine">Mũi Né</option>
-                    <option value="cantho">Cần Thơ</option>
+                    <option value="quy nhon">Quy Nhơn</option>
+                    <option value="vung tau">Vũng Tàu</option>
+                    <option value="mui ne">Mũi Né</option>
+                    <option value="kien giang">Kiên Giang</option>
                     <option value="haiphong">Hải Phòng</option>
-                    <option value="hoian">Hội An</option>
+                    <option value="hoi an">Hội An</option>
                 </select>
             </div>
 
@@ -676,8 +676,7 @@
                     <div class="hotel-info">
                         <h3 class="hotel-name">${hotel.hotel_name}</h3>
                         <p class="hotel-location">${hotel.location}</p>
-                        <div class="hotel-price">${Math.floor(Number(hotel.min_price)).toLocaleString('vi-VN')} VND / đêm</div>
-                        <div class="hotel-availability">${hotel.available_rooms} phòng trống</div>
+                        <div class="hotel-price">${Math.floor(Number(hotel.min_price)).toLocaleString('vi-VN')} VND / night</div>
                     </div>
                 </div>
             `).join('');
